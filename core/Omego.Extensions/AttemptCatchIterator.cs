@@ -3,13 +3,16 @@
     using System;
     using System.Collections;
     using System.Collections.Generic;
-    public class AttemptCatchIterator<T> : IEnumerator<T>
+
+    public class AttemptCatchIterator<T, TE> : IEnumerator<T> where TE: Exception
     {
+        private readonly IEnumerator<T> enumerator;
+
         public AttemptCatchIterator(IEnumerable<T> enumerable)
         {
             if (enumerable == null) throw new ArgumentNullException(nameof(enumerable));
 
-
+            enumerator = enumerable.GetEnumerator();
         }
 
         public void Dispose()
@@ -19,7 +22,17 @@
 
         public bool MoveNext()
         {
-            throw new System.NotImplementedException();
+            var success = false;
+
+            try
+            {
+                success = enumerator.MoveNext();
+            }
+            catch (TE)
+            {
+            }
+
+            return success;
         }
 
         public void Reset()
