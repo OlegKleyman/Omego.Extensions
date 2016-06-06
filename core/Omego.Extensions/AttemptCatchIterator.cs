@@ -6,13 +6,16 @@
 
     public class AttemptCatchIterator<T, TE> : IEnumerator<T> where TE: Exception
     {
+        private readonly Action<TE> handler;
+
         private readonly IEnumerator<T> enumerator;
 
-        public AttemptCatchIterator(IEnumerable<T> enumerable)
+        public AttemptCatchIterator(IEnumerable<T> enumerable, Action<TE> handler)
         {
             if (enumerable == null) throw new ArgumentNullException(nameof(enumerable));
 
             enumerator = enumerable.GetEnumerator();
+            this.handler = handler;
         }
 
         public void Dispose()
@@ -28,8 +31,9 @@
             {
                 success = enumerator.MoveNext();
             }
-            catch (TE)
+            catch (TE ex)
             {
+                handler(ex);
             }
 
             return success;
