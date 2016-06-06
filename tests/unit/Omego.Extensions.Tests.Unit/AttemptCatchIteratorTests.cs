@@ -70,6 +70,20 @@
         }
 
         [Fact]
+        public void MoveNextShouldNotUseHandlerIfAnUnspecifiedExceptionOccurs()
+        {
+            var handled = false;
+
+            var iterator = new AttemptCatchIterator<int, InvalidOperationException>(
+                new[] { 0 }.Select(i => 1 / i),
+                t => handled = true);
+
+            Action moveNext = () => iterator.MoveNext();
+
+            moveNext.ShouldThrow<DivideByZeroException>();
+        }
+
+        [Fact]
         public void ConstructorShouldThrowExceptionWhenRequiredArgumentsAreNull()
         {
             Action constructor = () => new AttemptCatchIterator<int, Exception>(null, exception => { });
