@@ -13,6 +13,7 @@
         public AttemptCatchIterator(IEnumerable<T> enumerable, Action<TE> handler)
         {
             if (enumerable == null) throw new ArgumentNullException(nameof(enumerable));
+            if (handler == null) throw new ArgumentNullException(nameof(handler));
 
             enumerator = enumerable.GetEnumerator();
             this.handler = handler;

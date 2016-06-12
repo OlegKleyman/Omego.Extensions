@@ -64,16 +64,36 @@
             moveNext.ShouldThrow<DivideByZeroException>();
         }
 
-        [Fact]
-        public void ConstructorShouldThrowExceptionWhenRequiredArgumentsAreNull()
+        [Theory]
+        [MemberData("ConstructorShouldThrowExceptionWhenRequiredArgumentsAreNullTheory", null,
+            MemberType = typeof(AttemptCatchIteratorTestTheories))]
+        public void ConstructorShouldThrowExceptionWhenRequiredArgumentsAreNull(IEnumerable<int> enumerable, Action<Exception> handler, string paramName)
         {
-            Action constructor = () => new AttemptCatchIterator<int, Exception>(null, exception => { });
+            Action constructor = () => new AttemptCatchIterator<int, Exception>(enumerable, handler);
 
-            constructor.ShouldThrow<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("enumerable");
+            constructor.ShouldThrow<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo(paramName);
         }
 
         public class AttemptCatchIteratorTestTheories
         {
+            public static IEnumerable ConstructorShouldThrowExceptionWhenRequiredArgumentsAreNullTheory = new object[]
+                                                                                                              {
+                                                                                                                  new object
+                                                                                                                      []
+                                                                                                                      {
+                                                                                                                          null,
+                                                                                                                          null,
+                                                                                                                          "enumerable"
+                                                                                                                      },
+                                                                                                                  new object
+                                                                                                                      []
+                                                                                                                      {
+                                                                                                                          new int[0],
+                                                                                                                          null,
+                                                                                                                          "handler"
+                                                                                                                      }
+                                                                                                              };
+
             public static IEnumerable MoveNextShouldReturnWhetherMovingToTheNextIterationWasSuccessfulTheory =
                 new object[]
                     {
