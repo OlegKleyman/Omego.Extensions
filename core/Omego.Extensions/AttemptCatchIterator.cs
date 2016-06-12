@@ -60,7 +60,7 @@
 
         public T Current => current;
 
-        object IEnumerator.Current => current;
+        object IEnumerator.Current => Current;
 
         public bool ExceptionOccured { get; private set; }
     }

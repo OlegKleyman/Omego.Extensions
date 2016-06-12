@@ -38,7 +38,7 @@
         [Fact]
         public void MoveNextShouldSetCurrentToDefaultWhenEnumerableDoesntMove()
         {
-            var iterator = new AttemptCatchIterator<string, DivideByZeroException>(new string[0], exception => { });
+            var iterator = (IEnumerator)new AttemptCatchIterator<string, DivideByZeroException>(new string[0], exception => { });
 
             iterator.MoveNext();
             iterator.Current.ShouldBeEquivalentTo(default(string));
@@ -97,7 +97,7 @@
         [Fact]
         public void MoveNextShouldSetCurrent()
         {
-            var iterator = new AttemptCatchIterator<int, DivideByZeroException>(new[] { 1 }, t => { });
+            var iterator = (IEnumerator)new AttemptCatchIterator<int, DivideByZeroException>(new[] { 1 }, t => { });
 
             iterator.MoveNext();
             iterator.Current.ShouldBeEquivalentTo(1);
@@ -106,11 +106,11 @@
         [Fact]
         public void DisposeShouldSetCurrentToDefault()
         {
-            var iterator = new AttemptCatchIterator<string, DivideByZeroException>(new[] { String.Empty }, t => { });
+            var iterator = (IEnumerator)new AttemptCatchIterator<string, DivideByZeroException>(new[] { String.Empty }, t => { });
 
             iterator.MoveNext();
 
-            iterator.Dispose();
+            ((IDisposable)iterator).Dispose();
 
             iterator.Current.ShouldBeEquivalentTo(default(string));
         }
