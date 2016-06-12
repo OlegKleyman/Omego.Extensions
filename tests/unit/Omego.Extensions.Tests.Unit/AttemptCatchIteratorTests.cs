@@ -83,6 +83,15 @@
             reset.ShouldThrow<NotSupportedException>();
         }
 
+        [Fact]
+        public void MoveNextShouldSetCurrent()
+        {
+            var iterator = new AttemptCatchIterator<int, DivideByZeroException>(new[] { 1 }, t => { });
+
+            iterator.MoveNext();
+            iterator.Current.ShouldBeEquivalentTo(1);
+        }
+
         public class AttemptCatchIteratorTestTheories
         {
             public static IEnumerable ConstructorShouldThrowExceptionWhenRequiredArgumentsAreNullTheory = new object[]

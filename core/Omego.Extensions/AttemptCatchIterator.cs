@@ -45,8 +45,8 @@
             throw new NotSupportedException();
         }
 
-        public T Current { get; }
+        public T Current => enumerator.Current;
 
-        object IEnumerator.Current => Current;
+        object IEnumerator.Current => enumerator.Current;
     }
 }
