@@ -1,6 +1,7 @@
 ﻿namespace Omego.Extensions.Tests.Unit
 {
     using System;
+
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
@@ -12,28 +13,9 @@
     [CLSCompliant(false)]
     public class AttemptCatchIteratorTests
     {
-        public static IEnumerable MoveNextShouldReturnWhetherMovingToTheNextIterationWasSuccessfulTheory =
-            new object[]
-                {
-                    new object[] { 1, new[] { 1 }, true }, new object[] { 2, new[] { 1 }, false },
-                    new object[] { 2, new[] { 0, 1 }, true }
-                };
-
-        public static IEnumerable MoveNextShouldUseHandlerIfAnExceptionOccursTheory = new object[]
-                                                                                          {
-                                                                                              new object[]
-                                                                                                  {
-                                                                                                      1, new[] { 1 },
-                                                                                                      false
-                                                                                                  },
-                                                                                              new object[]
-                                                                                                  {
-                                                                                                      1, new[] { 0 }, true
-                                                                                                  }
-                                                                                          };
-
         [Theory]
-        [MemberData("MoveNextShouldReturnWhetherMovingToTheNextIterationWasSuccessfulTheory")]
+        [MemberData("MoveNextShouldReturnWhetherMovingToTheNextIterationWasSuccessfulTheory", null,
+            MemberType = typeof(AttemptCatchIteratorTestTheories))]
         public void MoveNextShouldReturnWhetherMovingToTheNextIterationWasSuccessful(
             int times,
             IEnumerable<int> enumerable,
@@ -52,7 +34,8 @@
         }
 
         [Theory]
-        [MemberData("MoveNextShouldUseHandlerIfAnExceptionOccursTheory")]
+        [MemberData("MoveNextShouldUseHandlerIfAnExceptionOccursTheory", null,
+            MemberType = typeof(AttemptCatchIteratorTestTheories))]
         public void MoveNextShouldUseHandlerIfAnExceptionOccurs(int times, IEnumerable<int> enumerable, bool expected)
         {
             var handled = false;
@@ -74,8 +57,7 @@
         {
             var iterator = new AttemptCatchIterator<int, InvalidOperationException>(
                 new[] { 0 }.Select(i => 1 / i),
-                t => {
-                });
+                t => { });
 
             Action moveNext = () => iterator.MoveNext();
 
@@ -88,6 +70,30 @@
             Action constructor = () => new AttemptCatchIterator<int, Exception>(null, exception => { });
 
             constructor.ShouldThrow<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("enumerable");
+        }
+
+        public class AttemptCatchIteratorTestTheories
+        {
+            public static IEnumerable MoveNextShouldReturnWhetherMovingToTheNextIterationWasSuccessfulTheory =
+                new object[]
+                    {
+                        new object[] { 1, new[] { 1 }, true }, new object[] { 2, new[] { 1 }, false },
+                        new object[] { 2, new[] { 0, 1 }, true }
+                    };
+
+            public static IEnumerable MoveNextShouldUseHandlerIfAnExceptionOccursTheory = new object[]
+                                                                                              {
+                                                                                                  new object[]
+                                                                                                      {
+                                                                                                          1, new[] { 1 },
+                                                                                                          false
+                                                                                                      },
+                                                                                                  new object[]
+                                                                                                      {
+                                                                                                          1, new[] { 0 },
+                                                                                                          true
+                                                                                                      }
+                                                                                              };
         }
     }
 }
