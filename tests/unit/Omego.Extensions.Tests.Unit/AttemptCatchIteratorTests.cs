@@ -72,11 +72,10 @@
         [Fact]
         public void MoveNextShouldNotUseHandlerIfAnUnspecifiedExceptionOccurs()
         {
-            var handled = false;
-
             var iterator = new AttemptCatchIterator<int, InvalidOperationException>(
                 new[] { 0 }.Select(i => 1 / i),
-                t => handled = true);
+                t => {
+                });
 
             Action moveNext = () => iterator.MoveNext();
 
