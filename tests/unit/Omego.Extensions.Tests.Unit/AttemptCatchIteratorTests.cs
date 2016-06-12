@@ -92,6 +92,18 @@
             iterator.Current.ShouldBeEquivalentTo(1);
         }
 
+        [Fact]
+        public void DisposeShouldSetCurrentToDefault()
+        {
+            var iterator = new AttemptCatchIterator<string, DivideByZeroException>(new[] { String.Empty }, t => { });
+
+            iterator.MoveNext();
+
+            iterator.Dispose();
+
+            iterator.Current.ShouldBeEquivalentTo(default(string));
+        }
+
         public class AttemptCatchIteratorTestTheories
         {
             public static IEnumerable ConstructorShouldThrowExceptionWhenRequiredArgumentsAreNullTheory = new object[]

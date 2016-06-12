@@ -10,6 +10,8 @@
 
         private readonly IEnumerator<T> enumerator;
 
+        private T current;
+
         public AttemptCatchIterator(IEnumerable<T> enumerable, Action<TE> handler)
         {
             if (enumerable == null) throw new ArgumentNullException(nameof(enumerable));
@@ -21,7 +23,7 @@
 
         public void Dispose()
         {
-            throw new System.NotImplementedException();
+            current = default(T);
         }
 
         public bool MoveNext()
@@ -31,6 +33,7 @@
             try
             {
                 success = enumerator.MoveNext();
+                current = enumerator.Current;
             }
             catch (TE ex)
             {
@@ -45,8 +48,8 @@
             throw new NotSupportedException();
         }
 
-        public T Current => enumerator.Current;
+        public T Current => current;
 
-        object IEnumerator.Current => enumerator.Current;
+        object IEnumerator.Current => current;
     }
 }
