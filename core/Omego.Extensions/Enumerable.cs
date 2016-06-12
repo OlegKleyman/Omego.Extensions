@@ -10,9 +10,15 @@
         {
             var iterator = new AttemptCatchIterator<T, TE>(target, handler);
 
-            iterator.MoveNext();
+            while (iterator.MoveNext() || iterator.ExceptionOccured)
+            {
+                if (iterator.ExceptionOccured)
+                {
+                    continue;
+                }
 
-            yield return iterator.Current;
+                yield return iterator.Current;
+            }
         }
     }
 }

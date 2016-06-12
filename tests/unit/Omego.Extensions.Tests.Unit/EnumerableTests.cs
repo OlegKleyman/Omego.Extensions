@@ -19,5 +19,12 @@
             enumerable.Catch<int, DivideByZeroException>(ex => handled = true).ToList();
             handled.Should().BeTrue();
         }
+
+        [Fact]
+        public void CatchShouldReturnElementsWhereTheCaughtExceptionHasNotOccurred()
+        {
+            var enumerable = new[] { -1, 0, 1 }.Select(i => 1 / i);
+            enumerable.Catch<int, DivideByZeroException>(e => { }).ShouldAllBeEquivalentTo(new[] { -1, 1 });
+        }
     }
 }
