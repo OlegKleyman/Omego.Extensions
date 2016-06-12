@@ -164,7 +164,7 @@
                 new object[]
                     {
                         new object[] { 1, new[] { 1 }, true }, new object[] { 2, new[] { 1 }, false },
-                        new object[] { 2, new[] { 0, 1 }, true }
+                        new object[] { 2, new[] { 0, 1 }, true }, new object[] {1, new int[0], false}
                     };
 
             public static IEnumerable MoveNextShouldUseHandlerIfAnExceptionOccursTheory = new object[]
