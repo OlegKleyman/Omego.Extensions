@@ -10,6 +10,8 @@
 
     using Xunit;
 
+    using Enumerable = Omego.Extensions.Enumerable;
+
     [CLSCompliant(false)]
     public class AttemptCatchIteratorTests
     {
@@ -114,8 +116,32 @@
             iterator.MoveNext().Should().BeFalse();
         }
 
+        [Theory]
+        [MemberData("ExceptionOccuredShouldReturnWhetherAnExceptionHasOccuredInTheLastIterationTheory", null, MemberType = typeof(AttemptCatchIteratorTestTheories))]
+        public void ExceptionOccuredShouldReturnWhetherAnExceptionHasOccuredInTheLastIteration(IEnumerable<int> enumerable, bool expected)
+        {
+            var iterator = new AttemptCatchIterator<int, DivideByZeroException>(enumerable.Select(i => 1/i), t => { });
+
+            iterator.MoveNext();
+            iterator.ExceptionOccured.ShouldBeEquivalentTo(expected);
+        }
+
+        [Fact]
+        public void ExceptionOccuredShouldBeFalseAfterAnIterationHasAnExceptionButTheNextIterationDoesnt()
+        {
+            var iterator = new AttemptCatchIterator<int, DivideByZeroException>(new []{0,1}.Select(i => 1/i), t => { });
+
+            iterator.MoveNext();
+            iterator.MoveNext();
+
+            iterator.ExceptionOccured.Should().BeFalse();
+        }
+
         public class AttemptCatchIteratorTestTheories
         {
+            public static IEnumerable ExceptionOccuredShouldReturnWhetherAnExceptionHasOccuredInTheLastIterationTheory =
+                new object[] { new object[] { System.Linq.Enumerable.Range(0, 1), true }, new object[] { System.Linq.Enumerable.Range(1, 1), false } };
+
             public static IEnumerable ConstructorShouldThrowExceptionWhenRequiredArgumentsAreNullTheory = new object[]
                                                                                                               {
                                                                                                                   new object

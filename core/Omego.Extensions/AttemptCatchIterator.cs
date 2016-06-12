@@ -39,9 +39,11 @@
                 {
                     success = enumerator.MoveNext();
                     current = enumerator.Current;
+                    ExceptionOccured = false;
                 }
                 catch (TE ex)
                 {
+                    ExceptionOccured = true;
                     handler(ex);
                 }
             }
@@ -57,5 +59,7 @@
         public T Current => current;
 
         object IEnumerator.Current => current;
+
+        public bool ExceptionOccured { get; private set; }
     }
 }
