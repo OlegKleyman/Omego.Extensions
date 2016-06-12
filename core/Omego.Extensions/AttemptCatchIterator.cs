@@ -12,6 +12,8 @@
 
         private T current;
 
+        private bool disposed;
+
         public AttemptCatchIterator(IEnumerable<T> enumerable, Action<TE> handler)
         {
             if (enumerable == null) throw new ArgumentNullException(nameof(enumerable));
@@ -24,20 +26,24 @@
         public void Dispose()
         {
             current = default(T);
+            disposed = true;
         }
 
         public bool MoveNext()
         {
             var success = false;
 
-            try
+            if (!disposed)
             {
-                success = enumerator.MoveNext();
-                current = enumerator.Current;
-            }
-            catch (TE ex)
-            {
-                handler(ex);
+                try
+                {
+                    success = enumerator.MoveNext();
+                    current = enumerator.Current;
+                }
+                catch (TE ex)
+                {
+                    handler(ex);
+                }
             }
 
             return success;
