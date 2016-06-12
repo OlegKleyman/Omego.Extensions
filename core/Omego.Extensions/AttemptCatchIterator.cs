@@ -42,7 +42,7 @@
 
         public void Reset()
         {
-            throw new System.NotImplementedException();
+            throw new NotSupportedException();
         }
 
         public T Current { get; }

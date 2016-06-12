@@ -74,6 +74,15 @@
             constructor.ShouldThrow<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo(paramName);
         }
 
+        [Fact]
+        public void ResetShouldThrowNotSupportedException()
+        {
+            var iterator = new AttemptCatchIterator<int, Exception>(new int[0], exception => { });
+
+            Action reset = () => iterator.Reset();
+            reset.ShouldThrow<NotSupportedException>();
+        }
+
         public class AttemptCatchIteratorTestTheories
         {
             public static IEnumerable ConstructorShouldThrowExceptionWhenRequiredArgumentsAreNullTheory = new object[]
