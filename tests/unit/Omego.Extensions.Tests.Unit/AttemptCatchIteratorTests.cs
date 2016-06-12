@@ -35,6 +35,15 @@
             iterator.MoveNext().ShouldBeEquivalentTo(expected);
         }
 
+        [Fact]
+        public void MoveNextShouldSetCurrentToDefaultWhenEnumerableDoesntMove()
+        {
+            var iterator = new AttemptCatchIterator<string, DivideByZeroException>(new string[0], exception => { });
+
+            iterator.MoveNext();
+            iterator.Current.ShouldBeEquivalentTo(default(string));
+        }
+
         [Theory]
         [MemberData("MoveNextShouldUseHandlerIfAnExceptionOccursTheory", null,
             MemberType = typeof(AttemptCatchIteratorTestTheories))]

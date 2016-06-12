@@ -38,7 +38,9 @@
                 try
                 {
                     success = enumerator.MoveNext();
-                    current = enumerator.Current;
+
+                    current = success ? enumerator.Current : default(T);
+
                     ExceptionOccured = false;
                 }
                 catch (TE ex)
