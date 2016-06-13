@@ -10,18 +10,18 @@
     public class EnumerableTests
     {
         [Fact]
-        public void CatchShouldCatchException()
+        public void AttemptCatchShouldCatchException()
         {
             var enumerable = new[] { 0 }.Select(i => 1 / i);
 
             var handled = false;
 
-            enumerable.Catch<int, DivideByZeroException>(ex => handled = true).ToList();
+            enumerable.AttemptCatch<int, DivideByZeroException>(ex => handled = true).ToList();
             handled.Should().BeTrue();
         }
 
         [Fact]
-        public void CatchShouldHandleAllRequestedExceptionsWhenCalledOnAnotherCatch()
+        public void AttemptCatchShouldHandleAllRequestedExceptionsWhenCalledOnAnotherCatch()
         {
             var enumerable = new[] { -1, 0, 1 }.Select(
                 i =>
@@ -37,8 +37,8 @@
             var dividedByZeroExceptionHandled = false;
             var invalidOperationExceptionHandled = false;
 
-            enumerable.Catch<int, DivideByZeroException>(ex => dividedByZeroExceptionHandled = true)
-                .Catch<int, InvalidOperationException>(ex => invalidOperationExceptionHandled = true)
+            enumerable.AttemptCatch<int, DivideByZeroException>(ex => dividedByZeroExceptionHandled = true)
+                .AttemptCatch<int, InvalidOperationException>(ex => invalidOperationExceptionHandled = true)
                 .ToList();
 
             dividedByZeroExceptionHandled.Should().BeTrue();
@@ -46,10 +46,10 @@
         }
 
         [Fact]
-        public void CatchShouldReturnElementsWhereTheCaughtExceptionHasNotOccurred()
+        public void AttemptCatchShouldReturnElementsWhereTheCaughtExceptionHasNotOccurred()
         {
             var enumerable = new[] { -1, 0, 1 }.Select(i => 1 / i);
-            enumerable.Catch<int, DivideByZeroException>(e => { }).ShouldAllBeEquivalentTo(new[] { -1, 1 });
+            enumerable.AttemptCatch<int, DivideByZeroException>(e => { }).ShouldAllBeEquivalentTo(new[] { -1, 1 });
         }
     }
 }
