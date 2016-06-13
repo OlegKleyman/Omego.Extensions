@@ -19,7 +19,7 @@
         ///     occurrs.
         /// </param>
         /// <returns>An <see cref="IEnumerable{T}" /> of <see cref="T" /> instance.</returns>
-        public static IEnumerable<T> Catch<T, TE>(this IEnumerable<T> target, Action<TE> handler) where TE : Exception
+        public static IEnumerable<T> AttemptCatch<T, TE>(this IEnumerable<T> target, Action<TE> handler) where TE : Exception
         {
             var iterator = new AttemptCatchIterator<T, TE>(target, handler);
 
