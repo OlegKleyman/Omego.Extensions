@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Text.RegularExpressions;
 
     /// <summary>
     ///     Contains extension methods for <see cref="IEnumerable{T}" />.
@@ -37,21 +38,24 @@
 
         public static T FirstOrThrow<T>(this IEnumerable<T> enumerable, Exception exception)
         {
-            if (!enumerable.Any())
-            {
-                if (exception == null) throw new ArgumentNullException(nameof(exception));
-
-                throw exception;
-            }
-
-            return enumerable.First();
+            return enumerable.FirstOrThrow(element => true, exception);
         }
 
         public static T FirstOrThrow<T>(this IEnumerable<T> enumerable, Func<T, bool> predicate, Exception exception)
         {
-            var elements = enumerable.Where(predicate);
+            if (enumerable == null) throw new ArgumentNullException(nameof(enumerable));
 
-            return elements.FirstOrThrow(exception);
+            foreach (var element in enumerable)
+            {
+                if (predicate(element))
+                {
+                    return element;
+                }
+            }
+
+            if (exception == null) throw new ArgumentNullException(nameof(exception));
+
+            throw exception;
         }
     }
 }
