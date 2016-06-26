@@ -63,5 +63,13 @@
 
             firstOrThrow.ShouldThrowExactly<InvalidOperationException>().Which.Should().Be(ex);
         }
+
+        [Fact]
+        public void FirstOrThrowShouldReturnElementWhenFound()
+        {
+            var enumerable = new [] {1};
+
+            enumerable.FirstOrThrow(null).Should().Be(1);
+        }
     }
 }

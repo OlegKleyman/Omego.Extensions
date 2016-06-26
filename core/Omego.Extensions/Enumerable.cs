@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     ///     Contains extension methods for <see cref="IEnumerable{T}" />.
@@ -36,7 +37,12 @@
 
         public static T FirstOrThrow<T>(this IEnumerable<T> enumerable, Exception exception)
         {
-            throw exception;
+            if (!enumerable.Any())
+            {
+                throw exception;
+            }
+
+            return enumerable.First();
         }
     }
 }
