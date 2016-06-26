@@ -89,5 +89,17 @@
 
             enumerable.FirstOrThrow(x => x==1, null).Should().Be(1);
         }
+
+        [Fact]
+        public void FirstOrThrowShouldThrowExceptionWhenAnElementByQueryIsNotFound()
+        {
+            var enumerable = new[] {1};
+
+            var ex = new InvalidOperationException();
+
+            Action firstOrThrow = () => enumerable.FirstOrThrow(x => x == 0, ex);
+
+            firstOrThrow.ShouldThrowExactly<InvalidOperationException>().Which.Should().Be(ex);
+        }
     }
 }

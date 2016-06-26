@@ -49,7 +49,15 @@
 
         public static T FirstOrThrow<T>(this IEnumerable<T> enumerable, Func<T, bool> predicate, Exception exception)
         {
-            return enumerable.First(predicate);
+            var elements = enumerable.Where(predicate);
+
+            if (!elements.Any())
+            {
+                throw exception;
+            }
+
+            return elements.First();
         }
+
     }
 }
