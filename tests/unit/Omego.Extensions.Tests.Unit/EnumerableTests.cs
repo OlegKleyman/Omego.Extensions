@@ -1,6 +1,7 @@
 ﻿namespace Omego.Extensions.Tests.Unit
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
 
     using FluentAssertions;
@@ -113,7 +114,7 @@
         [Fact]
         public void FirstOrThrowShouldThrowArgumentNullExceptionWhenEnumerableArgumentIsNullWhenSearchingByQuery()
         {
-            Action firstOrThrow = () => new object[0].FirstOrThrow(x => false, null);
+            Action firstOrThrow = () => ((IEnumerable<int>)null).FirstOrThrow(x => false, null);
 
             firstOrThrow.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("enumerable");
         }
@@ -121,7 +122,7 @@
         [Fact]
         public void FirstOrThrowShouldThrowArgumentNullExceptionWhenPredicateArgumentIsNullWhenSearchingByQuery()
         {
-            Action firstOrThrow = () => new object[0].FirstOrThrow(x => false, null);
+            Action firstOrThrow = () => new[] {1}.FirstOrThrow(null, null);
 
             firstOrThrow.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("predicate");
         }
