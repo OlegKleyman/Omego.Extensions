@@ -39,6 +39,8 @@
         {
             if (!enumerable.Any())
             {
+                if (exception == null) throw new ArgumentNullException(nameof(exception));
+
                 throw exception;
             }
 

@@ -71,5 +71,15 @@
 
             enumerable.FirstOrThrow(null).Should().Be(1);
         }
+
+        [Fact]
+        public void FirstOrThrowShouldThrowArgumentNullExceptionWhenExceptionArgumentIsNull()
+        {
+            var enumerable = new object[0];
+
+            Action firstOrThrow = () => enumerable.FirstOrThrow(null);
+
+            firstOrThrow.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("exception");
+        }
     }
 }
