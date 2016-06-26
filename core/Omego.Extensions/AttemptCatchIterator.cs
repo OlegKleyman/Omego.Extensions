@@ -35,12 +35,6 @@
             this.handler = handler;
         }
 
-        /// <summary>
-        ///     Gets <see cref="ExceptionOccured" />.
-        /// </summary>
-        /// <value>Returns <c>true</c> if the last iteration had an exception.</value>
-        public bool ExceptionOccured { get; private set; }
-
         /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
         public void Dispose()
         {
@@ -60,19 +54,25 @@
 
             if (!disposed)
             {
-                try
-                {
-                    success = enumerator.MoveNext();
+                var exceptionOccured = false;
 
-                    Current = success ? enumerator.Current : default(T);
-
-                    ExceptionOccured = false;
-                }
-                catch (TE ex)
+                do
                 {
-                    ExceptionOccured = true;
-                    handler(ex);
+                    try
+                    {
+                        success = enumerator.MoveNext();
+
+                        Current = success ? enumerator.Current : default(T);
+
+                        exceptionOccured = false;
+                    }
+                    catch (TE ex)
+                    {
+                        exceptionOccured = true;
+                        handler(ex);
+                    }
                 }
+                while (exceptionOccured);
             }
 
             return success;
