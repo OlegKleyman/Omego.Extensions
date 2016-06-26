@@ -117,5 +117,13 @@
 
             firstOrThrow.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("enumerable");
         }
+
+        [Fact]
+        public void FirstOrThrowShouldThrowArgumentNullExceptionWhenPredicateArgumentIsNullWhenSearchingByQuery()
+        {
+            Action firstOrThrow = () => new object[0].FirstOrThrow(x => false, null);
+
+            firstOrThrow.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("predicate");
+        }
     }
 }
