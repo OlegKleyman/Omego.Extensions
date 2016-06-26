@@ -101,5 +101,13 @@
 
             firstOrThrow.ShouldThrowExactly<InvalidOperationException>().Which.Should().Be(ex);
         }
+
+        [Fact]
+        public void FirstOrThrowShouldThrowArgumentNullExceptionWhenExceptionArgumentIsNullWhenQueryIsNotFound()
+        {
+            Action firstOrThrow = () => new object[0].FirstOrThrow(x=> false, null);
+
+            firstOrThrow.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("exception");
+        }
     }
 }

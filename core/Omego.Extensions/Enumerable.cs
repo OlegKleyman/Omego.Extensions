@@ -51,13 +51,7 @@
         {
             var elements = enumerable.Where(predicate);
 
-            if (!elements.Any())
-            {
-                throw exception;
-            }
-
-            return elements.First();
+            return elements.FirstOrThrow(exception);
         }
-
     }
 }
