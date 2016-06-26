@@ -2,8 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Text.RegularExpressions;
 
     /// <summary>
     ///     Contains extension methods for <see cref="IEnumerable{T}" />.
@@ -21,7 +19,8 @@
         ///     occurrs.
         /// </param>
         /// <returns>An <see cref="IEnumerable{T}" /> of <see cref="T" /> instance.</returns>
-        public static IEnumerable<T> AttemptCatch<T, TE>(this IEnumerable<T> target, Action<TE> handler) where TE : Exception
+        public static IEnumerable<T> AttemptCatch<T, TE>(this IEnumerable<T> target, Action<TE> handler)
+            where TE : Exception
         {
             var iterator = new AttemptCatchIterator<T, TE>(target, handler);
 
@@ -37,25 +36,25 @@
         }
 
         /// <summary>
-        /// Returns the first element of an <see cref="IEnumerable{T}"/>.
+        ///     Returns the first element of an <see cref="IEnumerable{T}" />.
         /// </summary>
         /// <typeparam name="T">The type of the object to return.</typeparam>
         /// <param name="enumerable">The enumerable to find the first element in.</param>
         /// <param name="exception">The exception to throw when the element is not found.</param>
-        /// <returns>An instance of <typeparamref name="T"/>.</returns>
+        /// <returns>An instance of <typeparamref name="T" />.</returns>
         public static T FirstOrThrow<T>(this IEnumerable<T> enumerable, Exception exception)
         {
             return enumerable.FirstOrThrow(element => true, exception);
         }
 
         /// <summary>
-        /// Returns the first element of an <see cref="IEnumerable{T}"/> matching the given predicate.
+        ///     Returns the first element of an <see cref="IEnumerable{T}" /> matching the given predicate.
         /// </summary>
         /// <typeparam name="T">The type of the object to return.</typeparam>
         /// <param name="enumerable">The enumerable to find the first element in.</param>
         /// <param name="predicate">The predicate to use to find the first element.</param>
         /// <param name="exception">The exception to throw when the element is not found.</param>
-        /// <returns>An instance of <typeparamref name="T"/>.</returns>
+        /// <returns>An instance of <typeparamref name="T" />.</returns>
         public static T FirstOrThrow<T>(this IEnumerable<T> enumerable, Func<T, bool> predicate, Exception exception)
         {
             if (enumerable == null) throw new ArgumentNullException(nameof(enumerable));
