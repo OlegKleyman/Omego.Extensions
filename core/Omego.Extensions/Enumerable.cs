@@ -46,5 +46,10 @@
 
             return enumerable.First();
         }
+
+        public static T FirstOrThrow<T>(this IEnumerable<T> enumerable, Func<T, bool> predicate, Exception exception)
+        {
+            return enumerable.First(predicate);
+        }
     }
 }

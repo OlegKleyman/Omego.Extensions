@@ -81,5 +81,13 @@
 
             firstOrThrow.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("exception");
         }
+
+        [Fact]
+        public void FirstOrThrowShouldReturnElementByQueryWhenFound()
+        {
+            var enumerable = new[] { 1 };
+
+            enumerable.FirstOrThrow(x => x==1, null).Should().Be(1);
+        }
     }
 }
