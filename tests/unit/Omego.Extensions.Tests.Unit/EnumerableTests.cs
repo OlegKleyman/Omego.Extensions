@@ -1,6 +1,7 @@
 ﻿namespace Omego.Extensions.Tests.Unit
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
 
     using FluentAssertions;
@@ -50,6 +51,80 @@
         {
             var enumerable = new[] { -1, 0, 1 }.Select(i => 1 / i);
             enumerable.AttemptCatch<int, DivideByZeroException>(e => { }).ShouldAllBeEquivalentTo(new[] { -1, 1 });
+        }
+
+        [Fact]
+        public void FirstOrThrowShouldReturnElementByQueryWhenFound()
+        {
+            var enumerable = new[] { 1 };
+
+            enumerable.FirstOrThrow(x => x == 1, null).Should().Be(1);
+        }
+
+        [Fact]
+        public void FirstOrThrowShouldReturnElementWhenFound()
+        {
+            var enumerable = new[] { 1 };
+
+            enumerable.FirstOrThrow(null).Should().Be(1);
+        }
+
+        [Fact]
+        public void FirstOrThrowShouldThrowArgumentNullExceptionWhenEnumerableArgumentIsNullWhenSearchingByQuery()
+        {
+            Action firstOrThrow = () => ((IEnumerable<int>)null).FirstOrThrow(x => false, null);
+
+            firstOrThrow.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("enumerable");
+        }
+
+        [Fact]
+        public void FirstOrThrowShouldThrowArgumentNullExceptionWhenExceptionArgumentIsNull()
+        {
+            var enumerable = new object[0];
+
+            Action firstOrThrow = () => enumerable.FirstOrThrow(null);
+
+            firstOrThrow.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("exception");
+        }
+
+        [Fact]
+        public void FirstOrThrowShouldThrowArgumentNullExceptionWhenExceptionArgumentIsNullWhenQueryIsNotFound()
+        {
+            Action firstOrThrow = () => new object[0].FirstOrThrow(x => false, null);
+
+            firstOrThrow.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("exception");
+        }
+
+        [Fact]
+        public void FirstOrThrowShouldThrowArgumentNullExceptionWhenPredicateArgumentIsNullWhenSearchingByQuery()
+        {
+            Action firstOrThrow = () => new[] { 1 }.FirstOrThrow(null, null);
+
+            firstOrThrow.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("predicate");
+        }
+
+        [Fact]
+        public void FirstOrThrowShouldThrowExceptionWhenAnElementByQueryIsNotFound()
+        {
+            var enumerable = new[] { 1 };
+
+            var ex = new InvalidOperationException();
+
+            Action firstOrThrow = () => enumerable.FirstOrThrow(x => x == 0, ex);
+
+            firstOrThrow.ShouldThrowExactly<InvalidOperationException>().Which.Should().Be(ex);
+        }
+
+        [Fact]
+        public void FirstOrThrowShouldThrowExceptionWhenAnElementIsNotFound()
+        {
+            var enumerable = new object[0];
+
+            var ex = new InvalidOperationException();
+
+            Action firstOrThrow = () => enumerable.FirstOrThrow(ex);
+
+            firstOrThrow.ShouldThrowExactly<InvalidOperationException>().Which.Should().Be(ex);
         }
     }
 }
