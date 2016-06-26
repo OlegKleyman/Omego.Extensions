@@ -33,5 +33,10 @@
                 yield return iterator.Current;
             }
         }
+
+        public static T FirstOrThrow<T>(this IEnumerable<T> enumerable, Exception exception)
+        {
+            throw exception;
+        }
     }
 }

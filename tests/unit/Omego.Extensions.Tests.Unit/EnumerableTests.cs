@@ -51,5 +51,17 @@
             var enumerable = new[] { -1, 0, 1 }.Select(i => 1 / i);
             enumerable.AttemptCatch<int, DivideByZeroException>(e => { }).ShouldAllBeEquivalentTo(new[] { -1, 1 });
         }
+
+        [Fact]
+        public void FirstOrThrowShouldThrowExceptionWhenAnElementIsNotFound()
+        {
+            var enumerable = new object[0];
+
+            var ex = new InvalidOperationException();
+
+            Action firstOrThrow = () => enumerable.FirstOrThrow(ex);
+
+            firstOrThrow.ShouldThrowExactly<InvalidOperationException>().Which.Should().Be(ex);
+        }
     }
 }
