@@ -24,13 +24,8 @@
         {
             var iterator = new AttemptCatchIterator<T, TE>(target, handler);
 
-            while (iterator.MoveNext() || iterator.ExceptionOccured)
+            while (iterator.MoveNext())
             {
-                if (iterator.ExceptionOccured)
-                {
-                    continue;
-                }
-
                 yield return iterator.Current;
             }
         }
