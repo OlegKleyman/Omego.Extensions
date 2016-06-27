@@ -90,6 +90,14 @@
             throw new InvalidOperationException(predicate.Body.ToString());
         }
 
+        public static T SingleOrThrow<T>(
+            this IEnumerable<T> enumerable,
+            Exception noMatchFoundException,
+            Exception multipleMatchesFoundException)
+        {
+            return enumerable.SingleOrThrow(element => true, noMatchFoundException, multipleMatchesFoundException);
+        }
+
         public static T SingleOrThrow<T>(this IEnumerable<T> enumerable, Expression<Func<T, bool>> predicate)
         {
             if (predicate == null) throw new ArgumentNullException(nameof(predicate));

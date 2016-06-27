@@ -110,5 +110,57 @@
 
             firstOrThrow.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("multipleMatchesFoundException");
         }
+
+        [Fact]
+        public void SingleOrThrowShouldReturnElementWhenFound()
+        {
+            var enumerable = new[] { 1 };
+
+            enumerable.SingleOrThrow(null, null).Should().Be(1);
+        }
+
+        [Fact]
+        public void SingleOrThrowShouldThrowExceptionWhenAnElementIsNotFound()
+        {
+            var ex = new InvalidOperationException();
+
+            Action SingleOrThrow = () => Enumerable.Empty<object>().SingleOrThrow(ex, null);
+
+            SingleOrThrow.ShouldThrowExactly<InvalidOperationException>().Which.Should().Be(ex);
+        }
+
+        [Fact]
+        public void SingleOrThrowShouldThrowExceptionWhenMultipleElementsAreFound()
+        {
+            var ex = new InvalidOperationException();
+
+            Action SingleOrThrow = () => new[] { 1, 1 }.SingleOrThrow(null, ex);
+
+            SingleOrThrow.ShouldThrowExactly<InvalidOperationException>().Which.Should().Be(ex);
+        }
+
+        [Fact]
+        public void SingleOrThrowShouldThrowArgumentNullExceptionWhenEnumerableArgumentIsNull()
+        {
+            Action SingleOrThrow = () => ((IEnumerable<int>)null).SingleOrThrow(x => false);
+
+            SingleOrThrow.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("enumerable");
+        }
+
+        [Fact]
+        public void SingleOrThrowShouldThrowArgumentNullExceptionWhenNoMatchExceptionArgumentIsNull()
+        {
+            Action firstOrThrow = () => Enumerable.Empty<object>().SingleOrThrow(null, null);
+
+            firstOrThrow.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("noMatchFoundException");
+        }
+
+        [Fact]
+        public void SingleOrThrowShouldThrowArgumentNullExceptionWhenMultipleMatchExceptionArgumentIsNull()
+        {
+            Action firstOrThrow = () => new[] { 1, 1 }.SingleOrThrow(null, null);
+
+            firstOrThrow.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("multipleMatchesFoundException");
+        }
     }
 }
