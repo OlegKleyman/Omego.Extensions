@@ -141,7 +141,7 @@
         {
             Action firstOrThrow = () => new[] {1}.FirstOrThrow(x => x == 0);
 
-            firstOrThrow.ShouldThrowExactly<InvalidOperationException>().Which.Message.ShouldBeEquivalentTo("(x == 0)");
+            firstOrThrow.ShouldThrowExactly<InvalidOperationException>().Which.Message.ShouldBeEquivalentTo("No matches found for: (x == 0)");
         }
 
         [Fact]
