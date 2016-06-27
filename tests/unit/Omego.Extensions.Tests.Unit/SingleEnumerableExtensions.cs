@@ -60,7 +60,7 @@
         }
 
         [Fact]
-        public void SingleOrThrowWithShouldThrowExceptionWhenAnElementByQueryIsNotFound()
+        public void SingleOrThrowShouldThrowExceptionWhenAnElementByQueryIsNotFound()
         {
             var ex = new InvalidOperationException();
 
