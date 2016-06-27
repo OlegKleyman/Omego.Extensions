@@ -89,5 +89,37 @@
 
             throw new InvalidOperationException(predicate.Body.ToString());
         }
+
+        public static T SingleOrThrow<T>(this IEnumerable<T> enumerable, Expression<Func<T, bool>> predicate)
+        {
+            if (enumerable == null) throw new ArgumentNullException(nameof(enumerable));
+
+            if (predicate == null) throw new ArgumentNullException(nameof(predicate));
+
+            var compiledPredicate = predicate.Compile();
+
+            using (var e = enumerable.GetEnumerator())
+            {
+                while (e.MoveNext())
+                {
+                    var result = e.Current;
+
+                    if (compiledPredicate(result))
+                    {
+                        while (e.MoveNext())
+                        {
+                            if (compiledPredicate(e.Current))
+                            {
+                                throw new InvalidOperationException($"More than one match found for {predicate.Body}.");
+                            }
+                        }
+
+                        return result;
+                    }
+                }
+            }
+
+            throw new InvalidOperationException($"No match found for {predicate.Body}.");
+        }
     }
 }

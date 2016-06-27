@@ -9,7 +9,7 @@
 
     using Xunit;
 
-    public class EnumerableTests
+    public partial class EnumerableTests
     {
         [Fact]
         public void AttemptCatchShouldCatchException()
