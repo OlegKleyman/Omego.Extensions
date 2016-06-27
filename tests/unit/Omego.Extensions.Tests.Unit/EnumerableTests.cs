@@ -66,7 +66,7 @@
         {
             var enumerable = new[] { 1 };
 
-            enumerable.FirstOrThrow(null).Should().Be(1);
+            enumerable.FirstOrThrow((Exception)null).Should().Be(1);
         }
 
         [Fact]
@@ -82,7 +82,7 @@
         {
             var enumerable = new object[0];
 
-            Action firstOrThrow = () => enumerable.FirstOrThrow(null);
+            Action firstOrThrow = () => enumerable.FirstOrThrow((Exception)null);
 
             firstOrThrow.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("exception");
         }
@@ -125,6 +125,14 @@
             Action firstOrThrow = () => enumerable.FirstOrThrow(ex);
 
             firstOrThrow.ShouldThrowExactly<InvalidOperationException>().Which.Should().Be(ex);
+        }
+
+        [Fact]
+        public void FirstOrThrowWithGenericExceptionShouldReturnElementByQueryWhenFound()
+        {
+            var enumerable = new[] { 1 };
+
+            enumerable.FirstOrThrow(x => x == 1).Should().Be(1);
         }
     }
 }

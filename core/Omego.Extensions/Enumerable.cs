@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     ///     Contains extension methods for <see cref="IEnumerable{T}" />.
@@ -67,6 +68,11 @@
             if (exception == null) throw new ArgumentNullException(nameof(exception));
 
             throw exception;
+        }
+
+        public static T FirstOrThrow<T>(this IEnumerable<T> enumerable, Func<T, bool> predicate)
+        {
+            return enumerable.First();
         }
     }
 }
