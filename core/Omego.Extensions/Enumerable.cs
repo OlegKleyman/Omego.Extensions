@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Linq.Expressions;
 
     /// <summary>
     ///     Contains extension methods for <see cref="IEnumerable{T}" />.
@@ -70,9 +71,19 @@
             throw exception;
         }
 
-        public static T FirstOrThrow<T>(this IEnumerable<T> enumerable, Func<T, bool> predicate)
+        public static T FirstOrThrow<T>(this IEnumerable<T> enumerable, Expression<Func<T, bool>> predicate)
         {
-            return enumerable.First();
+            var compiledPredicate = predicate.Compile();
+
+            foreach (var element in enumerable)
+            {
+                if (compiledPredicate(element))
+                {
+                    return element;
+                }
+            }
+
+            throw new InvalidOperationException(predicate.Body.ToString());
         }
     }
 }

@@ -134,5 +134,13 @@
 
             enumerable.FirstOrThrow(x => x == 1).Should().Be(1);
         }
+
+        [Fact]
+        public void FirstOrThrowWithGenericExceptionShouldThrowExceptionWhenAnElementByQueryIsNotFound()
+        {
+            Action firstOrThrow = () => new[] {1}.FirstOrThrow(x => x == 0);
+
+            firstOrThrow.ShouldThrowExactly<InvalidOperationException>().Which.Message.ShouldBeEquivalentTo("(x == 0)");
+        }
     }
 }
