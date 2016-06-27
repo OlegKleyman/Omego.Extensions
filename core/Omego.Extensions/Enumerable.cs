@@ -73,6 +73,10 @@
 
         public static T FirstOrThrow<T>(this IEnumerable<T> enumerable, Expression<Func<T, bool>> predicate)
         {
+            if (enumerable == null) throw new ArgumentNullException(nameof(enumerable));
+
+            if (predicate == null) throw new ArgumentNullException(nameof(predicate));
+
             var compiledPredicate = predicate.Compile();
 
             foreach (var element in enumerable)

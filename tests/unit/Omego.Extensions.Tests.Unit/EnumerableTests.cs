@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Linq.Expressions;
 
     using FluentAssertions;
 
@@ -141,6 +142,22 @@
             Action firstOrThrow = () => new[] {1}.FirstOrThrow(x => x == 0);
 
             firstOrThrow.ShouldThrowExactly<InvalidOperationException>().Which.Message.ShouldBeEquivalentTo("(x == 0)");
+        }
+
+        [Fact]
+        public void FirstOrThrowWithGenericExceptionShouldThrowArgumentNullExceptionWhenPredicateArgumentIsNullWhenSearchingByQuery()
+        {
+            Action firstOrThrow = () => new int[0].FirstOrThrow((Expression<Func<int, bool>>)null);
+
+            firstOrThrow.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("predicate");
+        }
+
+        [Fact]
+        public void FirstOrThrowWithGenericExceptionShouldThrowArgumentNullExceptionWhenEnumerableArgumentIsNullWhenSearchingByQuery()
+        {
+            Action firstOrThrow = () => ((IEnumerable<int>)null).FirstOrThrow(x => false);
+
+            firstOrThrow.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("enumerable");
         }
     }
 }
