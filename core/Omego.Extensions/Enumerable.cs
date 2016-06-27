@@ -121,5 +121,41 @@
 
             throw new InvalidOperationException($"No match found for {predicate.Body}.");
         }
+
+        public static T SingleOrThrow<T>(this IEnumerable<T> enumerable, Expression<Func<T, bool>> predicate, Exception noMatchFoundException, Exception multipleMatchesFoundException)
+        {
+            if (enumerable == null) throw new ArgumentNullException(nameof(enumerable));
+
+            if (predicate == null) throw new ArgumentNullException(nameof(predicate));
+
+            var compiledPredicate = predicate.Compile();
+
+            using (var e = enumerable.GetEnumerator())
+            {
+                while (e.MoveNext())
+                {
+                    var result = e.Current;
+
+                    if (compiledPredicate(result))
+                    {
+                        while (e.MoveNext())
+                        {
+                            if (compiledPredicate(e.Current))
+                            {
+                                if (multipleMatchesFoundException == null) throw new ArgumentNullException(nameof(multipleMatchesFoundException));
+
+                                throw multipleMatchesFoundException;
+                            }
+                        }
+
+                        return result;
+                    }
+                }
+            }
+
+            if (noMatchFoundException == null) throw new ArgumentNullException(nameof(noMatchFoundException));
+
+            throw noMatchFoundException;
+        }
     }
 }
