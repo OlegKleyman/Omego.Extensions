@@ -20,5 +20,10 @@
 
             return queryable.First(predicate);
         }
+
+        public static T FirstOrThrow<T>(this IQueryable<T> queryable, Exception exception)
+        {
+            return queryable.FirstOrThrow(element => true, exception);
+        }
     }
 }

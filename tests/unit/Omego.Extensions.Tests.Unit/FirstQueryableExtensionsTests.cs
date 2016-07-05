@@ -52,5 +52,25 @@
 
             firstOrThrow.ShouldThrowExactly<InvalidOperationException>().Which.Should().Be(ex);
         }
+
+        [Fact]
+        public void FirstOrThrowShouldReturnElementWhenFound()
+        {
+            var queryable = new[] { 1 }.AsQueryable();
+
+            queryable.FirstOrThrow((Exception)null).Should().Be(1);
+        }
+
+        [Fact]
+        public void FirstOrThrowShouldThrowExceptionWhenAnElementIsNotFound()
+        {
+            var queryable = new object[0].AsQueryable();
+
+            var ex = new InvalidOperationException();
+
+            Action firstOrThrow = () => queryable.FirstOrThrow(ex);
+
+            firstOrThrow.ShouldThrowExactly<InvalidOperationException>().Which.Should().Be(ex);
+        }
     }
 }
