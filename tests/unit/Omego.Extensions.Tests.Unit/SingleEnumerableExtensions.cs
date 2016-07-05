@@ -29,61 +29,61 @@
         [Fact]
         public void SingleOrThrowShouldThrowArgumentNullExceptionWhenEnumerableArgumentIsNull()
         {
-            Action SingleOrThrow = () => ((IEnumerable<int>)null).SingleOrThrow(x => false);
+            Action singleOrThrow = () => ((IEnumerable<int>)null).SingleOrThrow(x => false);
 
-            SingleOrThrow.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("enumerable");
+            singleOrThrow.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("enumerable");
         }
 
         [Fact]
         public void SingleOrThrowShouldThrowArgumentNullExceptionWhenEnumerableArgumentIsNullWhenSearchingByQuery()
         {
-            Action SingleOrThrow = () => ((IEnumerable<int>)null).SingleOrThrow(x => false);
+            Action singleOrThrow = () => ((IEnumerable<int>)null).SingleOrThrow(x => false);
 
-            SingleOrThrow.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("enumerable");
+            singleOrThrow.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("enumerable");
         }
 
         [Fact]
         public void SingleOrThrowShouldThrowArgumentNullExceptionWhenExceptionArgumentIsNullWhenMultipleMatchesFound()
         {
-            Action firstOrThrow = () => new[] { 1, 1 }.SingleOrThrow(x => true, null, null);
+            Action singleOrThrow = () => new[] { 1, 1 }.SingleOrThrow(x => true, null, null);
 
-            firstOrThrow.ShouldThrowExactly<ArgumentNullException>()
+            singleOrThrow.ShouldThrowExactly<ArgumentNullException>()
                 .Which.ParamName.ShouldBeEquivalentTo("multipleMatchesFoundException");
         }
 
         [Fact]
         public void SingleOrThrowShouldThrowArgumentNullExceptionWhenExceptionArgumentIsNullWhenQueryIsNotFound()
         {
-            Action firstOrThrow = () => Enumerable.Empty<object>().SingleOrThrow(x => false, null, null);
+            Action singleOrThrow = () => Enumerable.Empty<object>().SingleOrThrow(x => false, null, null);
 
-            firstOrThrow.ShouldThrowExactly<ArgumentNullException>()
+            singleOrThrow.ShouldThrowExactly<ArgumentNullException>()
                 .Which.ParamName.ShouldBeEquivalentTo("noMatchFoundException");
         }
 
         [Fact]
         public void SingleOrThrowShouldThrowArgumentNullExceptionWhenMultipleMatchExceptionArgumentIsNull()
         {
-            Action firstOrThrow = () => new[] { 1, 1 }.SingleOrThrow(null, null);
+            Action singleOrThrow = () => new[] { 1, 1 }.SingleOrThrow(null, null);
 
-            firstOrThrow.ShouldThrowExactly<ArgumentNullException>()
+            singleOrThrow.ShouldThrowExactly<ArgumentNullException>()
                 .Which.ParamName.ShouldBeEquivalentTo("multipleMatchesFoundException");
         }
 
         [Fact]
         public void SingleOrThrowShouldThrowArgumentNullExceptionWhenNoMatchExceptionArgumentIsNull()
         {
-            Action firstOrThrow = () => Enumerable.Empty<object>().SingleOrThrow(null, null);
+            Action singleOrThrow = () => Enumerable.Empty<object>().SingleOrThrow(null, null);
 
-            firstOrThrow.ShouldThrowExactly<ArgumentNullException>()
+            singleOrThrow.ShouldThrowExactly<ArgumentNullException>()
                 .Which.ParamName.ShouldBeEquivalentTo("noMatchFoundException");
         }
 
         [Fact]
         public void SingleOrThrowShouldThrowArgumentNullExceptionWhenPredicateArgumentIsNullWhenSearchingByQuery()
         {
-            Action SingleOrThrow = () => new int[0].SingleOrThrow(null, null, null);
+            Action singleOrThrow = () => new int[0].SingleOrThrow(null, null, null);
 
-            SingleOrThrow.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("predicate");
+            singleOrThrow.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("predicate");
         }
 
         [Fact]
@@ -91,9 +91,9 @@
         {
             var ex = new InvalidOperationException();
 
-            Action SingleOrThrow = () => new[] { 1 }.SingleOrThrow(x => x == 0, ex, null);
+            Action singleOrThrow = () => new[] { 1 }.SingleOrThrow(x => x == 0, ex, null);
 
-            SingleOrThrow.ShouldThrowExactly<InvalidOperationException>().Which.Should().Be(ex);
+            singleOrThrow.ShouldThrowExactly<InvalidOperationException>().Which.Should().Be(ex);
         }
 
         [Fact]
@@ -101,9 +101,9 @@
         {
             var ex = new InvalidOperationException();
 
-            Action SingleOrThrow = () => Enumerable.Empty<object>().SingleOrThrow(ex, null);
+            Action singleOrThrow = () => Enumerable.Empty<object>().SingleOrThrow(ex, null);
 
-            SingleOrThrow.ShouldThrowExactly<InvalidOperationException>().Which.Should().Be(ex);
+            singleOrThrow.ShouldThrowExactly<InvalidOperationException>().Which.Should().Be(ex);
         }
 
         [Fact]
@@ -111,9 +111,9 @@
         {
             var ex = new InvalidOperationException();
 
-            Action SingleOrThrow = () => new[] { 1, 1 }.SingleOrThrow(null, ex);
+            Action singleOrThrow = () => new[] { 1, 1 }.SingleOrThrow(null, ex);
 
-            SingleOrThrow.ShouldThrowExactly<InvalidOperationException>().Which.Should().Be(ex);
+            singleOrThrow.ShouldThrowExactly<InvalidOperationException>().Which.Should().Be(ex);
         }
 
         [Fact]
@@ -121,9 +121,9 @@
         {
             var ex = new InvalidOperationException();
 
-            Action SingleOrThrow = () => new[] { 1, 1 }.SingleOrThrow(x => x == 1, null, ex);
+            Action singleOrThrow = () => new[] { 1, 1 }.SingleOrThrow(x => x == 1, null, ex);
 
-            SingleOrThrow.ShouldThrowExactly<InvalidOperationException>().Which.Should().Be(ex);
+            singleOrThrow.ShouldThrowExactly<InvalidOperationException>().Which.Should().Be(ex);
         }
 
         [Fact]
@@ -139,9 +139,9 @@
             SingleOrThrowWithGenericExceptionShouldThrowArgumentNullExceptionWhenEnumerableArgumentIsNullWhenSearchingByQuery
             ()
         {
-            Action SingleOrThrow = () => ((IEnumerable<int>)null).SingleOrThrow(x => false);
+            Action singleOrThrow = () => ((IEnumerable<int>)null).SingleOrThrow(x => false);
 
-            SingleOrThrow.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("enumerable");
+            singleOrThrow.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("enumerable");
         }
 
         [Fact]
@@ -149,27 +149,29 @@
             SingleOrThrowWithGenericExceptionShouldThrowArgumentNullExceptionWhenPredicateArgumentIsNullWhenSearchingByQuery
             ()
         {
-            Action SingleOrThrow = () => new int[0].SingleOrThrow(null);
+            Action singleOrThrow = () => new int[0].SingleOrThrow(null);
 
-            SingleOrThrow.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("predicate");
+            singleOrThrow.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("predicate");
         }
 
         [Fact]
         public void SingleOrThrowWithGenericExceptionShouldThrowExceptionWhenAnElementByQueryIsNotFound()
         {
-            Action SingleOrThrow = () => new[] { 1 }.SingleOrThrow(x => x == 0);
+            Action singleOrThrow = () => new[] { 1 }.SingleOrThrow(x => x == 0);
 
-            SingleOrThrow.ShouldThrowExactly<InvalidOperationException>()
+            singleOrThrow.ShouldThrowExactly<InvalidOperationException>()
                 .Which.Message.ShouldBeEquivalentTo("No match found for (x == 0).");
         }
 
         [Fact]
         public void SingleOrThrowWithGenericExceptionShouldThrowExceptionWhenMultipleElementsByQueryAreFound()
         {
-            Action SingleOrThrow = () => new[] { 1, 1 }.SingleOrThrow(x => x == 1);
+            Action singleOrThrow = () => new[] { 1, 1 }.SingleOrThrow(x => x == 1);
 
-            SingleOrThrow.ShouldThrowExactly<InvalidOperationException>()
+            singleOrThrow.ShouldThrowExactly<InvalidOperationException>()
                 .Which.Message.ShouldBeEquivalentTo("More than one match found for (x == 1).");
         }
+
+
     }
 }
