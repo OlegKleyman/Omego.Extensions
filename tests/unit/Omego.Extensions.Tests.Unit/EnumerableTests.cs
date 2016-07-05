@@ -137,15 +137,19 @@
         }
 
         [Fact]
-        public void FirstOrThrowWithGenericExceptionShouldThrowExceptionWhenAnElementByQueryIsNotFound()
+        public void
+            FirstOrThrowWithGenericExceptionShouldThrowArgumentNullExceptionWhenEnumerableArgumentIsNullWhenSearchingByQuery
+            ()
         {
-            Action firstOrThrow = () => new[] {1}.FirstOrThrow(x => x == 0);
+            Action firstOrThrow = () => ((IEnumerable<int>)null).FirstOrThrow(x => false);
 
-            firstOrThrow.ShouldThrowExactly<InvalidOperationException>().Which.Message.ShouldBeEquivalentTo("No matches found for: (x == 0)");
+            firstOrThrow.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("enumerable");
         }
 
         [Fact]
-        public void FirstOrThrowWithGenericExceptionShouldThrowArgumentNullExceptionWhenPredicateArgumentIsNullWhenSearchingByQuery()
+        public void
+            FirstOrThrowWithGenericExceptionShouldThrowArgumentNullExceptionWhenPredicateArgumentIsNullWhenSearchingByQuery
+            ()
         {
             Action firstOrThrow = () => new int[0].FirstOrThrow((Expression<Func<int, bool>>)null);
 
@@ -153,11 +157,12 @@
         }
 
         [Fact]
-        public void FirstOrThrowWithGenericExceptionShouldThrowArgumentNullExceptionWhenEnumerableArgumentIsNullWhenSearchingByQuery()
+        public void FirstOrThrowWithGenericExceptionShouldThrowExceptionWhenAnElementByQueryIsNotFound()
         {
-            Action firstOrThrow = () => ((IEnumerable<int>)null).FirstOrThrow(x => false);
+            Action firstOrThrow = () => new[] { 1 }.FirstOrThrow(x => x == 0);
 
-            firstOrThrow.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("enumerable");
+            firstOrThrow.ShouldThrowExactly<InvalidOperationException>()
+                .Which.Message.ShouldBeEquivalentTo("No matches found for: (x == 0)");
         }
     }
 }
