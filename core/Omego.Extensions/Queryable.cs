@@ -25,5 +25,14 @@
         {
             return queryable.FirstOrThrow(element => true, exception);
         }
+
+        public static T FirstOrThrow<T>(this IQueryable<T> queryable, Expression<Func<T, bool>> predicate)
+        {
+            if (predicate == null) throw new ArgumentNullException(nameof(predicate));
+
+            return queryable.FirstOrThrow(
+                predicate,
+                new InvalidOperationException($"No matches found for: {predicate.Body}"));
+        }
     }
 }
