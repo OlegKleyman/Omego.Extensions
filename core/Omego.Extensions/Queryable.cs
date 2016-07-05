@@ -10,17 +10,21 @@
     public static class Queryable
     {
         /// <summary>
-        ///     Returns the first element of an <see cref="IQueryable{T}" /> matching the given predicate or throws an <see cref="Exception"/>.
+        ///     Returns the first element of an <see cref="IQueryable{T}" /> matching the given predicate or throws an
+        ///     <see cref="Exception" />.
         /// </summary>
         /// <typeparam name="T">The type of the object to return.</typeparam>
-        /// <param name="queryable">The <see cref="IQueryable{T}"/> of <typeparamref name="T"/> to find the first element in.</param>
+        /// <param name="queryable">The <see cref="IQueryable{T}" /> of <typeparamref name="T" /> to find the first element in.</param>
         /// <param name="predicate">The predicate to use to find the first element.</param>
         /// <param name="exception">The exception to throw when the element is not found.</param>
         /// <returns>An instance of <typeparamref name="T" />.</returns>
-        public static T FirstOrThrow<T>(this IQueryable<T> queryable, Expression<Func<T, bool>> predicate, Exception exception)
+        public static T FirstOrThrow<T>(
+            this IQueryable<T> queryable,
+            Expression<Func<T, bool>> predicate,
+            Exception exception)
         {
             if (queryable == null) throw new ArgumentNullException(nameof(queryable));
-            if(predicate == null) throw new ArgumentNullException(nameof(predicate));
+            if (predicate == null) throw new ArgumentNullException(nameof(predicate));
 
             if (!queryable.Any(predicate))
             {
@@ -33,10 +37,10 @@
         }
 
         /// <summary>
-        ///     Returns the first element of an <see cref="IQueryable{T}" /> of <typeparamref name="T"/> or throws an exception.
+        ///     Returns the first element of an <see cref="IQueryable{T}" /> of <typeparamref name="T" /> or throws an exception.
         /// </summary>
         /// <typeparam name="T">The type of the object to return.</typeparam>
-        /// <param name="queryable">The <see cref="IQueryable{T}"/> of <typeparamref name="T"/> to find the first element in.</param>
+        /// <param name="queryable">The <see cref="IQueryable{T}" /> of <typeparamref name="T" /> to find the first element in.</param>
         /// <param name="exception">The exception to throw when the element is not found.</param>
         /// <returns>An instance of <typeparamref name="T" />.</returns>
         public static T FirstOrThrow<T>(this IQueryable<T> queryable, Exception exception)
@@ -45,10 +49,11 @@
         }
 
         /// <summary>
-        ///     Returns the first element of an <see cref="IQueryable{T}" /> matching the given predicate or throws an <see cref="InvalidOperationException"/>.
+        ///     Returns the first element of an <see cref="IQueryable{T}" /> matching the given predicate or throws an
+        ///     <see cref="InvalidOperationException" />.
         /// </summary>
         /// <typeparam name="T">The type of the object to return.</typeparam>
-        /// <param name="queryable">The <see cref="IQueryable{T}"/> of <typeparamref name="T"/> to find the first element in.</param>
+        /// <param name="queryable">The <see cref="IQueryable{T}" /> of <typeparamref name="T" /> to find the first element in.</param>
         /// <param name="predicate">The predicate to use to find the first element.</param>
         /// <returns>An instance of <typeparamref name="T" />.</returns>
         public static T FirstOrThrow<T>(this IQueryable<T> queryable, Expression<Func<T, bool>> predicate)

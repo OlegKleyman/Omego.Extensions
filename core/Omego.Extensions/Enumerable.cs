@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Linq.Expressions;
 
     /// <summary>
@@ -45,7 +44,8 @@
         }
 
         /// <summary>
-        ///     Returns the first element of an <see cref="IEnumerable{T}" /> matching the given predicate or throws an <see cref="Exception"/>.
+        ///     Returns the first element of an <see cref="IEnumerable{T}" /> matching the given predicate or throws an
+        ///     <see cref="Exception" />.
         /// </summary>
         /// <typeparam name="T">The type of the object to return.</typeparam>
         /// <param name="enumerable">The enumerable to find the first element in.</param>
@@ -72,7 +72,8 @@
         }
 
         /// <summary>
-        ///     Returns the first element of an <see cref="IEnumerable{T}" /> matching the given predicate or throws an <see cref="InvalidOperationException"/>.
+        ///     Returns the first element of an <see cref="IEnumerable{T}" /> matching the given predicate or throws an
+        ///     <see cref="InvalidOperationException" />.
         /// </summary>
         /// <typeparam name="T">The type of the object to return.</typeparam>
         /// <param name="enumerable">The enumerable to find the first element in.</param>
@@ -88,7 +89,8 @@
         }
 
         /// <summary>
-        /// Returns a single match from an <see cref="IEnumerable{T}"/> of <typeparamref name="T"/> or throws an <see cref="Exception"/>.
+        ///     Returns a single match from an <see cref="IEnumerable{T}" /> of <typeparamref name="T" /> or throws an
+        ///     <see cref="Exception" />.
         /// </summary>
         /// <typeparam name="T">The type of the object to return.</typeparam>
         /// <param name="enumerable">The enumerable to find the single element in.</param>
@@ -104,7 +106,8 @@
         }
 
         /// <summary>
-        /// Returns a single match from an <see cref="IEnumerable{T}"/> of <typeparamref name="T"/> or throws an <see cref="InvalidOperationException"/>.
+        ///     Returns a single match from an <see cref="IEnumerable{T}" /> of <typeparamref name="T" /> or throws an
+        ///     <see cref="InvalidOperationException" />.
         /// </summary>
         /// <typeparam name="T">The type of the object to return.</typeparam>
         /// <param name="enumerable">The enumerable to find the single element in.</param>
@@ -122,7 +125,8 @@
         }
 
         /// <summary>
-        /// Returns a single match from an <see cref="IEnumerable{T}"/> of <typeparamref name="T"/> or throws an <see cref="Exception"/>.
+        ///     Returns a single match from an <see cref="IEnumerable{T}" /> of <typeparamref name="T" /> or throws an
+        ///     <see cref="Exception" />.
         /// </summary>
         /// <typeparam name="T">The type of the object to return.</typeparam>
         /// <param name="enumerable">The enumerable to find the single element in.</param>
@@ -130,7 +134,11 @@
         /// <param name="noMatchFoundException">The exception to throw when the element is not found.</param>
         /// <param name="multipleMatchesFoundException">The exception to throw when multiple matches are found.</param>
         /// <returns>An instance of <typeparamref name="T" />.</returns>
-        public static T SingleOrThrow<T>(this IEnumerable<T> enumerable, Expression<Func<T, bool>> predicate, Exception noMatchFoundException, Exception multipleMatchesFoundException)
+        public static T SingleOrThrow<T>(
+            this IEnumerable<T> enumerable,
+            Expression<Func<T, bool>> predicate,
+            Exception noMatchFoundException,
+            Exception multipleMatchesFoundException)
         {
             if (enumerable == null) throw new ArgumentNullException(nameof(enumerable));
 

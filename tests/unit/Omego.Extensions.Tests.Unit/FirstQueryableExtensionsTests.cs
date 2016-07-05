@@ -19,6 +19,14 @@
         }
 
         [Fact]
+        public void FirstOrThrowShouldReturnElementWhenFound()
+        {
+            var queryable = new[] { 1 }.AsQueryable();
+
+            queryable.FirstOrThrow((Exception)null).Should().Be(1);
+        }
+
+        [Fact]
         public void FirstOrThrowShouldThrowArgumentNullExceptionWhenEnumerableArgumentIsNullWhenSearchingByQuery()
         {
             Action firstOrThrow = () => ((IQueryable<int>)null).FirstOrThrow(x => false, null);
@@ -55,14 +63,6 @@
         }
 
         [Fact]
-        public void FirstOrThrowShouldReturnElementWhenFound()
-        {
-            var queryable = new[] { 1 }.AsQueryable();
-
-            queryable.FirstOrThrow((Exception)null).Should().Be(1);
-        }
-
-        [Fact]
         public void FirstOrThrowShouldThrowExceptionWhenAnElementIsNotFound()
         {
             var queryable = new object[0].AsQueryable();
@@ -83,19 +83,22 @@
         }
 
         [Fact]
-        public void FirstOrThrowWithGenericExceptionShouldThrowExceptionWhenAnElementByQueryIsNotFound()
-        {
-            Action firstOrThrow = () => new[] { 1 }.AsQueryable().FirstOrThrow(x => x == 0);
-
-            firstOrThrow.ShouldThrowExactly<InvalidOperationException>().Which.Message.ShouldBeEquivalentTo("No matches found for: (x == 0)");
-        }
-
-        [Fact]
-        public void FirstOrThrowWithGenericExceptionShouldThrowArgumentNullExceptionWhenPredicateArgumentIsNullWhenSearchingByQuery()
+        public void
+            FirstOrThrowWithGenericExceptionShouldThrowArgumentNullExceptionWhenPredicateArgumentIsNullWhenSearchingByQuery
+            ()
         {
             Action firstOrThrow = () => new int[0].AsQueryable().FirstOrThrow((Expression<Func<int, bool>>)null);
 
             firstOrThrow.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("predicate");
+        }
+
+        [Fact]
+        public void FirstOrThrowWithGenericExceptionShouldThrowExceptionWhenAnElementByQueryIsNotFound()
+        {
+            Action firstOrThrow = () => new[] { 1 }.AsQueryable().FirstOrThrow(x => x == 0);
+
+            firstOrThrow.ShouldThrowExactly<InvalidOperationException>()
+                .Which.Message.ShouldBeEquivalentTo("No matches found for: (x == 0)");
         }
     }
 }
