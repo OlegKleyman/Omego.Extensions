@@ -67,6 +67,7 @@
   <ItemGroup>
     <Compile Include="AttemptCatchIteratorTests.cs" />
     <Compile Include="EnumerableTests.cs" />
+    <Compile Include="SingleQueryableExtensionsTests.cs" />
     <Compile Include="FirstQueryableExtensionsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SingleEnumerableExtensions.cs" />

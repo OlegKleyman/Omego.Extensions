@@ -64,5 +64,35 @@
                 predicate,
                 new InvalidOperationException($"No matches found for: {predicate.Body}"));
         }
+
+        public static T SingleOrThrow<T>(
+            this IQueryable<T> queryable,
+            Expression<Func<T, bool>> predicate,
+            Exception noMatchFoundException,
+            Exception multipleMatchesFoundException)
+        {
+
+            if (queryable == null) throw new ArgumentNullException(nameof(queryable));
+
+            if (predicate == null) throw new ArgumentNullException(nameof(predicate));
+
+            var count = queryable.Count(predicate);
+
+            if (count > 1)
+            {
+                if (multipleMatchesFoundException == null) throw new ArgumentNullException(nameof(multipleMatchesFoundException));
+
+                throw multipleMatchesFoundException;
+            }
+
+            if (count == 0)
+            {
+                if (noMatchFoundException == null) throw new ArgumentNullException(nameof(noMatchFoundException));
+
+                throw noMatchFoundException;
+            }
+
+            return queryable.SingleOrDefault(predicate);
+        }
     }
 }
