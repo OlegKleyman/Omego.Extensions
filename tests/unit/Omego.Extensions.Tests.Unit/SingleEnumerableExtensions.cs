@@ -129,7 +129,7 @@
         [Fact]
         public void SingleOrThrowWithGenericExceptionShouldReturnElementByQueryWhenFound()
         {
-            var enumerable = new[] { 1 };
+            var enumerable = new[] { 1, 2 };
 
             enumerable.SingleOrThrow(x => x == 1).Should().Be(1);
         }
