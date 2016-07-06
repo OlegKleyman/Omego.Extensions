@@ -94,5 +94,12 @@
 
             return queryable.SingleOrDefault(predicate);
         }
+        public static T SingleOrThrow<T>(
+           this IQueryable<T> queryable,
+           Exception noMatchFoundException,
+           Exception multipleMatchesFoundException)
+        {
+            return queryable.SingleOrThrow(element => true, noMatchFoundException, multipleMatchesFoundException);
+        }
     }
 }

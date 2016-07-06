@@ -63,5 +63,51 @@
 
             singleOrThrow.ShouldThrowExactly<InvalidOperationException>().Which.Should().Be(ex);
         }
+
+        [Fact]
+        public void SingleOrThrowShouldReturnElementWhenFound()
+        {
+            var queryable = new[] { 1 }.AsQueryable();
+
+            queryable.SingleOrThrow(null, null).Should().Be(1);
+        }
+
+        [Fact]
+        public void SingleOrThrowShouldThrowArgumentNullExceptionWhenMultipleMatchExceptionArgumentIsNull()
+        {
+            Action singleOrThrow = () => new[] { 1, 1 }.AsQueryable().SingleOrThrow(null, null);
+
+            singleOrThrow.ShouldThrowExactly<ArgumentNullException>()
+                .Which.ParamName.ShouldBeEquivalentTo("multipleMatchesFoundException");
+        }
+
+        [Fact]
+        public void SingleOrThrowShouldThrowArgumentNullExceptionWhenNoMatchExceptionArgumentIsNull()
+        {
+            Action singleOrThrow = () => Enumerable.Empty<object>().AsQueryable().SingleOrThrow(null, null);
+
+            singleOrThrow.ShouldThrowExactly<ArgumentNullException>()
+                .Which.ParamName.ShouldBeEquivalentTo("noMatchFoundException");
+        }
+
+        [Fact]
+        public void SingleOrThrowShouldThrowExceptionWhenAnElementIsNotFound()
+        {
+            var ex = new InvalidOperationException();
+
+            Action singleOrThrow = () => Enumerable.Empty<object>().AsQueryable().SingleOrThrow(ex, null);
+
+            singleOrThrow.ShouldThrowExactly<InvalidOperationException>().Which.Should().Be(ex);
+        }
+
+        [Fact]
+        public void SingleOrThrowShouldThrowExceptionWhenMultipleElementsAreFound()
+        {
+            var ex = new InvalidOperationException();
+
+            Action singleOrThrow = () => new[] { 1, 1 }.AsQueryable().SingleOrThrow(null, ex);
+
+            singleOrThrow.ShouldThrowExactly<InvalidOperationException>().Which.Should().Be(ex);
+        }
     }
 }
