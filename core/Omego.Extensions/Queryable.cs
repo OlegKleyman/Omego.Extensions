@@ -70,7 +70,7 @@
         ///     <see cref="Exception" />.
         /// </summary>
         /// <typeparam name="T">The type of the object to return.</typeparam>
-        /// <param name="queryable">The <see cref="IQueryable{T}"/> of <typeparamref name="T"/> to find the single element in.</param>
+        /// <param name="queryable">The <see cref="IQueryable{T}" /> of <typeparamref name="T" /> to find the single element in.</param>
         /// <param name="predicate">The predicate to use to find a single match.</param>
         /// <param name="noMatchFoundException">The exception to throw when the element is not found.</param>
         /// <param name="multipleMatchesFoundException">The exception to throw when multiple matches are found.</param>
@@ -81,7 +81,6 @@
             Exception noMatchFoundException,
             Exception multipleMatchesFoundException)
         {
-
             if (queryable == null) throw new ArgumentNullException(nameof(queryable));
 
             if (predicate == null) throw new ArgumentNullException(nameof(predicate));
@@ -110,14 +109,14 @@
         ///     <see cref="Exception" />.
         /// </summary>
         /// <typeparam name="T">The type of the object to return.</typeparam>
-        /// <param name="queryable">The <see cref="IQueryable{T}"/> of <typeparamref name="T"/> to find the single element in.</param>
+        /// <param name="queryable">The <see cref="IQueryable{T}" /> of <typeparamref name="T" /> to find the single element in.</param>
         /// <param name="noMatchFoundException">The exception to throw when the element is not found.</param>
         /// <param name="multipleMatchesFoundException">The exception to throw when multiple matches are found.</param>
         /// <returns>An instance of <typeparamref name="T" />.</returns>
         public static T SingleOrThrow<T>(
-           this IQueryable<T> queryable,
-           Exception noMatchFoundException,
-           Exception multipleMatchesFoundException)
+            this IQueryable<T> queryable,
+            Exception noMatchFoundException,
+            Exception multipleMatchesFoundException)
         {
             return queryable.SingleOrThrow(element => true, noMatchFoundException, multipleMatchesFoundException);
         }
@@ -127,7 +126,7 @@
         ///     <see cref="InvalidOperationException" />.
         /// </summary>
         /// <typeparam name="T">The type of the object to return.</typeparam>
-        /// <param name="queryable">The <see cref="IQueryable{T}"/> of <typeparamref name="T"/> to find the single element in.</param>
+        /// <param name="queryable">The <see cref="IQueryable{T}" /> of <typeparamref name="T" /> to find the single element in.</param>
         /// <param name="predicate">The predicate to use to find a single match.</param>
         /// <returns>An instance of <typeparamref name="T" />.</returns>
         public static T SingleOrThrow<T>(this IQueryable<T> queryable, Expression<Func<T, bool>> predicate)

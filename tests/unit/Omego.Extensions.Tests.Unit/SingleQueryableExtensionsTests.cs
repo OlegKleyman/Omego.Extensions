@@ -2,7 +2,6 @@
 {
     using System;
     using System.Linq;
-    using System.Linq.Expressions;
 
     using FluentAssertions;
 
@@ -19,6 +18,30 @@
         }
 
         [Fact]
+        public void SingleOrThrowShouldReturnElementWhenFound()
+        {
+            var queryable = new[] { 1 }.AsQueryable();
+
+            queryable.SingleOrThrow(null, null).Should().Be(1);
+        }
+
+        [Fact]
+        public void SingleOrThrowShouldThrowArgumentNullExceptionWhenEnumerableArgumentIsNull()
+        {
+            Action singleOrThrow = () => ((IQueryable<int>)null).SingleOrThrow(null, null);
+
+            singleOrThrow.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("queryable");
+        }
+
+        [Fact]
+        public void SingleOrThrowShouldThrowArgumentNullExceptionWhenEnumerableArgumentIsNullWhenSearchingByQuery()
+        {
+            Action singleOrThrow = () => ((IQueryable<int>)null).SingleOrThrow(x => false);
+
+            singleOrThrow.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("queryable");
+        }
+
+        [Fact]
         public void SingleOrThrowShouldThrowArgumentNullExceptionWhenExceptionArgumentIsNullWhenMultipleMatchesFound()
         {
             Action singleOrThrow = () => new[] { 1, 1 }.AsQueryable().SingleOrThrow(x => true, null, null);
@@ -31,6 +54,24 @@
         public void SingleOrThrowShouldThrowArgumentNullExceptionWhenExceptionArgumentIsNullWhenQueryIsNotFound()
         {
             Action singleOrThrow = () => Enumerable.Empty<object>().AsQueryable().SingleOrThrow(x => false, null, null);
+
+            singleOrThrow.ShouldThrowExactly<ArgumentNullException>()
+                .Which.ParamName.ShouldBeEquivalentTo("noMatchFoundException");
+        }
+
+        [Fact]
+        public void SingleOrThrowShouldThrowArgumentNullExceptionWhenMultipleMatchExceptionArgumentIsNull()
+        {
+            Action singleOrThrow = () => new[] { 1, 1 }.AsQueryable().SingleOrThrow(null, null);
+
+            singleOrThrow.ShouldThrowExactly<ArgumentNullException>()
+                .Which.ParamName.ShouldBeEquivalentTo("multipleMatchesFoundException");
+        }
+
+        [Fact]
+        public void SingleOrThrowShouldThrowArgumentNullExceptionWhenNoMatchExceptionArgumentIsNull()
+        {
+            Action singleOrThrow = () => Enumerable.Empty<object>().AsQueryable().SingleOrThrow(null, null);
 
             singleOrThrow.ShouldThrowExactly<ArgumentNullException>()
                 .Which.ParamName.ShouldBeEquivalentTo("noMatchFoundException");
@@ -55,42 +96,6 @@
         }
 
         [Fact]
-        public void SingleOrThrowShouldThrowExceptionWhenMultipleElementsByQueryAreFound()
-        {
-            var ex = new InvalidOperationException();
-
-            Action singleOrThrow = () => new[] { 1, 1 }.AsQueryable().SingleOrThrow(x => x == 1, null, ex);
-
-            singleOrThrow.ShouldThrowExactly<InvalidOperationException>().Which.Should().Be(ex);
-        }
-
-        [Fact]
-        public void SingleOrThrowShouldReturnElementWhenFound()
-        {
-            var queryable = new[] { 1 }.AsQueryable();
-
-            queryable.SingleOrThrow(null, null).Should().Be(1);
-        }
-
-        [Fact]
-        public void SingleOrThrowShouldThrowArgumentNullExceptionWhenMultipleMatchExceptionArgumentIsNull()
-        {
-            Action singleOrThrow = () => new[] { 1, 1 }.AsQueryable().SingleOrThrow(null, null);
-
-            singleOrThrow.ShouldThrowExactly<ArgumentNullException>()
-                .Which.ParamName.ShouldBeEquivalentTo("multipleMatchesFoundException");
-        }
-
-        [Fact]
-        public void SingleOrThrowShouldThrowArgumentNullExceptionWhenNoMatchExceptionArgumentIsNull()
-        {
-            Action singleOrThrow = () => Enumerable.Empty<object>().AsQueryable().SingleOrThrow(null, null);
-
-            singleOrThrow.ShouldThrowExactly<ArgumentNullException>()
-                .Which.ParamName.ShouldBeEquivalentTo("noMatchFoundException");
-        }
-
-        [Fact]
         public void SingleOrThrowShouldThrowExceptionWhenAnElementIsNotFound()
         {
             var ex = new InvalidOperationException();
@@ -98,14 +103,6 @@
             Action singleOrThrow = () => Enumerable.Empty<object>().AsQueryable().SingleOrThrow(ex, null);
 
             singleOrThrow.ShouldThrowExactly<InvalidOperationException>().Which.Should().Be(ex);
-        }
-
-        [Fact]
-        public void SingleOrThrowShouldThrowArgumentNullExceptionWhenEnumerableArgumentIsNull()
-        {
-            Action singleOrThrow = () => ((IQueryable<int>)null).SingleOrThrow(null, null);
-
-            singleOrThrow.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("queryable");
         }
 
         [Fact]
@@ -119,11 +116,13 @@
         }
 
         [Fact]
-        public void SingleOrThrowShouldThrowArgumentNullExceptionWhenEnumerableArgumentIsNullWhenSearchingByQuery()
+        public void SingleOrThrowShouldThrowExceptionWhenMultipleElementsByQueryAreFound()
         {
-            Action singleOrThrow = () => ((IQueryable<int>)null).SingleOrThrow(x => false);
+            var ex = new InvalidOperationException();
 
-            singleOrThrow.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("queryable");
+            Action singleOrThrow = () => new[] { 1, 1 }.AsQueryable().SingleOrThrow(x => x == 1, null, ex);
+
+            singleOrThrow.ShouldThrowExactly<InvalidOperationException>().Which.Should().Be(ex);
         }
 
         [Fact]
