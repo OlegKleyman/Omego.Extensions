@@ -29,7 +29,7 @@
         [Fact]
         public void SingleOrThrowShouldThrowArgumentNullExceptionWhenEnumerableArgumentIsNull()
         {
-            Action singleOrThrow = () => ((IEnumerable<int>)null).SingleOrThrow(x => false);
+            Action singleOrThrow = () => ((IEnumerable<int>)null).SingleOrThrow(null, null);
 
             singleOrThrow.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("enumerable");
         }
@@ -171,7 +171,5 @@
             singleOrThrow.ShouldThrowExactly<InvalidOperationException>()
                 .Which.Message.ShouldBeEquivalentTo("More than one match found for (x == 1).");
         }
-
-
     }
 }

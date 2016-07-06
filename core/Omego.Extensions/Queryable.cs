@@ -101,5 +101,15 @@
         {
             return queryable.SingleOrThrow(element => true, noMatchFoundException, multipleMatchesFoundException);
         }
+        public static T SingleOrThrow<T>(this IQueryable<T> queryable, Expression<Func<T, bool>> predicate)
+        {
+            if (predicate == null) throw new ArgumentNullException(nameof(predicate));
+
+            return SingleOrThrow(
+                queryable,
+                predicate,
+                new InvalidOperationException($"No match found for {predicate.Body}."),
+                new InvalidOperationException($"More than one match found for {predicate.Body}."));
+        }
     }
 }
