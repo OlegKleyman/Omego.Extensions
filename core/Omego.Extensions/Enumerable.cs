@@ -200,5 +200,22 @@
 
             return @default;
         }
+
+        public static FirstElementResults<T> FirstElement<T>(this IEnumerable<T> enumerable, Func<T, bool> predicate)
+        {
+            if (enumerable == null) throw new ArgumentNullException(nameof(enumerable));
+
+            foreach (var element in enumerable)
+            {
+                if (predicate == null) throw new ArgumentNullException(nameof(predicate));
+
+                if (predicate(element))
+                {
+                    return new FirstElementResults<T>(element);
+                }
+            }
+
+            return default(FirstElementResults<T>);
+        }
     }
 }

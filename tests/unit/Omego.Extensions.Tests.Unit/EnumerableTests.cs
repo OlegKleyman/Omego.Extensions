@@ -200,5 +200,49 @@
 
             enumerable.FirstOr(x => x == "2", "3").Should().Be("3");
         }
+
+        [Fact]
+        public void FirstElementHasValueShouldReturnTrueWhenElementWasFoundWhenSearchingByQuery()
+        {
+            var enumerable = new[] { "1" };
+
+            enumerable.FirstElement(x => x == "1").HasValue.Should().BeTrue();
+        }
+
+        [Fact]
+        public void FirstElementHasValueShouldReturnFalseWhenElementWasNotFoundWhenSearchingByQuery()
+        {
+            var enumerable = new[] { "1" };
+
+            enumerable.FirstElement(x => x == "2").HasValue.Should().BeFalse();
+        }
+
+        [Fact]
+        public void FirstElementValueShouldReturnElementValueWhenElementWasFoundWhenSearchingByQuery()
+        {
+            var enumerable = new[] { "1" };
+
+            enumerable.FirstElement(x => x == "1").Value.ShouldBeEquivalentTo("1");
+        }
+
+        [Fact]
+        public void
+           FirstElementShouldThrowArgumentNullExceptionWhenEnumerableArgumentIsNullWhenSearchingByQuery
+           ()
+        {
+            Action firstElement = () => ((IEnumerable<string>)null).FirstElement(x => false);
+
+            firstElement.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("enumerable");
+        }
+
+        [Fact]
+        public void
+            FirstElementShouldThrowArgumentNullExceptionWhenPredicateArgumentIsNullWhenSearchingByQuery
+            ()
+        {
+            Action firstElement = () => new string[] { null }.FirstElement(null);
+
+            firstElement.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("predicate");
+        }
     }
 }
