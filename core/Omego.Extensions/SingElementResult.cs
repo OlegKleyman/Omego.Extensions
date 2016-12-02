@@ -1,21 +1,36 @@
 ﻿namespace Omego.Extensions
 {
+    using System;
+
     public struct SingElementResult<T>
     {
-        public SingElementResult(Matches matches, T value)
+        private readonly Element<T> value;
+
+        public SingElementResult(T value)
         {
-            Matches = matches;
-            Value = value;
+            Matches = Matches.One;
+            this.value = new Element<T>(value);
         }
 
         public SingElementResult(Matches matches)
         {
             Matches = matches;
-            Value = default(T);
+            value = default(Element<T>);
         }
 
-        public Matches Matches { get; private set; }
+        public Matches Matches { get; }
 
-        public T Value { get; private set; }
+        public T Value
+        {
+            get
+            {
+                if (Matches == Matches.Multiple)
+                {
+                    throw new InvalidOperationException("Multiple elements found.");
+                }
+
+                return value.Value;
+            }
+        }
     }
 }

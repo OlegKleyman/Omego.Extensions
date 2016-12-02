@@ -68,6 +68,7 @@
     <Compile Include="AttemptCatchIteratorTests.cs" />
     <Compile Include="EnumerableTests.cs" />
     <Compile Include="ElementTests.cs" />
+    <Compile Include="SingleElementResultTests.cs" />
     <Compile Include="SingleQueryableExtensionsTests.cs" />
     <Compile Include="FirstQueryableExtensionsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

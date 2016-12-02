@@ -227,7 +227,7 @@
                 {
                     if (predicate(e.Current))
                     {
-                        result = new SingElementResult<T>(Matches.One, e.Current);
+                        result = new SingElementResult<T>(e.Current);
 
                         while (e.MoveNext())
                         {
