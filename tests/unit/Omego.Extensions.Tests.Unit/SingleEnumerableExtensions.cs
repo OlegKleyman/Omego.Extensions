@@ -201,7 +201,7 @@
         {
             var enumerable = new int[0];
 
-            enumerable.SingleElement(x => false).Matches.Should().Be(Matches.None);
+            enumerable.SingleElement(x => false).Elements.Should().Be(Elements.None);
         }
 
         [Fact]
@@ -209,7 +209,7 @@
         {
             var enumerable = new[] {1,2};
 
-            enumerable.SingleElement(x => true).Matches.Should().Be(Matches.Multiple);
+            enumerable.SingleElement(x => true).Elements.Should().Be(Elements.Multiple);
         }
     }
 }

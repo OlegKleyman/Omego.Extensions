@@ -1,6 +1,6 @@
 ﻿namespace Omego.Extensions
 {
-    public enum Matches
+    public enum Elements
     {
         None,
         One,

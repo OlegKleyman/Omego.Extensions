@@ -80,7 +80,7 @@
 
             return enumerable.FirstOrThrow(
                 predicate.Compile(),
-                new InvalidOperationException($"No matches found for: {predicate.Body}"));
+                new InvalidOperationException($"No " + $"matches" + $" found for: {predicate.Body}"));
         }
 
         /// <summary>
@@ -137,14 +137,14 @@
         {
             var result = SingleElement(enumerable, predicate);
 
-            if (result.Matches == Matches.None)
+            if (result.Elements == Elements.None)
             {
                 if (noMatchFoundException == null) throw new ArgumentNullException(nameof(noMatchFoundException));
 
                 throw noMatchFoundException;
             }
 
-            if (result.Matches == Matches.Multiple)
+            if (result.Elements == Elements.Multiple)
             {
                 if (multipleMatchesFoundException == null) throw new ArgumentNullException(nameof(multipleMatchesFoundException));
 
@@ -218,7 +218,7 @@
                         {
                             if (predicate(e.Current))
                             {
-                                result = new SingleElementResult<T>(Matches.Multiple);
+                                result = new SingleElementResult<T>(Elements.Multiple);
                             }
                         }
                     }

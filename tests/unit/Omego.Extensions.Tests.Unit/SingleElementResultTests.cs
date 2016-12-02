@@ -14,21 +14,21 @@
             var result = new SingleElementResult<int>(2);
 
             result.Value.ShouldBeEquivalentTo(2);
-            result.Matches.ShouldBeEquivalentTo(Matches.One);
+            result.Elements.ShouldBeEquivalentTo(Elements.One);
         }
 
         [Fact]
         public void MatchesConstructorShouldSetProperties()
         {
-            var result = new SingleElementResult<int>(Matches.Multiple);
+            var result = new SingleElementResult<int>(Elements.Multiple);
             
-            result.Matches.ShouldBeEquivalentTo(Matches.Multiple);
+            result.Elements.ShouldBeEquivalentTo(Elements.Multiple);
         }
 
         [Fact]
         public void ValueShouldThrowInvalidOperationExceptionWhenMultipleElementsExist()
         {
-            var result = new SingleElementResult<int>(Matches.Multiple);
+            var result = new SingleElementResult<int>(Elements.Multiple);
 
             Action value = () => result.Value.ToString();
 

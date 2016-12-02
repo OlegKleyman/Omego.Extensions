@@ -8,23 +8,23 @@
 
         public SingleElementResult(T value)
         {
-            Matches = Matches.One;
+            Elements = Elements.One;
             this.value = new Element<T>(value);
         }
 
-        public SingleElementResult(Matches matches)
+        public SingleElementResult(Elements elements)
         {
-            Matches = matches;
+            Elements = elements;
             value = default(Element<T>);
         }
 
-        public Matches Matches { get; }
+        public Elements Elements { get; }
 
         public T Value
         {
             get
             {
-                if (Matches == Matches.Multiple)
+                if (Elements == Elements.Multiple)
                 {
                     throw new InvalidOperationException("Multiple elements found.");
                 }
@@ -32,5 +32,9 @@
                 return value.Value;
             }
         }
+
+        public static SingleElementResult<T> MultipleElements => new SingleElementResult<T>(Elements.Multiple);
+
+        public static SingleElementResult<T> NoElements => new SingleElementResult<T>(Elements.None);
     }
 }
