@@ -11,7 +11,7 @@
         [Fact]
         public void ValueConstructorShouldSetProperties()
         {
-            var result = new SingElementResult<int>(2);
+            var result = new SingleElementResult<int>(2);
 
             result.Value.ShouldBeEquivalentTo(2);
             result.Matches.ShouldBeEquivalentTo(Matches.One);
@@ -20,7 +20,7 @@
         [Fact]
         public void MatchesConstructorShouldSetProperties()
         {
-            var result = new SingElementResult<int>(Matches.Multiple);
+            var result = new SingleElementResult<int>(Matches.Multiple);
             
             result.Matches.ShouldBeEquivalentTo(Matches.Multiple);
         }
@@ -28,7 +28,7 @@
         [Fact]
         public void ValueShouldThrowInvalidOperationExceptionWhenMultipleElementsExist()
         {
-            var result = new SingElementResult<int>(Matches.Multiple);
+            var result = new SingleElementResult<int>(Matches.Multiple);
 
             Action value = () => result.Value.ToString();
 
@@ -38,7 +38,7 @@
         [Fact]
         public void ValueShouldReturnValueWhenExists()
         {
-            var result = new SingElementResult<string>("test");
+            var result = new SingleElementResult<string>("test");
 
             result.Value.ShouldBeEquivalentTo("test");
         }

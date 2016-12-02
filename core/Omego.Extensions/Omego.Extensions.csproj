@@ -39,7 +39,7 @@
     <Compile Include="Matches.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Queryable.cs" />
-    <Compile Include="SingElementResult.cs" />
+    <Compile Include="SingleElementResult.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Omego.Extensions.nuspec">

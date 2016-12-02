@@ -196,7 +196,7 @@
         /// <param name="enumerable">The enumerable to find the single element in.</param>
         /// <param name="predicate">The predicate to use to find a single match.</param>
         /// <returns>An instance of <typeparamref name="T" />.</returns>
-        public static SingElementResult<T> SingleElement<T>(
+        public static SingleElementResult<T> SingleElement<T>(
             this IEnumerable<T> enumerable,
             Func<T, bool> predicate)
         {
@@ -204,7 +204,7 @@
 
             if (predicate == null) throw new ArgumentNullException(nameof(predicate));
 
-            var result = default(SingElementResult<T>);
+            var result = default(SingleElementResult<T>);
 
             using (var e = enumerable.GetEnumerator())
             {
@@ -212,13 +212,13 @@
                 {
                     if (predicate(e.Current))
                     {
-                        result = new SingElementResult<T>(e.Current);
+                        result = new SingleElementResult<T>(e.Current);
 
                         while (e.MoveNext())
                         {
                             if (predicate(e.Current))
                             {
-                                result = new SingElementResult<T>(Matches.Multiple);
+                                result = new SingleElementResult<T>(Matches.Multiple);
                             }
                         }
                     }

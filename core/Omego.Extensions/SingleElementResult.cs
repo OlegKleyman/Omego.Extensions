@@ -2,17 +2,17 @@
 {
     using System;
 
-    public struct SingElementResult<T>
+    public struct SingleElementResult<T>
     {
         private readonly Element<T> value;
 
-        public SingElementResult(T value)
+        public SingleElementResult(T value)
         {
             Matches = Matches.One;
             this.value = new Element<T>(value);
         }
 
-        public SingElementResult(Matches matches)
+        public SingleElementResult(Matches matches)
         {
             Matches = matches;
             value = default(Element<T>);
