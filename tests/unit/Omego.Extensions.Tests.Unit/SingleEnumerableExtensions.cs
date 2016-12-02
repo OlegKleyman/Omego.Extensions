@@ -171,5 +171,45 @@
             singleOrThrow.ShouldThrowExactly<InvalidOperationException>()
                 .Which.Message.ShouldBeEquivalentTo("More than one match found for (x == 1).");
         }
+
+        [Fact]
+        public void SingleElementByQueryWhenFoundShouldThrowArgumentNullExceptionWhenPredicateArgumentIsNullWhenSearchingByQuery()
+        {
+            Action singleElement = () => new int[0].SingleElement(null);
+
+            singleElement.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("predicate");
+        }
+
+        [Fact]
+        public void SingleElementByQueryWhenFoundShouldThrowArgumentNullExceptionWhenEnumerableArgumentIsNull()
+        {
+            Action singleElement = () => ((IEnumerable<int>)null).SingleElement(null);
+
+            singleElement.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("enumerable");
+        }
+
+        [Fact]
+        public void SingleElementByQueryShouldReturnElementWhenFound()
+        {
+            var enumerable = new[] { 1 };
+
+            enumerable.SingleElement(x => x == 1).Value.Should().Be(1);
+        }
+
+        [Fact]
+        public void SingleElementByQueryShouldReturnNoMatchesFlagWhenElementIsNotFound()
+        {
+            var enumerable = new int[0];
+
+            enumerable.SingleElement(x => false).Matches.Should().Be(Matches.None);
+        }
+
+        [Fact]
+        public void SingleElementByQueryShouldReturnMultipleMatchesFlagWhenElementIsNotFound()
+        {
+            var enumerable = new[] {1,2};
+
+            enumerable.SingleElement(x => true).Matches.Should().Be(Matches.Multiple);
+        }
     }
 }

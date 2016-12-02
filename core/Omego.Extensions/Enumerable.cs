@@ -202,5 +202,45 @@
 
             return default(Element<T>);
         }
+
+        /// <summary>
+        ///     Returns a single match from an <see cref="IEnumerable{T}" /> of <typeparamref name="T" /> or throws an
+        ///     <see cref="Exception" />.
+        /// </summary>
+        /// <typeparam name="T">The type of the object to return.</typeparam>
+        /// <param name="enumerable">The enumerable to find the single element in.</param>
+        /// <param name="predicate">The predicate to use to find a single match.</param>
+        /// <returns>An instance of <typeparamref name="T" />.</returns>
+        public static SingElementResult<T> SingleElement<T>(
+            this IEnumerable<T> enumerable,
+            Func<T, bool> predicate)
+        {
+            if (enumerable == null) throw new ArgumentNullException(nameof(enumerable));
+
+            if (predicate == null) throw new ArgumentNullException(nameof(predicate));
+
+            var result = default(SingElementResult<T>);
+
+            using (var e = enumerable.GetEnumerator())
+            {
+                while (e.MoveNext())
+                {
+                    if (predicate(e.Current))
+                    {
+                        result = new SingElementResult<T>(Matches.One, e.Current);
+
+                        while (e.MoveNext())
+                        {
+                            if (predicate(e.Current))
+                            {
+                                result = new SingElementResult<T>(Matches.Multiple);
+                            }
+                        }
+                    }
+                }
+            }
+
+            return result;
+        }
     }
 }
