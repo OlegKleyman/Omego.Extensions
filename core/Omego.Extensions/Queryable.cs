@@ -139,5 +139,22 @@
                 new InvalidOperationException($"No match found for {predicate.Body}."),
                 new InvalidOperationException($"More than one match found for {predicate.Body}."));
         }
+
+        public static Element <T> FirstElement<T>(
+            this IQueryable<T> queryable,
+            Expression<Func<T, bool>> predicate)
+        {
+            if (queryable == null) throw new ArgumentNullException(nameof(queryable));
+            if (predicate == null) throw new ArgumentNullException(nameof(predicate));
+
+            var element = default(Element<T>);
+
+            if (queryable.Any(predicate))
+            {
+                element = new Element<T>(queryable.First(predicate));
+            }
+
+            return element;
+        }
     }
 }
