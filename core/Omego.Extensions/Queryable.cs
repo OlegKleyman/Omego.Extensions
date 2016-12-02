@@ -85,7 +85,7 @@
 
             if (predicate == null) throw new ArgumentNullException(nameof(predicate));
 
-            var count = queryable.Count(predicate);
+            var count = queryable.Where(predicate).Take(2).Count();
 
             if (count > 1)
             {
