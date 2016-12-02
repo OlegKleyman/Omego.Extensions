@@ -218,7 +218,7 @@
                         {
                             if (predicate(e.Current))
                             {
-                                result = new SingleElementResult<T>(Elements.Multiple);
+                                result = SingleElementResult<T>.MultipleElements;
                             }
                         }
                     }

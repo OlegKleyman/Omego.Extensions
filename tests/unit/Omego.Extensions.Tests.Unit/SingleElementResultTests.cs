@@ -18,17 +18,25 @@
         }
 
         [Fact]
-        public void MatchesConstructorShouldSetProperties()
+        public void MultipleElementsShouldReturnMultipleSingleElementResult()
         {
-            var result = new SingleElementResult<int>(Elements.Multiple);
+            var result = SingleElementResult<int>.MultipleElements;
             
             result.Elements.ShouldBeEquivalentTo(Elements.Multiple);
         }
 
         [Fact]
+        public void NoElementsShouldReturnNoneSingleElementResult()
+        {
+            var result = SingleElementResult<int>.NoElements;
+
+            result.Elements.ShouldBeEquivalentTo(Elements.None);
+        }
+
+        [Fact]
         public void ValueShouldThrowInvalidOperationExceptionWhenMultipleElementsExist()
         {
-            var result = new SingleElementResult<int>(Elements.Multiple);
+            var result = SingleElementResult<int>.MultipleElements;
 
             Action value = () => result.Value.ToString();
 
