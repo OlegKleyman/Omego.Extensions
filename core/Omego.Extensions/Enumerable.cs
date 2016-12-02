@@ -173,5 +173,22 @@
 
             throw noMatchFoundException;
         }
+
+        public static T FirstOr<T>(this IEnumerable<T> enumerable, Func<T, bool> predicate, T @default)
+        {
+            if (enumerable == null) throw new ArgumentNullException(nameof(enumerable));
+
+            foreach (var element in enumerable)
+            {
+                if (predicate == null) throw new ArgumentNullException(nameof(predicate));
+
+                if (predicate(element))
+                {
+                    return element;
+                }
+            }
+
+            return @default;
+        }
     }
 }

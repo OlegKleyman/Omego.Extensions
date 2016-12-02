@@ -164,5 +164,41 @@
             firstOrThrow.ShouldThrowExactly<InvalidOperationException>()
                 .Which.Message.ShouldBeEquivalentTo("No matches found for: (x == 0)");
         }
+
+        [Fact]
+        public void
+            FirstOrShouldThrowArgumentNullExceptionWhenPredicateArgumentIsNullWhenSearchingByQuery
+            ()
+        {
+            Action firstOr = () => new string[] { null }.FirstOr(null, null);
+
+            firstOr.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("predicate");
+        }
+
+        [Fact]
+        public void
+           FirstOrShouldThrowArgumentNullExceptionWhenEnumerableArgumentIsNullWhenSearchingByQuery
+           ()
+        {
+            Action firstOrThrow = () => ((IEnumerable<string>)null).FirstOr(x => false, null);
+
+            firstOrThrow.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("enumerable");
+        }
+        
+        [Fact]
+        public void FirstShouldReturnElementByQueryWhenFound()
+        {
+            var enumerable = new[] { "1" };
+
+            enumerable.FirstOr(x => x == "1", null).Should().Be("1");
+        }
+
+        [Fact]
+        public void FirstShouldReturnRequestedDefaultObjectWhenQueryIsNotFound()
+        {
+            var enumerable = new[] { "1" };
+
+            enumerable.FirstOr(x => x == "2", "3").Should().Be("3");
+        }
     }
 }
