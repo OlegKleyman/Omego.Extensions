@@ -186,7 +186,7 @@
         }
         
         [Fact]
-        public void FirstShouldReturnElementByQueryWhenFound()
+        public void FirstOrShouldReturnElementByQueryWhenFound()
         {
             var enumerable = new[] { "1" };
 
@@ -194,7 +194,7 @@
         }
 
         [Fact]
-        public void FirstShouldReturnRequestedDefaultObjectWhenQueryIsNotFound()
+        public void FirstOrShouldReturnRequestedDefaultObjectWhenQueryIsNotFound()
         {
             var enumerable = new[] { "1" };
 
