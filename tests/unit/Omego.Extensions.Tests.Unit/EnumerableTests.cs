@@ -206,7 +206,7 @@
         {
             var enumerable = new[] { "1" };
 
-            enumerable.FirstElement(x => x == "1").HasValue.Should().BeTrue();
+            enumerable.FirstElement(x => x == "1").Present.Should().BeTrue();
         }
 
         [Fact]
@@ -214,7 +214,7 @@
         {
             var enumerable = new[] { "1" };
 
-            enumerable.FirstElement(x => x == "2").HasValue.Should().BeFalse();
+            enumerable.FirstElement(x => x == "2").Present.Should().BeFalse();
         }
 
         [Fact]

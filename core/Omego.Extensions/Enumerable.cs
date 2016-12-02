@@ -201,7 +201,7 @@
             return @default;
         }
 
-        public static FirstElementResults<T> FirstElement<T>(this IEnumerable<T> enumerable, Func<T, bool> predicate)
+        public static Element<T> FirstElement<T>(this IEnumerable<T> enumerable, Func<T, bool> predicate)
         {
             if (enumerable == null) throw new ArgumentNullException(nameof(enumerable));
 
@@ -211,11 +211,11 @@
 
                 if (predicate(element))
                 {
-                    return new FirstElementResults<T>(element);
+                    return new Element<T>(element);
                 }
             }
 
-            return default(FirstElementResults<T>);
+            return default(Element<T>);
         }
     }
 }
