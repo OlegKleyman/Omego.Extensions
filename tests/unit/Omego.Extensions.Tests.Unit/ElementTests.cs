@@ -1,5 +1,7 @@
 ﻿namespace Omego.Extensions.Tests.Unit
 {
+    using System;
+
     using FluentAssertions;
 
     using Xunit;
@@ -13,6 +15,16 @@
 
             element.Present.Should().BeTrue();
             element.Value.ShouldBeEquivalentTo("test");
+        }
+
+        [Fact]
+        public void ValueShouldThrowInvalidOperationExceptionWhenElementDoesNotExist()
+        {
+            var element = new Element<int>();
+
+            Action value = () => element.Value.ToString();
+
+            value.ShouldThrow<InvalidOperationException>().WithMessage("Element does not exist");
         }
     }
 }
