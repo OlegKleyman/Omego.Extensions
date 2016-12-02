@@ -114,7 +114,7 @@
 
             return SingleOrThrow(
                 enumerable,
-                predicate,
+                predicate.Compile(),
                 new InvalidOperationException($"No match found for {predicate.Body}."),
                 new InvalidOperationException($"More than one match found for {predicate.Body}."));
         }
@@ -131,42 +131,27 @@
         /// <returns>An instance of <typeparamref name="T" />.</returns>
         public static T SingleOrThrow<T>(
             this IEnumerable<T> enumerable,
-            Expression<Func<T, bool>> predicate,
+            Func<T, bool> predicate,
             Exception noMatchFoundException,
             Exception multipleMatchesFoundException)
         {
-            if (enumerable == null) throw new ArgumentNullException(nameof(enumerable));
+            var result = SingleElement(enumerable, predicate);
 
-            if (predicate == null) throw new ArgumentNullException(nameof(predicate));
-
-            var compiledPredicate = predicate.Compile();
-
-            using (var e = enumerable.GetEnumerator())
+            if (result.Matches == Matches.None)
             {
-                while (e.MoveNext())
-                {
-                    var result = e.Current;
+                if (noMatchFoundException == null) throw new ArgumentNullException(nameof(noMatchFoundException));
 
-                    if (compiledPredicate(result))
-                    {
-                        while (e.MoveNext())
-                        {
-                            if (compiledPredicate(e.Current))
-                            {
-                                if (multipleMatchesFoundException == null) throw new ArgumentNullException(nameof(multipleMatchesFoundException));
-
-                                throw multipleMatchesFoundException;
-                            }
-                        }
-
-                        return result;
-                    }
-                }
+                throw noMatchFoundException;
             }
 
-            if (noMatchFoundException == null) throw new ArgumentNullException(nameof(noMatchFoundException));
+            if (result.Matches == Matches.Multiple)
+            {
+                if (multipleMatchesFoundException == null) throw new ArgumentNullException(nameof(multipleMatchesFoundException));
 
-            throw noMatchFoundException;
+                throw multipleMatchesFoundException;
+            }
+
+            return result.Value;
         }
 
         /// <summary>
