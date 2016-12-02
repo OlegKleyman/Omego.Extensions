@@ -54,21 +54,16 @@
         /// <returns>An instance of <typeparamref name="T" />.</returns>
         public static T FirstOrThrow<T>(this IEnumerable<T> enumerable, Func<T, bool> predicate, Exception exception)
         {
-            if (enumerable == null) throw new ArgumentNullException(nameof(enumerable));
+            var element = enumerable.FirstElement(predicate);
 
-            foreach (var element in enumerable)
+            if (!element.Present)
             {
-                if (predicate == null) throw new ArgumentNullException(nameof(predicate));
+                if (exception == null) throw new ArgumentNullException(nameof(exception));
 
-                if (predicate(element))
-                {
-                    return element;
-                }
+                throw exception;
             }
 
-            if (exception == null) throw new ArgumentNullException(nameof(exception));
-
-            throw exception;
+            return element.Value;
         }
 
         /// <summary>
@@ -186,19 +181,9 @@
         /// <exception cref="ArgumentNullException"></exception>
         public static T FirstOr<T>(this IEnumerable<T> enumerable, Func<T, bool> predicate, T @default)
         {
-            if (enumerable == null) throw new ArgumentNullException(nameof(enumerable));
+            var element = enumerable.FirstElement(predicate);
 
-            foreach (var element in enumerable)
-            {
-                if (predicate == null) throw new ArgumentNullException(nameof(predicate));
-
-                if (predicate(element))
-                {
-                    return element;
-                }
-            }
-
-            return @default;
+            return element.Present ? element.Value : @default;
         }
 
         public static Element<T> FirstElement<T>(this IEnumerable<T> enumerable, Func<T, bool> predicate)
