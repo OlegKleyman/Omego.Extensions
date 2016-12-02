@@ -20,7 +20,7 @@
             {
                 if (!Present)
                 {
-                    throw new InvalidOperationException("Element does not exist");
+                    throw new InvalidOperationException("Element does not exist.");
                 }
 
                 return value;
