@@ -156,7 +156,11 @@
 
             if (predicate == null) throw new ArgumentNullException(nameof(predicate));
 
-            var results = queryable.Where(predicate).Take(2).Select(arg => new SingleElementResult<T>(arg));
+            var results =
+                queryable.Where(predicate)
+                    .Take(2)
+                    .Select(arg => new SingleElementResult<T>(arg))
+                    .DefaultIfEmpty(SingleElementResult<T>.NoElements);
 
             var count = results.Count();
 
@@ -167,7 +171,7 @@
                 throw multipleMatchesFoundException;
             }
 
-            return results.FirstOr(elementResult => true, SingleElementResult<T>.NoElements);
+            return results.First();
         }
 
         public static T SingleOrDefaultOrThrow<T>(
