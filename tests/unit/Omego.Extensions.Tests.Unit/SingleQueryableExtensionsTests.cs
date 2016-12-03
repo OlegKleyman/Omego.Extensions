@@ -9,6 +9,13 @@
 
     public class SingleQueryableExtensionsTests
     {
+        public void SingleOrShouldReturnElementIfOneExists()
+        {
+            var queryable = new[] { "1" }.AsQueryable();
+
+            queryable.SingleOr(null).Should().Be("1");
+        }
+
         [Fact]
         public void SingleElementByQueryShouldReturnElementWhenFound()
         {
@@ -190,6 +197,32 @@
         }
 
         [Fact]
+        public void SingleOrShouldReturnRequestedDefaultObjectWhenNoElementsAreFound()
+        {
+            var queryable = new object[0].AsQueryable();
+
+            queryable.SingleOr("3").Should().Be("3");
+        }
+
+        [Fact]
+        public void SingleOrShouldThrowArgumentNullExceptionWhenQueryableArgumentIsNull()
+        {
+            Action singleOr = () => ((IQueryable<string>)null).SingleOr(null);
+
+            singleOr.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("queryable");
+        }
+
+        [Fact]
+        public void SingleOrShouldThrowInvalidOperationExceptionWhenMultipleElementsAreFound()
+        {
+            var queryable = new object[2].AsQueryable();
+
+            Action singleOr = () => queryable.SingleOr(null);
+
+            singleOr.ShouldThrow<InvalidOperationException>().WithMessage("More than one match found for true.");
+        }
+
+        [Fact]
         public void SingleOrThrowShouldReturnElementByQueryWhenFound()
         {
             var queryable = new[] { 1 }.AsQueryable();
@@ -349,38 +382,6 @@
 
             singleOrThrow.ShouldThrowExactly<InvalidOperationException>()
                 .Which.Message.ShouldBeEquivalentTo("More than one match found for (x == 1).");
-        }
-        public void SingleOrShouldReturnElementIfOneExists()
-        {
-            var queryable = new[] { "1" }.AsQueryable();
-
-            queryable.SingleOr(null).Should().Be("1");
-        }
-
-        [Fact]
-        public void SingleOrShouldReturnRequestedDefaultObjectWhenNoElementsAreFound()
-        {
-            var queryable = new object[0].AsQueryable();
-
-            queryable.SingleOr("3").Should().Be("3");
-        }
-
-        [Fact]
-        public void SingleOrShouldThrowArgumentNullExceptionWhenQueryableArgumentIsNull()
-        {
-            Action singleOr = () => ((IQueryable<string>)null).SingleOr(null);
-
-            singleOr.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("queryable");
-        }
-
-        [Fact]
-        public void SingleOrShouldThrowInvalidOperationExceptionWhenMultipleElementsAreFound()
-        {
-            var queryable = new object[2].AsQueryable();
-
-            Action singleOr = () => queryable.SingleOr(null);
-
-            singleOr.ShouldThrow<InvalidOperationException>().WithMessage("More than one match found for true.");
         }
     }
 }
