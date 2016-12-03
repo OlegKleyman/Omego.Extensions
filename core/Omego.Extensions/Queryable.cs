@@ -145,11 +145,9 @@
             if (queryable == null) throw new ArgumentNullException(nameof(queryable));
             if (predicate == null) throw new ArgumentNullException(nameof(predicate));
 
-            var element = default(Element<T>);
+            var results = queryable.Where(predicate).Take(1);
 
-            if (queryable.Any(predicate)) element = new Element<T>(queryable.First(predicate));
-
-            return element;
+            return results.Any() ? new Element<T>(results.First()) : default(Element<T>);
         }
 
         public static SingleElementResult<T> SingleElementOrThrowOnMultiple<T>(this IQueryable<T> queryable, Expression<Func<T, bool>> predicate, Exception multipleMatchesFoundException)
