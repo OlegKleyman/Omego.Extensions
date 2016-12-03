@@ -180,5 +180,19 @@
 
             return element.Elements == Elements.None ? @default : element.Value;
         }
+
+        public static T FirstOr<T>(this IQueryable<T> queryable, Expression<Func<T, bool>> predicate, T @default)
+        {
+            var element = queryable.FirstElement(predicate);
+
+            return element.Present ? element.Value : @default;
+        }
+
+        public static T FirstOr<T>(this IQueryable<T> queryable, T @default)
+        {
+            var element = queryable.FirstElement(arg => true);
+
+            return element.Present ? element.Value : @default;
+        }
     }
 }
