@@ -171,6 +171,22 @@
             return element.Present ? element.Value : @default;
         }
 
+        /// <summary>
+        ///     Returns the first element of an <see cref="IEnumerable{T}" /> matching the given predicate or returns
+        /// a requested default object of type <typeparamref name="T" />.
+        /// </summary>
+        /// <param name="enumerable">The enumerable to find the first element in.</param>
+        /// <param name="default">The object to return if no elements are found.</param>
+        /// <typeparam name="T">The type of the object to return.</typeparam>
+        /// <returns>An instance of <typeparamref name="T" />.</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static T FirstOr<T>(this IEnumerable<T> enumerable, T @default)
+        {
+            var element = enumerable.FirstElement(arg => true);
+
+            return element.Present ? element.Value : @default;
+        }
+
         public static Element<T> FirstElement<T>(this IEnumerable<T> enumerable, Func<T, bool> predicate)
         {
             if (enumerable == null) throw new ArgumentNullException(nameof(enumerable));

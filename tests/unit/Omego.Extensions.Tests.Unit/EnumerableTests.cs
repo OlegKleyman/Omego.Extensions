@@ -244,5 +244,31 @@
 
             firstElement.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("predicate");
         }
+
+        [Fact]
+        public void
+           FirstOrShouldThrowArgumentNullExceptionWhenEnumerableArgumentIsNull
+           ()
+        {
+            Action firstOrThrow = () => ((IEnumerable<string>)null).FirstOr(null);
+
+            firstOrThrow.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("enumerable");
+        }
+
+        [Fact]
+        public void FirstOrShouldReturnTheFirstElementWhenExists()
+        {
+            var enumerable = new[] { "1" };
+
+            enumerable.FirstOr(null).Should().Be("1");
+        }
+
+        [Fact]
+        public void FirstOrShouldReturnRequestedDefaultObjectWhenEnumerableIsEmpty()
+        {
+            var enumerable = new string[0];
+
+            enumerable.FirstOr("3").Should().Be("3");
+        }
     }
 }
