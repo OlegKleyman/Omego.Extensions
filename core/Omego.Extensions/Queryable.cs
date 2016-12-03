@@ -213,5 +213,15 @@
 
             return results.Count() > 1 ? SingleElementResult<T>.MultipleElements : results.First();
         }
+
+        public static T SingleOr<T>(this IQueryable<T> queryable, Expression<Func<T, bool>> predicate, T @default)
+        {
+            if (predicate == null) throw new ArgumentNullException(nameof(predicate));
+
+            return queryable.SingleOrDefaultOrThrow(
+                predicate,
+                @default,
+                new InvalidOperationException($"More than one match found for {predicate.Body}."));
+        }
     }
 }

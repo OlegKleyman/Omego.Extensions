@@ -121,7 +121,7 @@
         }
 
         [Fact]
-        public void SingleOrByQueryShouldThrowInvalidOperationExceptionWhenMultipleElementsAreFound()
+        public void SingleOrShouldThrowInvalidOperationExceptionWhenMultipleElementsAreFound()
         {
             var enumerable = new object[2];
 
@@ -168,7 +168,7 @@
         }
 
         [Fact]
-        public void SingleOrShouldReturnElementByQueryWhenFound()
+        public void SingleOrByQueryShouldReturnElementWhenFound()
         {
             var enumerable = new[] { "1" };
 
@@ -192,7 +192,7 @@
         }
 
         [Fact]
-        public void SingleOrShouldReturnRequestedDefaultObjectWhenQueryIsNotFound()
+        public void SingleOrByQueryShouldReturnRequestedDefaultObjectWhenQueryIsNotFound()
         {
             var enumerable = new[] { "1" };
 
@@ -208,7 +208,7 @@
         }
 
         [Fact]
-        public void SingleOrShouldThrowArgumentNullExceptionWhenEnumerableArgumentIsNullWhenSearchingByQuery()
+        public void SingleOrByQueryShouldThrowArgumentNullExceptionWhenEnumerableArgumentIsNullWhenSearching()
         {
             Action singleOr = () => ((IEnumerable<string>)null).SingleOr(x => false, null);
 
@@ -216,7 +216,7 @@
         }
 
         [Fact]
-        public void SingleOrShouldThrowArgumentNullExceptionWhenPredicateArgumentIsNullWhenSearchingByQuery()
+        public void SingleOrByQueryShouldThrowArgumentNullExceptionWhenPredicateArgumentIsNullWhenSearching()
         {
             Action singleOr = () => new string[] { null }.SingleOr(null, null);
 
@@ -224,7 +224,7 @@
         }
 
         [Fact]
-        public void SingleOrThrowShouldReturnElementByQueryWhenFound()
+        public void SingleOrThrowByQueryThrowShouldReturnElementWhenFound()
         {
             var enumerable = new[] { 1 };
 
