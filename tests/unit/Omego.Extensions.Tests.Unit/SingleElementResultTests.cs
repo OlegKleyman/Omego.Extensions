@@ -9,19 +9,10 @@
     public class SingleElementResultTests
     {
         [Fact]
-        public void ValueConstructorShouldSetProperties()
-        {
-            var result = new SingleElementResult<int>(2);
-
-            result.Value.ShouldBeEquivalentTo(2);
-            result.Elements.ShouldBeEquivalentTo(Elements.One);
-        }
-
-        [Fact]
         public void MultipleElementsShouldReturnMultipleSingleElementResult()
         {
             var result = SingleElementResult<int>.MultipleElements;
-            
+
             result.Elements.ShouldBeEquivalentTo(Elements.Multiple);
         }
 
@@ -34,13 +25,12 @@
         }
 
         [Fact]
-        public void ValueShouldThrowInvalidOperationExceptionWhenMultipleElementsExist()
+        public void ValueConstructorShouldSetProperties()
         {
-            var result = SingleElementResult<int>.MultipleElements;
+            var result = new SingleElementResult<int>(2);
 
-            Action value = () => result.Value.ToString();
-
-            value.ShouldThrow<InvalidOperationException>().WithMessage("Multiple elements found.");
+            result.Value.ShouldBeEquivalentTo(2);
+            result.Elements.ShouldBeEquivalentTo(Elements.One);
         }
 
         [Fact]
@@ -49,6 +39,16 @@
             var result = new SingleElementResult<string>("test");
 
             result.Value.ShouldBeEquivalentTo("test");
+        }
+
+        [Fact]
+        public void ValueShouldThrowInvalidOperationExceptionWhenMultipleElementsExist()
+        {
+            var result = SingleElementResult<int>.MultipleElements;
+
+            Action value = () => result.Value.ToString();
+
+            value.ShouldThrow<InvalidOperationException>().WithMessage("Multiple elements found.");
         }
     }
 }

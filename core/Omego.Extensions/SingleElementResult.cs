@@ -1,7 +1,6 @@
 ﻿namespace Omego.Extensions
 {
     using System;
-    using System.Threading;
 
     public struct SingleElementResult<T>
     {
@@ -25,10 +24,7 @@
         {
             get
             {
-                if (Elements == Elements.Multiple)
-                {
-                    throw new InvalidOperationException("Multiple elements found.");
-                }
+                if (Elements == Elements.Multiple) throw new InvalidOperationException("Multiple elements found.");
 
                 return value.Value;
             }

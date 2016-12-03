@@ -14,46 +14,40 @@
     {
         [Theory]
         [MemberData("MoveNextShouldReturnWhetherMovingToTheNextIterationWasSuccessfulTheory", null,
-            MemberType = typeof(AttemptCatchIteratorTestTheories))]
+             MemberType = typeof(AttemptCatchIteratorTestTheories))]
         public void MoveNextShouldReturnWhetherMovingToTheNextIterationWasSuccessful(
             int times,
             IEnumerable<int> enumerable,
             bool expected)
         {
             var iterator = new AttemptCatchIterator<int, DivideByZeroException>(
-                enumerable.Select(i => 1 / i),
-                exception => { });
+                               enumerable.Select(i => 1 / i),
+                               exception => { });
 
-            for (var i = 1; i < times; i++)
-            {
-                iterator.MoveNext();
-            }
+            for (var i = 1; i < times; i++) iterator.MoveNext();
 
             iterator.MoveNext().ShouldBeEquivalentTo(expected);
         }
 
         [Theory]
         [MemberData("MoveNextShouldUseHandlerIfAnExceptionOccursTheory", null,
-            MemberType = typeof(AttemptCatchIteratorTestTheories))]
+             MemberType = typeof(AttemptCatchIteratorTestTheories))]
         public void MoveNextShouldUseHandlerIfAnExceptionOccurs(int times, IEnumerable<int> enumerable, bool expected)
         {
             var handled = false;
 
             var iterator = new AttemptCatchIterator<int, DivideByZeroException>(
-                enumerable.Select(i => 1 / i),
-                t => handled = true);
+                               enumerable.Select(i => 1 / i),
+                               t => handled = true);
 
-            for (var i = 0; i < times; i++)
-            {
-                iterator.MoveNext();
-            }
+            for (var i = 0; i < times; i++) iterator.MoveNext();
 
             handled.ShouldBeEquivalentTo(expected);
         }
 
         [Theory]
         [MemberData("ConstructorShouldThrowExceptionWhenRequiredArgumentsAreNullTheory", null,
-            MemberType = typeof(AttemptCatchIteratorTestTheories))]
+             MemberType = typeof(AttemptCatchIteratorTestTheories))]
         public void ConstructorShouldThrowExceptionWhenRequiredArgumentsAreNull(
             IEnumerable<int> enumerable,
             Action<Exception> handler,
@@ -70,21 +64,21 @@
                                                                                                               {
                                                                                                                   new object
                                                                                                                       []
-                                                                                                                      {
-                                                                                                                          null,
-                                                                                                                          null,
-                                                                                                                          "enumerable"
-                                                                                                                      },
+                                                                                                                          {
+                                                                                                                              null,
+                                                                                                                              null,
+                                                                                                                              "enumerable"
+                                                                                                                          },
                                                                                                                   new object
                                                                                                                       []
-                                                                                                                      {
-                                                                                                                          new int
-                                                                                                                              [
-                                                                                                                              0
-                                                                                                                              ],
-                                                                                                                          null,
-                                                                                                                          "handler"
-                                                                                                                      }
+                                                                                                                          {
+                                                                                                                              new int
+                                                                                                                                  [
+                                                                                                                                  0
+                                                                                                                                  ],
+                                                                                                                              null,
+                                                                                                                              "handler"
+                                                                                                                          }
                                                                                                               };
 
             public static IEnumerable MoveNextShouldReturnWhetherMovingToTheNextIterationWasSuccessfulTheory =
@@ -98,12 +92,14 @@
                                                                                               {
                                                                                                   new object[]
                                                                                                       {
-                                                                                                          1, new[] { 1 },
+                                                                                                          1,
+                                                                                                          new[] { 1 },
                                                                                                           false
                                                                                                       },
                                                                                                   new object[]
                                                                                                       {
-                                                                                                          1, new[] { 0 },
+                                                                                                          1,
+                                                                                                          new[] { 0 },
                                                                                                           true
                                                                                                       }
                                                                                               };
@@ -126,8 +122,8 @@
         public void MoveNextShouldNotUseHandlerIfAnUnspecifiedExceptionOccurs()
         {
             var iterator = new AttemptCatchIterator<int, InvalidOperationException>(
-                new[] { 0 }.Select(i => 1 / i),
-                t => { });
+                               new[] { 0 }.Select(i => 1 / i),
+                               t => { });
 
             Action moveNext = () => iterator.MoveNext();
 

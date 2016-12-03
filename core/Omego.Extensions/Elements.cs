@@ -3,7 +3,9 @@
     public enum Elements
     {
         None,
+
         One,
+
         Multiple
     }
 }

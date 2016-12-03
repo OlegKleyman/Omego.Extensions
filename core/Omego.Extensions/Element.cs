@@ -18,10 +18,7 @@
         {
             get
             {
-                if (!Present)
-                {
-                    throw new InvalidOperationException("Element does not exist.");
-                }
+                if (!Present) throw new InvalidOperationException("Element does not exist.");
 
                 return value;
             }

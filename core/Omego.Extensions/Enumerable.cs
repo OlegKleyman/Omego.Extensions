@@ -25,10 +25,7 @@
         {
             var iterator = new AttemptCatchIterator<T, TE>(target, handler);
 
-            while (iterator.MoveNext())
-            {
-                yield return iterator.Current;
-            }
+            while (iterator.MoveNext()) yield return iterator.Current;
         }
 
         /// <summary>
@@ -149,7 +146,7 @@
 
         /// <summary>
         ///     Returns the first element of an <see cref="IEnumerable{T}" /> matching the given predicate or returns
-        /// a requested default object of type <typeparamref name="T" />.
+        ///     a requested default object of type <typeparamref name="T" />.
         /// </summary>
         /// <param name="enumerable">The enumerable to find the first element in.</param>
         /// <param name="predicate">The predicate to use to find the first element.</param>
@@ -166,7 +163,7 @@
 
         /// <summary>
         ///     Returns the first element of an <see cref="IEnumerable{T}" /> matching the given predicate or returns
-        /// a requested default object of type <typeparamref name="T" />.
+        ///     a requested default object of type <typeparamref name="T" />.
         /// </summary>
         /// <param name="enumerable">The enumerable to find the first element in.</param>
         /// <param name="default">The object to return if no elements are found.</param>
@@ -188,10 +185,7 @@
             {
                 if (predicate == null) throw new ArgumentNullException(nameof(predicate));
 
-                if (predicate(element))
-                {
-                    return new Element<T>(element);
-                }
+                if (predicate(element)) return new Element<T>(element);
             }
 
             return default(Element<T>);
@@ -205,9 +199,7 @@
         /// <param name="enumerable">The enumerable to find the single element in.</param>
         /// <param name="predicate">The predicate to use to find a single match.</param>
         /// <returns>An instance of <typeparamref name="T" />.</returns>
-        public static SingleElementResult<T> SingleElement<T>(
-            this IEnumerable<T> enumerable,
-            Func<T, bool> predicate)
+        public static SingleElementResult<T> SingleElement<T>(this IEnumerable<T> enumerable, Func<T, bool> predicate)
         {
             if (enumerable == null) throw new ArgumentNullException(nameof(enumerable));
 
@@ -218,23 +210,19 @@
             using (var e = enumerable.GetEnumerator())
             {
                 while (e.MoveNext())
-                {
                     if (predicate(e.Current))
                     {
                         result = new SingleElementResult<T>(e.Current);
 
                         while (e.MoveNext())
-                        {
                             if (predicate(e.Current))
                             {
                                 result = SingleElementResult<T>.MultipleElements;
                                 break;
                             }
-                        }
 
                         break;
                     }
-                }
             }
 
             return result;
@@ -242,10 +230,7 @@
 
         public static T SingleOr<T>(this IEnumerable<T> enumerable, Expression<Func<T, bool>> predicate, T @default)
         {
-            if (predicate == null)
-            {
-                throw new ArgumentNullException(nameof(predicate));
-            }
+            if (predicate == null) throw new ArgumentNullException(nameof(predicate));
 
             return enumerable.SingleOrDefaultOrThrow(
                 predicate.Compile(),
@@ -258,7 +243,11 @@
             return enumerable.SingleOr(arg => true, @default);
         }
 
-        public static T SingleOrDefaultOrThrow<T>(this IEnumerable<T> enumerable, Func<T, bool> predicate, T @default, Exception multipleMatchesFoundException)
+        public static T SingleOrDefaultOrThrow<T>(
+            this IEnumerable<T> enumerable,
+            Func<T, bool> predicate,
+            T @default,
+            Exception multipleMatchesFoundException)
         {
             var element = enumerable.SingleElementOrThrowOnMultiple(predicate, multipleMatchesFoundException);
 
@@ -279,21 +268,17 @@
             using (var e = enumerable.GetEnumerator())
             {
                 while (e.MoveNext())
-                {
                     if (predicate(e.Current))
                     {
                         result = new SingleElementResult<T>(e.Current);
 
                         while (e.MoveNext())
-                        {
                             if (predicate(e.Current))
                             {
                                 if (multipleMatchesFoundException == null) throw new ArgumentNullException(nameof(multipleMatchesFoundException));
                                 throw multipleMatchesFoundException;
                             }
-                        }
                     }
-                }
             }
 
             return result;
