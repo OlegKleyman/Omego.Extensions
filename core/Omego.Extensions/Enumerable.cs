@@ -135,20 +135,13 @@
             Exception noMatchFoundException,
             Exception multipleMatchesFoundException)
         {
-            var result = SingleElement(enumerable, predicate);
+            var result = enumerable.SingleElementOrThrowOnMultiple(predicate, multipleMatchesFoundException);
 
             if (result.Elements == Elements.None)
             {
                 if (noMatchFoundException == null) throw new ArgumentNullException(nameof(noMatchFoundException));
 
                 throw noMatchFoundException;
-            }
-
-            if (result.Elements == Elements.Multiple)
-            {
-                if (multipleMatchesFoundException == null) throw new ArgumentNullException(nameof(multipleMatchesFoundException));
-
-                throw multipleMatchesFoundException;
             }
 
             return result.Value;
@@ -267,19 +260,43 @@
 
         public static T SingleOrDefaultOrThrow<T>(this IEnumerable<T> enumerable, Func<T, bool> predicate, T @default, Exception multipleMatchesFoundException)
         {
-            if(enumerable == null) throw new ArgumentNullException(nameof(enumerable));
-            if (predicate == null) throw new ArgumentNullException(nameof(predicate));
-
-            var element = enumerable.SingleElement(predicate);
-
-            if (element.Elements == Elements.Multiple)
-            {
-                if (multipleMatchesFoundException == null) throw new ArgumentNullException(nameof(multipleMatchesFoundException));
-
-                throw multipleMatchesFoundException;
-            }
+            var element = enumerable.SingleElementOrThrowOnMultiple(predicate, multipleMatchesFoundException);
 
             return element.Elements == Elements.None ? @default : element.Value;
+        }
+
+        public static SingleElementResult<T> SingleElementOrThrowOnMultiple<T>(
+            this IEnumerable<T> enumerable,
+            Func<T, bool> predicate,
+            Exception multipleMatchesFoundException)
+        {
+            if (enumerable == null) throw new ArgumentNullException(nameof(enumerable));
+
+            if (predicate == null) throw new ArgumentNullException(nameof(predicate));
+
+            var result = default(SingleElementResult<T>);
+
+            using (var e = enumerable.GetEnumerator())
+            {
+                while (e.MoveNext())
+                {
+                    if (predicate(e.Current))
+                    {
+                        result = new SingleElementResult<T>(e.Current);
+
+                        while (e.MoveNext())
+                        {
+                            if (predicate(e.Current))
+                            {
+                                if (multipleMatchesFoundException == null) throw new ArgumentNullException(nameof(multipleMatchesFoundException));
+                                throw multipleMatchesFoundException;
+                            }
+                        }
+                    }
+                }
+            }
+
+            return result;
         }
     }
 }

@@ -294,18 +294,6 @@
             singleOr.ShouldThrow<InvalidOperationException>().WithMessage("More than one match found for true.");
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
         [Fact]
         public void
            SingleOrDefaultOrThrowShouldThrowArgumentNullExceptionWhenEnumerableArgumentIsNull
@@ -342,6 +330,67 @@
             Action singleOrDefaultOrThrow = () => enumerable.SingleOrDefaultOrThrow(o => o == null, null, ex);
 
             singleOrDefaultOrThrow.ShouldThrow<InvalidOperationException>().Which.Should().Be(ex);
+        }
+
+
+
+
+
+
+
+        [Fact]
+        public void SingleElementOrThrowOnMultipleByQueryWhenFoundShouldThrowArgumentNullExceptionWhenPredicateArgumentIsNull()
+        {
+            Action singleElementOrThrowOnMultiple = () => new int[0].SingleElementOrThrowOnMultiple(null, null);
+
+            singleElementOrThrowOnMultiple.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("predicate");
+        }
+
+        [Fact]
+        public void SingleElementOrThrowOnMultipleByQueryWhenFoundShouldThrowArgumentNullExceptionWhenEnumerableArgumentIsNull()
+        {
+            Action singleElementOrThrowOnMultiple = () => ((IEnumerable<int>)null).SingleElementOrThrowOnMultiple(null, null);
+
+            singleElementOrThrowOnMultiple.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("enumerable");
+        }
+
+        [Fact]
+        public void SingleElementOrThrowOnMultipleByQueryShouldReturnElementWhenFound()
+        {
+            var enumerable = new[] { 1 };
+
+            enumerable.SingleElementOrThrowOnMultiple(x => x == 1, null).Value.Should().Be(1);
+        }
+
+        [Fact]
+        public void SingleElementOrThrowOnMultipleByQueryShouldReturnNoMatchesFlagWhenElementIsNotFound()
+        {
+            var enumerable = new int[0];
+
+            enumerable.SingleElementOrThrowOnMultiple(x => false, null).Elements.Should().Be(Elements.None);
+        }
+
+        [Fact]
+        public void SingleElementOrThrowOnMultipleByQueryShouldThrowExceptionWhenMultipleElementsAreFound()
+        {
+            var enumerable = new[] { 1, 2 };
+
+            var ex = new InvalidOperationException();
+
+            Action singleElementOrThrowOnMultiple = () => enumerable.SingleElementOrThrowOnMultiple(i => true, ex);
+
+            singleElementOrThrowOnMultiple.ShouldThrow<InvalidOperationException>().Which.Should().Be(ex);
+        }
+
+        [Fact]
+        public void SingleElementOrThrowOnMultipleByQueryShouldThrowExceptionWhenMultipleElementsExceptionIsNull()
+        {
+            var enumerable = new[] { 1, 2 };
+
+            Action singleElementOrThrowOnMultiple = () => enumerable.SingleElementOrThrowOnMultiple(i => true, null);
+
+            singleElementOrThrowOnMultiple.ShouldThrow<ArgumentNullException>()
+                .Which.ParamName.ShouldBeEquivalentTo("multipleMatchesFoundException");
         }
     }
 }
