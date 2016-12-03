@@ -150,7 +150,10 @@
             return results.Any() ? new Element<T>(results.First()) : default(Element<T>);
         }
 
-        public static SingleElementResult<T> SingleElementOrThrowOnMultiple<T>(this IQueryable<T> queryable, Expression<Func<T, bool>> predicate, Exception multipleMatchesFoundException)
+        public static SingleElementResult<T> SingleElementOrThrowOnMultiple<T>(
+            this IQueryable<T> queryable,
+            Expression<Func<T, bool>> predicate,
+            Exception multipleMatchesFoundException)
         {
             if (queryable == null) throw new ArgumentNullException(nameof(queryable));
 
@@ -199,7 +202,9 @@
             return element.Present ? element.Value : @default;
         }
 
-        public static SingleElementResult<T> SingleElement<T>(this IQueryable<T> queryable, Expression<Func<T, bool>> predicate)
+        public static SingleElementResult<T> SingleElement<T>(
+            this IQueryable<T> queryable,
+            Expression<Func<T, bool>> predicate)
         {
             if (queryable == null) throw new ArgumentNullException(nameof(queryable));
 
