@@ -235,8 +235,11 @@
                             if (predicate(e.Current))
                             {
                                 result = SingleElementResult<T>.MultipleElements;
+                                break;
                             }
                         }
+
+                        break;
                     }
                 }
             }
