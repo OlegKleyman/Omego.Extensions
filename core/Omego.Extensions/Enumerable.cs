@@ -246,6 +246,11 @@
 
         public static T SingleOr<T>(this IEnumerable<T> enumerable, Expression<Func<T, bool>> predicate, T @default)
         {
+            if (predicate == null)
+            {
+                throw new ArgumentNullException(nameof(predicate));
+            }
+
             var element = enumerable.SingleElement(predicate.Compile());
 
             if (element.Elements == Elements.Multiple)
@@ -254,6 +259,11 @@
             }
 
             return element.Elements == Elements.None ? @default : element.Value;
+        }
+
+        public static T SingleOr<T>(this IEnumerable<T> enumerable, T @default)
+        {
+            return enumerable.SingleOr(arg => true, @default);
         }
     }
 }
