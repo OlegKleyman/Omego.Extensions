@@ -251,19 +251,32 @@
                 throw new ArgumentNullException(nameof(predicate));
             }
 
-            var element = enumerable.SingleElement(predicate.Compile());
-
-            if (element.Elements == Elements.Multiple)
-            {
-                throw new InvalidOperationException($"More than one match found for {predicate.Body}.");
-            }
-
-            return element.Elements == Elements.None ? @default : element.Value;
+            return enumerable.SingleOrDefaultOrThrow(
+                predicate.Compile(),
+                @default,
+                new InvalidOperationException($"More than one match found for {predicate.Body}."));
         }
 
         public static T SingleOr<T>(this IEnumerable<T> enumerable, T @default)
         {
             return enumerable.SingleOr(arg => true, @default);
+        }
+
+        public static T SingleOrDefaultOrThrow<T>(this IEnumerable<T> enumerable, Func<T, bool> predicate, T @default, Exception multipleMatchesFoundException)
+        {
+            if(enumerable == null) throw new ArgumentNullException(nameof(enumerable));
+            if (predicate == null) throw new ArgumentNullException(nameof(predicate));
+
+            var element = enumerable.SingleElement(predicate);
+
+            if (element.Elements == Elements.Multiple)
+            {
+                if (multipleMatchesFoundException == null) throw new ArgumentNullException(nameof(multipleMatchesFoundException));
+
+                throw multipleMatchesFoundException;
+            }
+
+            return element.Elements == Elements.None ? @default : element.Value;
         }
     }
 }
