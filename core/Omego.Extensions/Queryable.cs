@@ -151,5 +151,25 @@
 
             return element;
         }
+
+        public static SingleElementResult<T> SingleElementOrThrowOnMultiple<T>(this IQueryable<T> queryable, Expression<Func<T, bool>> predicate, Exception multipleMatchesFoundException)
+        {
+            if (queryable == null) throw new ArgumentNullException(nameof(queryable));
+
+            if (predicate == null) throw new ArgumentNullException(nameof(predicate));
+
+            var results = queryable.Where(predicate).Take(2).Select(arg => new SingleElementResult<T>(arg));
+
+            var count = results.Count();
+
+            if (count > 1)
+            {
+                if (multipleMatchesFoundException == null) throw new ArgumentNullException(nameof(multipleMatchesFoundException));
+
+                throw multipleMatchesFoundException;
+            }
+
+            return results.FirstOr(elementResult => true, SingleElementResult<T>.NoElements);
+        }
     }
 }
