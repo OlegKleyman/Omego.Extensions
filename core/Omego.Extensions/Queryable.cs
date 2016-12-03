@@ -228,5 +228,10 @@
                 @default,
                 new InvalidOperationException($"More than one match found for {predicate.Body}."));
         }
+
+        public static T SingleOr<T>(this IQueryable<T> enumerable, T @default)
+        {
+            return enumerable.SingleOr(arg => true, @default);
+        }
     }
 }
