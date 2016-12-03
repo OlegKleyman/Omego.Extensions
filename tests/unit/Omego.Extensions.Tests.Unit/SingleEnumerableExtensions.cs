@@ -173,7 +173,7 @@
         }
 
         [Fact]
-        public void SingleElementByQueryWhenFoundShouldThrowArgumentNullExceptionWhenPredicateArgumentIsNullWhenSearchingByQuery()
+        public void SingleElementByQueryWhenFoundShouldThrowArgumentNullExceptionWhenPredicateArgumentIsNull()
         {
             Action singleElement = () => new int[0].SingleElement(null);
 
@@ -210,6 +210,55 @@
             var enumerable = new[] {1,2};
 
             enumerable.SingleElement(x => true).Elements.Should().Be(Elements.Multiple);
+        }
+
+
+
+
+        [Fact]
+        public void
+            SingleOrShouldThrowArgumentNullExceptionWhenPredicateArgumentIsNullWhenSearchingByQuery
+            ()
+        {
+            Action singleOr = () => new string[] { null }.SingleOr(null, null);
+
+            singleOr.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("predicate");
+        }
+
+        [Fact]
+        public void
+           SingleOrShouldThrowArgumentNullExceptionWhenEnumerableArgumentIsNullWhenSearchingByQuery
+           ()
+        {
+            Action singleOrThrow = () => ((IEnumerable<string>)null).SingleOr(x => false, null);
+
+            singleOrThrow.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("enumerable");
+        }
+
+        [Fact]
+        public void SingleOrShouldReturnElementByQueryWhenFound()
+        {
+            var enumerable = new[] { "1" };
+
+            enumerable.SingleOr(x => x == "1", null).Should().Be("1");
+        }
+
+        [Fact]
+        public void SingleOrShouldReturnRequestedDefaultObjectWhenQueryIsNotFound()
+        {
+            var enumerable = new[] { "1" };
+
+            enumerable.SingleOr(x => x == "2", "3").Should().Be("3");
+        }
+
+        [Fact]
+        public void SingleOrByQueryShouldThrowInvalidOperationExceptionWhenMultipleElementsAreFound()
+        {
+            var enumerable = new object[2];
+            
+            Action singleOr = () => enumerable.SingleOr(o => o == null, null);
+
+            singleOr.ShouldThrow<InvalidOperationException>().WithMessage("More than one match found for (o == null).");
         }
     }
 }

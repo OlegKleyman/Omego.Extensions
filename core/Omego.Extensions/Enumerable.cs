@@ -243,5 +243,17 @@
 
             return result;
         }
+
+        public static T SingleOr<T>(this IEnumerable<T> enumerable, Expression<Func<T, bool>> predicate, T @default)
+        {
+            var element = enumerable.SingleElement(predicate.Compile());
+
+            if (element.Elements == Elements.Multiple)
+            {
+                throw new InvalidOperationException($"More than one match found for {predicate.Body}.");
+            }
+
+            return element.Elements == Elements.None ? @default : element.Value;
+        }
     }
 }
