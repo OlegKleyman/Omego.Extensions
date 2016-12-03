@@ -171,5 +171,16 @@
 
             return results.FirstOr(elementResult => true, SingleElementResult<T>.NoElements);
         }
+
+        public static T SingleOrDefaultOrThrow<T>(
+            this IQueryable<T> queryable,
+            Expression<Func<T, bool>> predicate,
+            T @default,
+            Exception multipleMatchesFoundException)
+        {
+            var element = queryable.SingleElementOrThrowOnMultiple(predicate, multipleMatchesFoundException);
+
+            return element.Elements == Elements.None ? @default : element.Value;
+        }
     }
 }
