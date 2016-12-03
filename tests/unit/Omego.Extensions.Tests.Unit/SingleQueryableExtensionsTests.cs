@@ -281,5 +281,45 @@
             singleOrDefaultOrThrow.ShouldThrowExactly<ArgumentNullException>()
                 .Which.ParamName.ShouldBeEquivalentTo("queryable");
         }
+
+        [Fact]
+        public void SingleElementByQueryShouldReturnElementWhenFound()
+        {
+            var queryable = new[] { 1 }.AsQueryable();
+
+            queryable.SingleElement(x => x == 1).Value.Should().Be(1);
+        }
+
+        [Fact]
+        public void SingleElementByQueryShouldReturnMultipleMatchesFlagWhenElementIsNotFound()
+        {
+            var queryable = new[] { 1, 2 }.AsQueryable();
+
+            queryable.SingleElement(x => true).Elements.Should().Be(Elements.Multiple);
+        }
+
+        [Fact]
+        public void SingleElementByQueryShouldReturnNoMatchesFlagWhenElementIsNotFound()
+        {
+            var queryable = new int[0];
+
+            queryable.SingleElement(x => false).Elements.Should().Be(Elements.None);
+        }
+
+        [Fact]
+        public void SingleElementByQueryWhenFoundShouldThrowArgumentNullExceptionWhenqueryableArgumentIsNull()
+        {
+            Action singleElement = () => ((IQueryable<int>)null).SingleElement(null);
+
+            singleElement.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("queryable");
+        }
+
+        [Fact]
+        public void SingleElementByQueryWhenFoundShouldThrowArgumentNullExceptionWhenPredicateArgumentIsNull()
+        {
+            Action singleElement = () => new int[0].SingleElement(null);
+
+            singleElement.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("predicate");
+        }
     }
 }

@@ -194,5 +194,20 @@
 
             return element.Present ? element.Value : @default;
         }
+
+        public static SingleElementResult<T> SingleElement<T>(this IQueryable<T> queryable, Expression<Func<T, bool>> predicate)
+        {
+            if (queryable == null) throw new ArgumentNullException(nameof(queryable));
+
+            if (predicate == null) throw new ArgumentNullException(nameof(predicate));
+
+            var results =
+                queryable.Where(predicate)
+                    .Take(2)
+                    .Select(arg => new SingleElementResult<T>(arg))
+                    .DefaultIfEmpty(SingleElementResult<T>.NoElements);
+
+            return results.Count() > 1 ? SingleElementResult<T>.MultipleElements : results.First();
+        }
     }
 }
