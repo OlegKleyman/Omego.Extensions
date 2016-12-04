@@ -24,20 +24,12 @@
             }
         }
 
-        public bool Equals(Element<T> other)
-        {
-            return Present == other.Present && (!Present || Equals(other.Value));
-        }
+        public bool Equals(Element<T> other) => this == other;
 
-        public bool Equals(T other)
-        {
-            return Present && (Value != null ? Value.Equals(other) : value == null && other == null);
-        }
+        public bool Equals(T other) => Present && (Value != null ? Value.Equals(other) : other == null);
 
         public override bool Equals(object obj)
-        {
-            return (obj is Element<T> && Equals((Element<T>)obj)) || (obj is T && Equals((T)obj));
-        }
+            => (obj is Element<T> && Equals((Element<T>)obj)) || (obj is T && Equals((T)obj));
 
         public override int GetHashCode()
         {
@@ -62,23 +54,12 @@
         }
 
         public static bool operator ==(Element<T> first, Element<T> second)
-        {
-            return first.Equals(second);
-        }
+            => first.Present ? second.Present && first.Equals(second.Value) : !second.Present;
 
-        public static bool operator !=(Element<T> first, Element<T> second)
-        {
-            return !(first == second);
-        }
+        public static bool operator !=(Element<T> first, Element<T> second) => !(first == second);
 
-        public static implicit operator Element<T>(T target)
-        {
-            return new Element<T>(target);
-        }
+        public static implicit operator Element<T>(T target) => new Element<T>(target);
 
-        public static explicit operator T(Element<T> target)
-        {
-            return target.Value;
-        }
+        public static explicit operator T(Element<T> target) => target.Value;
     }
 }
