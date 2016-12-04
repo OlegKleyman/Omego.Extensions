@@ -22,8 +22,8 @@
         public void SingleElementByQueryShouldReturnMultipleMatchesFlagWhenElementIsNotFound()
         {
             var enumerable = new[] { 1, 2 };
-
-            enumerable.SingleElement(x => true).Elements.Should().Be(Elements.Multiple);
+            
+            enumerable.SingleElement(x => true).Should().Be(SingleElementResult<int>.MultipleElements);
         }
 
         [Fact]
@@ -31,7 +31,7 @@
         {
             var enumerable = new int[0];
 
-            enumerable.SingleElement(x => false).Elements.Should().Be(Elements.None);
+            enumerable.SingleElement(x => false).Should().Be(SingleElementResult<int>.NoElements);
         }
 
         [Fact]
@@ -63,7 +63,7 @@
         {
             var enumerable = new int[0];
 
-            enumerable.SingleElementOrThrowOnMultiple(x => false, null).Elements.Should().Be(Elements.None);
+            enumerable.SingleElementOrThrowOnMultiple(x => false, null).Should().Be(SingleElementResult<int>.NoElements);
         }
 
         [Fact]

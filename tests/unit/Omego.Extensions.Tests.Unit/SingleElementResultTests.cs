@@ -16,7 +16,7 @@
         {
             var result = SingleElementResult<int>.MultipleElements;
 
-            result.Elements.ShouldBeEquivalentTo(Elements.Multiple);
+            result.Should().Be(SingleElementResult<int>.MultipleElements);
         }
 
         [Fact]
@@ -24,7 +24,7 @@
         {
             var result = SingleElementResult<int>.NoElements;
 
-            result.Elements.ShouldBeEquivalentTo(Elements.None);
+            result.Should().Be(SingleElementResult<int>.NoElements);
         }
 
         [Fact]
@@ -33,7 +33,6 @@
             var result = new SingleElementResult<int>(2);
 
             result.Value.ShouldBeEquivalentTo(2);
-            result.Elements.ShouldBeEquivalentTo(Elements.One);
         }
 
         [Fact]

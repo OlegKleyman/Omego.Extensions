@@ -185,7 +185,7 @@
         {
             var element = queryable.SingleElementOrThrowOnMultiple(predicate, multipleMatchesFoundException);
 
-            return element.Elements == Elements.None ? @default : element.Value;
+            return element == SingleElementResult<T>.NoElements ? @default : element.Value;
         }
 
         public static T FirstOr<T>(this IQueryable<T> queryable, Expression<Func<T, bool>> predicate, T @default)

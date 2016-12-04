@@ -134,7 +134,7 @@
         {
             var result = enumerable.SingleElementOrThrowOnMultiple(predicate, multipleMatchesFoundException);
 
-            if (result.Elements == Elements.None)
+            if (result == SingleElementResult<T>.NoElements)
             {
                 if (noMatchFoundException == null) throw new ArgumentNullException(nameof(noMatchFoundException));
 
@@ -251,7 +251,7 @@
         {
             var element = enumerable.SingleElementOrThrowOnMultiple(predicate, multipleMatchesFoundException);
 
-            return element.Elements == Elements.None ? @default : element.Value;
+            return element == SingleElementResult<T>.NoElements ? @default : element.Value;
         }
 
         public static SingleElementResult<T> SingleElementOrThrowOnMultiple<T>(

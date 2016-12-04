@@ -20,7 +20,7 @@
             value = default(Element<T>);
         }
 
-        public Elements Elements { get; }
+        private Elements Elements { get; }
 
         public T Value
         {

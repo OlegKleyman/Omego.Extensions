@@ -29,7 +29,7 @@
         {
             var queryable = new[] { 1, 2 }.AsQueryable();
 
-            queryable.SingleElement(x => true).Elements.Should().Be(Elements.Multiple);
+            queryable.SingleElement(x => true).Should().Be(SingleElementResult<int>.MultipleElements);
         }
 
         [Fact]
@@ -37,7 +37,7 @@
         {
             var queryable = new int[0];
 
-            queryable.SingleElement(x => false).Elements.Should().Be(Elements.None);
+            queryable.SingleElement(x => false).Should().Be(SingleElementResult<int>.NoElements);
         }
 
         [Fact]
@@ -69,7 +69,7 @@
         {
             var queryable = new int[0].AsQueryable();
 
-            queryable.SingleElementOrThrowOnMultiple(x => false, null).Elements.Should().Be(Elements.None);
+            queryable.SingleElementOrThrowOnMultiple(x => false, null).Should().Be(SingleElementResult<int>.NoElements);
         }
 
         [Fact]
