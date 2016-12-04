@@ -131,6 +131,25 @@
         }
 
         [Fact]
+        public void MoveNextShouldSetCurrent()
+        {
+            var iterator = (IEnumerator)new AttemptCatchIterator<int, DivideByZeroException>(new[] { 1 }, t => { });
+
+            iterator.MoveNext();
+            iterator.Current.ShouldBeEquivalentTo(1);
+        }
+
+        [Fact]
+        public void MoveNextShouldSetCurrentToDefaultWhenEnumerableDoesntMove()
+        {
+            var iterator =
+                (IEnumerator)new AttemptCatchIterator<string, DivideByZeroException>(new string[0], exception => { });
+
+            iterator.MoveNext();
+            iterator.Current.ShouldBeEquivalentTo(default(string));
+        }
+
+        [Fact]
         public void MoveNextShouldThrowObjectDisposedExceptionWhenIteratorIsDisposed()
         {
             var iterator = new AttemptCatchIterator<int, Exception>(new int[0], exception => { });
@@ -148,25 +167,6 @@
                     "Omego.Extensions." + "AttemptCatchIterator`2[[System.Int32, mscorlib, Version=4.0.0.0, "
                     + "Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Exception, "
                     + "mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]");
-        }
-
-        [Fact]
-        public void MoveNextShouldSetCurrent()
-        {
-            var iterator = (IEnumerator)new AttemptCatchIterator<int, DivideByZeroException>(new[] { 1 }, t => { });
-
-            iterator.MoveNext();
-            iterator.Current.ShouldBeEquivalentTo(1);
-        }
-
-        [Fact]
-        public void MoveNextShouldSetCurrentToDefaultWhenEnumerableDoesntMove()
-        {
-            var iterator =
-                (IEnumerator)new AttemptCatchIterator<string, DivideByZeroException>(new string[0], exception => { });
-
-            iterator.MoveNext();
-            iterator.Current.ShouldBeEquivalentTo(default(string));
         }
 
         [Fact]
