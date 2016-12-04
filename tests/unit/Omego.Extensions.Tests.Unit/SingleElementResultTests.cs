@@ -1,8 +1,10 @@
 ﻿namespace Omego.Extensions.Tests.Unit
 {
     using System;
+    using System.Collections;
 
     using FluentAssertions;
+    using FluentAssertions.Common;
 
     using Xunit;
 
@@ -52,93 +54,283 @@
             value.ShouldThrow<InvalidOperationException>().WithMessage("Multiple elements found.");
         }
 
-        [Theory]
-        [InlineData("test", "test", true)]
-        [InlineData("test", "test1", false)]
-        public void EqualsShouldReturnWhetherSingleElementObjectsAreEqual(string firstValue, string secondValue, bool expectedResult)
-        {
-            var firstResult = new SingleElementResult<string>(firstValue);
-            var secondResult = new SingleElementResult<string>(secondValue);
+        
 
-            firstResult.Equals(secondResult).ShouldBeEquivalentTo(expectedResult);
-            secondResult.Equals(firstResult).ShouldBeEquivalentTo(expectedResult);
-        }
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         [Theory]
-        [InlineData("test", "test", true)]
-        [InlineData("test", "test1", false)]
-        public void EqualsOperatorShouldReturnWhetherSingleElementObjectsAreEqual(string firstValue, string secondValue, bool expectedResult)
+        [MemberData("ElementEqualityTheory", MemberType = typeof(SingleElementResultTestsTheories))]
+        public void EqualsShouldReturnWhetherSingleElementsAreEqual(
+            SingleElementResult<object> firstElement,
+            SingleElementResult<object> secondElement,
+            bool expected)
         {
-            var firstResult = new SingleElementResult<string>(firstValue);
-            var secondResult = new SingleElementResult<string>(secondValue);
-
-            (firstResult == secondResult).ShouldBeEquivalentTo(expectedResult);
-            (secondResult == firstResult).ShouldBeEquivalentTo(expectedResult);
+            firstElement.Equals(secondElement).ShouldBeEquivalentTo(expected);
+            secondElement.Equals(firstElement).ShouldBeEquivalentTo(expected);
         }
 
         [Theory]
-        [InlineData("test", "test", true)]
-        [InlineData("test", "test1", false)]
-        public void EqualsGenericShouldReturnWhetherSingleElementObjectsAreEqual(string firstValue, string secondValue, bool expectedResult)
+        [MemberData("ValueEqualityTheory", MemberType = typeof(SingleElementResultTestsTheories))]
+        public void EqualsShouldReturnWhetherSingleElementValuesAreEqual(
+            SingleElementResult<object> element,
+            object value,
+            bool expected)
         {
-            var firstResult = new SingleElementResult<string>(firstValue);
-            var secondResult = new SingleElementResult<string>(secondValue);
-
-            firstResult.Equals(secondResult).ShouldBeEquivalentTo(expectedResult);
-            secondResult.Equals(firstResult).ShouldBeEquivalentTo(expectedResult);
+            element.Equals(value).ShouldBeEquivalentTo(expected);
         }
 
         [Theory]
-        [InlineData(1, 2)]
-        public void GetHashCodeShouldReturnHashCodeRegardlessOfValue(int value, int expectedHashCoe)
+        [MemberData("ObjectSingleElementEqualityTheory", MemberType = typeof(SingleElementResultTestsTheories))]
+        public void ObjectEqualsShouldReturnWhetherSingleElementsAreEqual(
+            SingleElementResult<object> element,
+            object value,
+            bool expected)
         {
-            new SingleElementResult<int>(value).GetHashCode().ShouldBeEquivalentTo(expectedHashCoe);
+            ((object)element).Equals(value).ShouldBeEquivalentTo(expected);
+        }
+
+        [Theory]
+        [MemberData("ObjectGetHashCodeShouldReturnSingleElementHashCodeTheory", MemberType = typeof(SingleElementResultTestsTheories))]
+        public void ObjectGetHashCodeShouldReturnSingleElementHashCode(
+            SingleElementResult<object> element,
+            int expected)
+        {
+            element.GetHashCode().ShouldBeEquivalentTo(expected);
+        }
+
+        [Theory]
+        [MemberData("ElementEqualityTheory", MemberType = typeof(SingleElementResultTestsTheories))]
+        public void EqualsOperatorShouldReturnWhetherSingleElementsAreEqual(
+            SingleElementResult<object> firstElement,
+            SingleElementResult<object> secondElement,
+            bool expected)
+        {
+            (firstElement == secondElement).ShouldBeEquivalentTo(expected);
+            (secondElement == firstElement).ShouldBeEquivalentTo(expected);
+        }
+
+        [Theory]
+        [MemberData("ElementEqualityTheory", MemberType = typeof(SingleElementResultTestsTheories))]
+        public void NotEqualsOperatorShouldReturnWhetherSingleElementsAreEqual(
+            SingleElementResult<object> firstElement,
+            SingleElementResult<object> secondElement,
+            bool expected)
+        {
+            (firstElement != secondElement).ShouldBeEquivalentTo(!expected);
+            (secondElement != firstElement).ShouldBeEquivalentTo(!expected);
         }
 
         [Fact]
-        public void EqualsGenericShouldReturnAreEqualWhenValueIsNotPresent()
+        public void ImplicitOperatorFromGenericTypeToSingleElementShouldReturnSingleElementWrappingGenericTypeObjectFact()
         {
-            var firstResult = new SingleElementResult<string>();
-            var secondResult = new SingleElementResult<string>();
+            SingleElementResult<string> element = "test";
 
-            firstResult.Equals(secondResult).Should().BeTrue();
-            secondResult.Equals(firstResult).Should().BeTrue();
+            element.Should().IsSameOrEqualTo("test");
         }
 
         [Fact]
-        public void EqualsGenericShouldReturnAreNotEqualWhenValueIsNotPresent()
+        public void ExplicitOperatorFromSingleElementToGenericTypeShouldReturnGenericTypeObjectFact()
         {
-            SingleElementResult<string>.MultipleElements.Equals(SingleElementResult<string>.NoElements)
-                .Should()
-                .BeFalse();
-            SingleElementResult<string>.NoElements.Equals(SingleElementResult<string>.MultipleElements)
-                .Should()
-                .BeFalse();
+            var element = new SingleElementResult<string>("test");
+            var @string = (string)element;
+
+            @string.Should().IsSameOrEqualTo(element);
         }
 
-        [Fact]
-        public void EqualsGenericShouldReturnAreNotEqualWhenOneValueIsNotPresentAndTheOtherIs()
+        public class SingleElementResultTestsTheories
         {
-            var presentResult = new SingleElementResult<string>("test");
+            public static IEnumerable ElementEqualityTheory = new object[]
+                                                                  {
+                                                                      new object[]
+                                                                          {
+                                                                              new SingleElementResult<object>(1),
+                                                                              new SingleElementResult<object>(1), true
+                                                                          },
+                                                                      new object[]
+                                                                          {
+                                                                              new SingleElementResult<object>(1),
+                                                                              new SingleElementResult<object>(2), false
+                                                                          },
+                                                                      new object[]
+                                                                          {
+                                                                              new SingleElementResult<object>(null),
+                                                                              new SingleElementResult<object>(2), false
+                                                                          },
+                                                                      new object[]
+                                                                          {
+                                                                              new SingleElementResult<object>(null),
+                                                                              new SingleElementResult<object>(null),
+                                                                              true
+                                                                          },
+                                                                      new object[]
+                                                                          {
+                                                                              new SingleElementResult<object>(),
+                                                                              new SingleElementResult<object>(2), false
+                                                                          },
+                                                                      new object[]
+                                                                          {
+                                                                              new SingleElementResult<object>(),
+                                                                              new SingleElementResult<object>(), true
+                                                                          },
+                                                                      new object[]
+                                                                          {
+                                                                              SingleElementResult<object>
+                                                                                  .MultipleElements,
+                                                                              SingleElementResult<object>
+                                                                                  .MultipleElements,
+                                                                              true
+                                                                          },
+                                                                      new object[]
+                                                                          {
+                                                                              SingleElementResult<object>
+                                                                                  .MultipleElements,
+                                                                              SingleElementResult<object>.NoElements,
+                                                                              false
+                                                                          },
+                                                                      new object[]
+                                                                          {
+                                                                              SingleElementResult<object>
+                                                                                  .MultipleElements,
+                                                                              new SingleElementResult<object>(1), false
+                                                                          }
+                                                                  };
 
-            SingleElementResult<string>.MultipleElements.Equals(presentResult)
-                .Should()
-                .BeFalse();
-            presentResult.Equals(SingleElementResult<string>.MultipleElements)
-                .Should()
-                .BeFalse();
-        }
+            public static IEnumerable ValueEqualityTheory = new object[]
+                                                                {
+                                                                    new object[]
+                                                                        {
+                                                                            new SingleElementResult<object>(1), 1,
+                                                                            true
+                                                                        },
+                                                                    new object[]
+                                                                        {
+                                                                            new SingleElementResult<object>(1), 2,
+                                                                            false
+                                                                        },
+                                                                    new object[]
+                                                                        {
+                                                                            new SingleElementResult<object>(null), 2,
+                                                                            false
+                                                                        },
+                                                                    new object[]
+                                                                        {
+                                                                            new SingleElementResult<object>(null),
+                                                                            null, true
+                                                                        },
+                                                                    new object[]
+                                                                        {
+                                                                            new SingleElementResult<object>(), 2,
+                                                                            false
+                                                                        },
+                                                                      new object[]
+                                                                          {
+                                                                              SingleElementResult<object>
+                                                                                  .MultipleElements,
+                                                                              null,
+                                                                              false
+                                                                          },
+                                                                      new object[]
+                                                                          {
+                                                                              SingleElementResult<object>
+                                                                                  .MultipleElements,
+                                                                              1, false
+                                                                          }
+                                                                };
 
-        [Fact]
-        public void GetHashCodeShouldReturnHashCodeIfValueIsNotPresent()
-        {
-            new SingleElementResult<int>().GetHashCode().ShouldBeEquivalentTo(0);
-        }
+            public static IEnumerable ObjectSingleElementEqualityTheory = new object[]
+                                                                                            {
+                                                                                                new object[]
+                                                                                                    {
+                                                                                                        new SingleElementResult<object>
+                                                                                                            (1),
+                                                                                                        new SingleElementResult<object>
+                                                                                                            (1),
+                                                                                                        true
+                                                                                                    },
+                                                                                                new object[]
+                                                                                                    {
+                                                                                                        new SingleElementResult<object>
+                                                                                                            (1),
+                                                                                                        new SingleElementResult<object>
+                                                                                                            (2),
+                                                                                                        false
+                                                                                                    },
+                                                                                                new object[]
+                                                                                                    {
+                                                                                                        new SingleElementResult<object>
+                                                                                                            (null),
+                                                                                                        new SingleElementResult<object>
+                                                                                                            (2),
+                                                                                                        false
+                                                                                                    },
+                                                                                                new object[]
+                                                                                                    {
+                                                                                                        new SingleElementResult<object>
+                                                                                                            (null),
+                                                                                                        new SingleElementResult<object>
+                                                                                                            (null),
+                                                                                                        true
+                                                                                                    },
+                                                                                                new object[]
+                                                                                                    {
+                                                                                                        new SingleElementResult<object>
+                                                                                                            (),
+                                                                                                        new SingleElementResult<object>
+                                                                                                            (2),
+                                                                                                        false
+                                                                                                    },
+                                                                                                new object[]
+                                                                                                    {
+                                                                                                        new SingleElementResult<object>
+                                                                                                            (),
+                                                                                                        new SingleElementResult<object>
+                                                                                                            (),
+                                                                                                        true
+                                                                                                    },
+                                                                                                new object[]
+                                                                                                    {
+                                                                                                        new SingleElementResult<object>
+                                                                                                            (),
+                                                                                                        1,
+                                                                                                        false
+                                                                                                    },
+                                                                                                new object[]
+                                                                                                    {
+                                                                                                        new SingleElementResult<object>
+                                                                                                            ("test"),
+                                                                                                        "test",
+                                                                                                        true
+                                                                                                    }
+                                                                                            };
 
-        [Fact]
-        public void GetHashCodeShouldReturnHashCodeIfValueIsNull()
-        {
-            new SingleElementResult<string>(null).GetHashCode().ShouldBeEquivalentTo(1);
+            public static IEnumerable ObjectGetHashCodeShouldReturnSingleElementHashCodeTheory = new[]
+                                                                                        {
+                                                                                            new object[]
+                                                                                                {
+                                                                                                    new SingleElementResult<object>(),
+                                                                                                    0
+                                                                                                },
+                                                                                            new object[]
+                                                                                                {
+                                                                                                    new SingleElementResult<object>(1),
+                                                                                                    579
+                                                                                                },
+                                                                                            new object[]
+                                                                                                {
+                                                                                                    new SingleElementResult<object>(0),
+                                                                                                    386
+                                                                                                },
+                                                                                            new object[]
+                                                                                                {
+                                                                                                    new SingleElementResult<object>(null),
+                                                                                                    1
+                                                                                                },
+                                                                                            new object[]
+                                                                                                {
+                                                                                                    SingleElementResult<object>.MultipleElements,
+                                                                                                    2
+                                                                                                }
+                                                                                        };
         }
     }
 }
