@@ -54,7 +54,7 @@
 
             if (!disposed)
             {
-                var exceptionOccured = false;
+                bool exceptionOccured;
 
                 do
                 {
