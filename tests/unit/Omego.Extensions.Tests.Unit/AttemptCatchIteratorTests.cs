@@ -160,6 +160,21 @@
         }
 
         [Fact]
+        public void ResetShouldResetEnumeratorIfNotDisposed()
+        {
+            var iterator = (IEnumerator)new AttemptCatchIterator<int, DivideByZeroException>(new[] { 1, 2 }, t => { });
+
+            iterator.MoveNext();
+            iterator.MoveNext();
+
+            iterator.Reset();
+
+            iterator.MoveNext();
+
+            iterator.Current.ShouldBeEquivalentTo(1);
+        }
+
+        [Fact]
         public void ResetShouldThrowObjectDisposedExceptionWhenIteratorIsDisposed()
         {
             var iterator = new AttemptCatchIterator<int, Exception>(new int[0], exception => { });
@@ -176,21 +191,6 @@
                     "Omego.Extensions." + "AttemptCatchIterator`2[[System.Int32, mscorlib, Version=4.0.0.0, "
                     + "Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Exception, "
                     + "mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]");
-        }
-
-        [Fact]
-        public void ResetShouldResetEnumeratorIfNotDisposed()
-        {
-            var iterator = (IEnumerator)new AttemptCatchIterator<int, DivideByZeroException>(new[] { 1, 2 }, t => { });
-
-            iterator.MoveNext();
-            iterator.MoveNext();
-
-            iterator.Reset();
-
-            iterator.MoveNext();
-
-            iterator.Current.ShouldBeEquivalentTo(1);
         }
     }
 }

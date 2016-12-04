@@ -1,7 +1,6 @@
 ﻿namespace Omego.Extensions
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
 
     public struct SingleElementResult<T> : IEquatable<SingleElementResult<T>>, IEquatable<T>
@@ -43,7 +42,7 @@
         public static SingleElementResult<T> NoElements => NoElementResult.Value;
 
         public static bool operator ==(SingleElementResult<T> first, SingleElementResult<T> second)
-            => first.Elements == second.Elements && first.value.Equals(second.value);
+            => (first.Elements == second.Elements) && first.value.Equals(second.value);
 
         public static bool operator !=(SingleElementResult<T> first, SingleElementResult<T> second)
             => !(first == second);
@@ -56,9 +55,11 @@
 
         public bool Equals(T other) => value == other;
 
-        public override bool Equals(object obj) => (obj is SingleElementResult<T> && Equals((SingleElementResult<T>)obj)) || (obj is T && Equals((T)obj));
+        public override bool Equals(object obj)
+            => (obj is SingleElementResult<T> && Equals((SingleElementResult<T>)obj)) || (obj is T && Equals((T)obj));
 
         private static readonly int ElementsMaxValue = Enum.GetValues(typeof(Elements)).Cast<int>().Max();
+
         private static readonly int ElementsMinValue = Enum.GetValues(typeof(Elements)).Cast<int>().Min();
 
         public override int GetHashCode()
@@ -69,10 +70,7 @@
 
                 Func<int, int> getHashCode = hash =>
                     {
-                        while (hash >= ElementsMinValue && hash <= ElementsMaxValue && hash != (int)Elements.One)
-                        {
-                            hash = (hash + ElementsMaxValue + 1) * salt;
-                        }
+                        while ((hash >= ElementsMinValue) && (hash <= ElementsMaxValue) && (hash != (int)Elements.One)) hash = (hash + ElementsMaxValue + 1) * salt;
 
                         return hash;
                     };

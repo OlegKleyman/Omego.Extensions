@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections;
-    using System.ComponentModel;
 
     using FluentAssertions;
     using FluentAssertions.Common;
@@ -12,33 +11,6 @@
     [CLSCompliant(false)]
     public class ElementTests
     {
-        [Fact]
-        public void ConstructorShouldCreateElementWithValue()
-        {
-            var element = new Element<string>("test");
-
-            element.Present.Should().BeTrue();
-            element.Value.ShouldBeEquivalentTo("test");
-        }
-
-        [Fact]
-        public void ValueShouldReturnValueWhenExists()
-        {
-            var element = new Element<string>("test");
-
-            element.Value.ShouldBeEquivalentTo("test");
-        }
-
-        [Fact]
-        public void ValueShouldThrowInvalidOperationExceptionWhenElementDoesNotExist()
-        {
-            var element = new Element<int>();
-
-            Action value = () => element.Value.ToString();
-
-            value.ShouldThrow<InvalidOperationException>().WithMessage("Element does not exist.");
-        }
-
         [Theory]
         [MemberData("ElementEqualityTheory", MemberType = typeof(ElementTestsTheories))]
         public void EqualsShouldReturnWhetherElementsAreEqual(
@@ -52,10 +24,7 @@
 
         [Theory]
         [MemberData("ValueEqualityTheory", MemberType = typeof(ElementTestsTheories))]
-        public void EqualsShouldReturnWhetherElementValuesAreEqual(
-            Element<object> element,
-            object value,
-            bool expected)
+        public void EqualsShouldReturnWhetherElementValuesAreEqual(Element<object> element, object value, bool expected)
         {
             element.Equals(value).ShouldBeEquivalentTo(expected);
         }
@@ -72,9 +41,7 @@
 
         [Theory]
         [MemberData("ObjectGetHashCodeShouldReturnElementHashCodeTheory", MemberType = typeof(ElementTestsTheories))]
-        public void ObjectGetHashCodeShouldReturnElementHashCode(
-            Element<object> element,
-            int expected)
+        public void ObjectGetHashCodeShouldReturnElementHashCode(Element<object> element, int expected)
         {
             element.GetHashCode().ShouldBeEquivalentTo(expected);
         }
@@ -101,12 +68,120 @@
             (secondElement != firstElement).ShouldBeEquivalentTo(!expected);
         }
 
-        [Fact]
-        public void ImplicitOperatorFromGenericTypeToElementShouldReturnElementWrappingGenericTypeObjectFact()
+        public class ElementTestsTheories
         {
-            Element<string> element = "test";
+            public static IEnumerable ElementEqualityTheory = new object[]
+                                                                  {
+                                                                      new object[]
+                                                                          {
+                                                                              new Element<object>(1),
+                                                                              new Element<object>(1), true
+                                                                          },
+                                                                      new object[]
+                                                                          {
+                                                                              new Element<object>(1),
+                                                                              new Element<object>(2), false
+                                                                          },
+                                                                      new object[]
+                                                                          {
+                                                                              new Element<object>(null),
+                                                                              new Element<object>(2), false
+                                                                          },
+                                                                      new object[]
+                                                                          {
+                                                                              new Element<object>(null),
+                                                                              new Element<object>(null), true
+                                                                          },
+                                                                      new object[]
+                                                                          {
+                                                                              new Element<object>(),
+                                                                              new Element<object>(2), false
+                                                                          },
+                                                                      new object[]
+                                                                          {
+                                                                              new Element<object>(),
+                                                                              new Element<object>(), true
+                                                                          }
+                                                                  };
 
-            element.Should().IsSameOrEqualTo("test");
+            public static IEnumerable ValueEqualityTheory = new object[]
+                                                                {
+                                                                    new object[] { new Element<object>(1), 1, true },
+                                                                    new object[] { new Element<object>(1), 2, false },
+                                                                    new object[] { new Element<object>(null), 2, false },
+                                                                    new object[]
+                                                                            { new Element<object>(null), null, true },
+                                                                    new object[] { new Element<object>(), 2, false }
+                                                                };
+
+            public static IEnumerable ObjectElementEqualityTheory = new object[]
+                                                                        {
+                                                                            new object[]
+                                                                                {
+                                                                                    new Element<object>(1),
+                                                                                    new Element<object>(1), true
+                                                                                },
+                                                                            new object[]
+                                                                                {
+                                                                                    new Element<object>(1),
+                                                                                    new Element<object>(2), false
+                                                                                },
+                                                                            new object[]
+                                                                                {
+                                                                                    new Element<object>(null),
+                                                                                    new Element<object>(2), false
+                                                                                },
+                                                                            new object[]
+                                                                                {
+                                                                                    new Element<object>(null),
+                                                                                    new Element<object>(null), true
+                                                                                },
+                                                                            new object[]
+                                                                                {
+                                                                                    new Element<object>(),
+                                                                                    new Element<object>(2), false
+                                                                                },
+                                                                            new object[]
+                                                                                {
+                                                                                    new Element<object>(),
+                                                                                    new Element<object>(), true
+                                                                                },
+                                                                            new object[]
+                                                                                    { new Element<object>(), 1, false },
+                                                                            new object[]
+                                                                                {
+                                                                                    new Element<object>("test"),
+                                                                                    "test", true
+                                                                                }
+                                                                        };
+
+            public static IEnumerable ObjectGetHashCodeShouldReturnElementHashCodeTheory = new[]
+                                                                                               {
+                                                                                                   new object[]
+                                                                                                       {
+                                                                                                           new Element
+                                                                                                               <object>(
+                                                                                                               ),
+                                                                                                           0
+                                                                                                       },
+                                                                                                   new object[] { new Element<object>(1), 579 }, new object[] { new Element<object>(0), 386 },
+                                                                                                   new object[]
+                                                                                                       {
+                                                                                                           new Element
+                                                                                                               <object>(
+                                                                                                                   null),
+                                                                                                           1
+                                                                                                       }
+                                                                                               };
+        }
+
+        [Fact]
+        public void ConstructorShouldCreateElementWithValue()
+        {
+            var element = new Element<string>("test");
+
+            element.Present.Should().BeTrue();
+            element.Value.ShouldBeEquivalentTo("test");
         }
 
         [Fact]
@@ -118,188 +193,30 @@
             @string.Should().IsSameOrEqualTo(element);
         }
 
-        public class ElementTestsTheories
+        [Fact]
+        public void ImplicitOperatorFromGenericTypeToElementShouldReturnElementWrappingGenericTypeObjectFact()
         {
-            public static IEnumerable ElementEqualityTheory = new object[]
-                                                                                            {
-                                                                                                new object[]
-                                                                                                    {
-                                                                                                        new Element<object>
-                                                                                                            (1),
-                                                                                                        new Element<object>
-                                                                                                            (1),
-                                                                                                        true
-                                                                                                    },
-                                                                                                new object[]
-                                                                                                    {
-                                                                                                        new Element<object>
-                                                                                                            (1),
-                                                                                                        new Element<object>
-                                                                                                            (2),
-                                                                                                        false
-                                                                                                    },
-                                                                                                new object[]
-                                                                                                    {
-                                                                                                        new Element<object>
-                                                                                                            (null),
-                                                                                                        new Element<object>
-                                                                                                            (2),
-                                                                                                        false
-                                                                                                    },
-                                                                                                new object[]
-                                                                                                    {
-                                                                                                        new Element<object>
-                                                                                                            (null),
-                                                                                                        new Element<object>
-                                                                                                            (null),
-                                                                                                        true
-                                                                                                    },
-                                                                                                new object[]
-                                                                                                    {
-                                                                                                        new Element<object>
-                                                                                                            (),
-                                                                                                        new Element<object>
-                                                                                                            (2),
-                                                                                                        false
-                                                                                                    },
-                                                                                                new object[]
-                                                                                                    {
-                                                                                                        new Element<object>
-                                                                                                            (),
-                                                                                                        new Element<object>
-                                                                                                            (),
-                                                                                                        true
-                                                                                                    }
-                                                                                            };
+            Element<string> element = "test";
 
-            public static IEnumerable ValueEqualityTheory = new object[]
-                                                                                            {
-                                                                                                new object[]
-                                                                                                    {
-                                                                                                        new Element<object>
-                                                                                                            (1),
-                                                                                                        1,
-                                                                                                        true
-                                                                                                    },
-                                                                                                new object[]
-                                                                                                    {
-                                                                                                        new Element<object>
-                                                                                                            (1),
-                                                                                                        2,
-                                                                                                        false
-                                                                                                    },
-                                                                                                new object[]
-                                                                                                    {
-                                                                                                        new Element<object>
-                                                                                                            (null),
-                                                                                                        2,
-                                                                                                        false
-                                                                                                    },
-                                                                                                new object[]
-                                                                                                    {
-                                                                                                        new Element<object>
-                                                                                                            (null),
-                                                                                                        null,
-                                                                                                        true
-                                                                                                    },
-                                                                                                new object[]
-                                                                                                    {
-                                                                                                        new Element<object>
-                                                                                                            (),
-                                                                                                        2,
-                                                                                                        false
-                                                                                                    }
-                                                                                            };
+            element.Should().IsSameOrEqualTo("test");
+        }
 
-            public static IEnumerable ObjectElementEqualityTheory = new object[]
-                                                                                            {
-                                                                                                new object[]
-                                                                                                    {
-                                                                                                        new Element<object>
-                                                                                                            (1),
-                                                                                                        new Element<object>
-                                                                                                            (1),
-                                                                                                        true
-                                                                                                    },
-                                                                                                new object[]
-                                                                                                    {
-                                                                                                        new Element<object>
-                                                                                                            (1),
-                                                                                                        new Element<object>
-                                                                                                            (2),
-                                                                                                        false
-                                                                                                    },
-                                                                                                new object[]
-                                                                                                    {
-                                                                                                        new Element<object>
-                                                                                                            (null),
-                                                                                                        new Element<object>
-                                                                                                            (2),
-                                                                                                        false
-                                                                                                    },
-                                                                                                new object[]
-                                                                                                    {
-                                                                                                        new Element<object>
-                                                                                                            (null),
-                                                                                                        new Element<object>
-                                                                                                            (null),
-                                                                                                        true
-                                                                                                    },
-                                                                                                new object[]
-                                                                                                    {
-                                                                                                        new Element<object>
-                                                                                                            (),
-                                                                                                        new Element<object>
-                                                                                                            (2),
-                                                                                                        false
-                                                                                                    },
-                                                                                                new object[]
-                                                                                                    {
-                                                                                                        new Element<object>
-                                                                                                            (),
-                                                                                                        new Element<object>
-                                                                                                            (),
-                                                                                                        true
-                                                                                                    },
-                                                                                                new object[]
-                                                                                                    {
-                                                                                                        new Element<object>
-                                                                                                            (),
-                                                                                                        1,
-                                                                                                        false
-                                                                                                    },
-                                                                                                new object[]
-                                                                                                    {
-                                                                                                        new Element<object>
-                                                                                                            ("test"),
-                                                                                                        "test", 
-                                                                                                        true
-                                                                                                    }
-                                                                                            };
+        [Fact]
+        public void ValueShouldReturnValueWhenExists()
+        {
+            var element = new Element<string>("test");
 
-            public static IEnumerable ObjectGetHashCodeShouldReturnElementHashCodeTheory = new[]
-                                                                                        {
-                                                                                            new object[]
-                                                                                                {
-                                                                                                    new Element<object>(),
-                                                                                                    0
-                                                                                                },
-                                                                                            new object[]
-                                                                                                {
-                                                                                                    new Element<object>(1),
-                                                                                                    579
-                                                                                                },
-                                                                                            new object[]
-                                                                                                {
-                                                                                                    new Element<object>(0),
-                                                                                                    386
-                                                                                                },
-                                                                                            new object[]
-                                                                                                {
-                                                                                                    new Element<object>(null),
-                                                                                                    1
-                                                                                                }
-                                                                                        };
+            element.Value.ShouldBeEquivalentTo("test");
+        }
+
+        [Fact]
+        public void ValueShouldThrowInvalidOperationExceptionWhenElementDoesNotExist()
+        {
+            var element = new Element<int>();
+
+            Action value = () => element.Value.ToString();
+
+            value.ShouldThrow<InvalidOperationException>().WithMessage("Element does not exist.");
         }
     }
 }

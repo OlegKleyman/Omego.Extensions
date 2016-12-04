@@ -22,7 +22,7 @@
         public void SingleElementByQueryShouldReturnMultipleMatchesFlagWhenElementIsNotFound()
         {
             var enumerable = new[] { 1, 2 };
-            
+
             enumerable.SingleElement(x => true).Should().Be(SingleElementResult<int>.MultipleElements);
         }
 
