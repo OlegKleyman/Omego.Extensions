@@ -1,8 +1,9 @@
 ﻿namespace Omego.Extensions
 {
     using System;
+    using System.Collections.Generic;
 
-    public struct SingleElementResult<T>
+    public struct SingleElementResult<T> : IEquatable<SingleElementResult<T>>
     {
         private readonly Element<T> value;
 
@@ -39,5 +40,28 @@
         public static SingleElementResult<T> MultipleElements => MultipleElementResult.Value;
 
         public static SingleElementResult<T> NoElements => NoElementResult.Value;
+
+        public static bool operator ==(SingleElementResult<T> first, SingleElementResult<T> second)
+        {
+            return first.Equals(second);
+        }
+
+        public static bool operator !=(SingleElementResult<T> first, SingleElementResult<T> second)
+        {
+            return !(first == second);
+        }
+
+        public bool Equals(SingleElementResult<T> other)
+        => Elements == other.Elements && (!value.Present || value.Equals(other.value));
+
+        public override bool Equals(object obj) => obj is SingleElementResult<T> && Equals((SingleElementResult<T>)obj);
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return value.Present && value.Value != null ? value.Value.GetHashCode() : 0;
+            }
+        }
     }
 }
