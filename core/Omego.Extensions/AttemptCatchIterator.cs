@@ -83,7 +83,13 @@
         /// <remarks>Not supported.</remarks>
         public void Reset()
         {
-            throw new NotSupportedException();
+            if (disposed)
+            {
+                throw new ObjectDisposedException(GetType().FullName);
+            }
+
+            enumerator.Reset();
+                Current = default(T);
         }
 
         /// <summary>Gets the element in the collection at the current position of the enumerator.</summary>

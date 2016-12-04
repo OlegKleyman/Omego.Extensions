@@ -160,12 +160,37 @@
         }
 
         [Fact]
-        public void ResetShouldThrowNotSupportedException()
+        public void ResetShouldThrowObjectDisposedExceptionWhenIteratorIsDisposed()
         {
             var iterator = new AttemptCatchIterator<int, Exception>(new int[0], exception => { });
+            iterator.Dispose();
 
             Action reset = () => iterator.Reset();
-            reset.ShouldThrow<NotSupportedException>();
+            reset.ShouldThrow<ObjectDisposedException>()
+                .WithMessage(
+                    "Cannot access a disposed object.\r\nObject name: 'Omego.Extensions."
+                    + "AttemptCatchIterator`2[[System.Int32, mscorlib, Version=4.0.0.0, "
+                    + "Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Exception, "
+                    + "mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]'.")
+                .And.ObjectName.ShouldBeEquivalentTo(
+                    "Omego.Extensions." + "AttemptCatchIterator`2[[System.Int32, mscorlib, Version=4.0.0.0, "
+                    + "Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Exception, "
+                    + "mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]");
+        }
+
+        [Fact]
+        public void ResetShouldResetEnumeratorIfNotDisposed()
+        {
+            var iterator = (IEnumerator)new AttemptCatchIterator<int, DivideByZeroException>(new[] { 1, 2 }, t => { });
+
+            iterator.MoveNext();
+            iterator.MoveNext();
+
+            iterator.Reset();
+
+            iterator.MoveNext();
+
+            iterator.Current.ShouldBeEquivalentTo(1);
         }
     }
 }
