@@ -101,26 +101,6 @@
             (secondElement != firstElement).ShouldBeEquivalentTo(!expected);
         }
 
-        [Theory]
-        [MemberData("ValueEqualityTheory", MemberType = typeof(ElementTestsTheories))]
-        public void EqualsOperatorForWrappedTypeShouldReturnWhetherElementValuesAreEqual(
-            Element<object> element,
-            object value,
-            bool expected)
-        {
-            (element == value).ShouldBeEquivalentTo(expected);
-        }
-
-        [Theory]
-        [MemberData("ValueEqualityTheory", MemberType = typeof(ElementTestsTheories))]
-        public void NotEqualsOperatorForWrappedTypeShouldReturnWhetherElementValuesAreEqual(
-            Element<object> element,
-            object value,
-            bool expected)
-        {
-            (element != value).ShouldBeEquivalentTo(!expected);
-        }
-
         [Fact]
         public void ImplicitOperatorFromGenericTypeToElementShouldReturnElementWrappingGenericTypeObjectFact()
         {

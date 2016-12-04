@@ -71,16 +71,6 @@
             return !(first == second);
         }
 
-        public static bool operator ==(Element<T> first, T second)
-        {
-            return first.Present && first.Equals(second);
-        }
-
-        public static bool operator !=(Element<T> first, T second)
-        {
-            return !(first == second);
-        }
-
         public static implicit operator Element<T>(T target)
         {
             return new Element<T>(target);
