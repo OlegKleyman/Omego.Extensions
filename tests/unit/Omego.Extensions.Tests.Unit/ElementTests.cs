@@ -307,17 +307,17 @@
                                                                                             new object[]
                                                                                                 {
                                                                                                     new Element<object>(1),
-                                                                                                    1
+                                                                                                    579
                                                                                                 },
                                                                                             new object[]
                                                                                                 {
                                                                                                     new Element<object>(0),
-                                                                                                    0
+                                                                                                    386
                                                                                                 },
                                                                                             new object[]
                                                                                                 {
                                                                                                     new Element<object>(null),
-                                                                                                    0
+                                                                                                    1
                                                                                                 }
                                                                                         };
         }

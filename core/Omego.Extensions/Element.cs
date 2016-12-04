@@ -41,7 +41,24 @@
 
         public override int GetHashCode()
         {
-            return !Present ? 0 : (value != null ? value.GetHashCode() : 0);
+            unchecked
+            {
+                const int nullHashCode = 1;
+                const int notPresentHashCode = 0;
+                const int salt = 193;
+
+                Func<int, int> presentHash = hash =>
+                    {
+                        while (hash == notPresentHashCode || hash == nullHashCode)
+                        {
+                            hash = (nullHashCode + hash + 1) * salt;
+                        }
+
+                        return hash;
+                    };
+
+                return Present ? (value == null ? nullHashCode : presentHash(value.GetHashCode())) : notPresentHashCode;
+            }
         }
 
         public static bool operator ==(Element<T> first, Element<T> second)
