@@ -50,30 +50,28 @@
         /// <exception cref="T:System.InvalidOperationException">The collection was modified after the enumerator was created. </exception>
         public bool MoveNext()
         {
+            if (disposed) throw new ObjectDisposedException(GetType().FullName);
+
             var success = false;
+            bool exceptionOccured;
 
-            if (!disposed)
+            do
             {
-                bool exceptionOccured;
-
-                do
+                try
                 {
-                    try
-                    {
-                        success = enumerator.MoveNext();
+                    success = enumerator.MoveNext();
 
-                        Current = success ? enumerator.Current : default(T);
+                    Current = success ? enumerator.Current : default(T);
 
-                        exceptionOccured = false;
-                    }
-                    catch (TE ex)
-                    {
-                        exceptionOccured = true;
-                        handler(ex);
-                    }
+                    exceptionOccured = false;
                 }
-                while (exceptionOccured);
+                catch (TE ex)
+                {
+                    exceptionOccured = true;
+                    handler(ex);
+                }
             }
+            while (exceptionOccured);
 
             return success;
         }

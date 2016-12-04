@@ -131,13 +131,23 @@
         }
 
         [Fact]
-        public void MoveNextShouldReturnFalseWhenDisposed()
+        public void MoveNextShouldThrowObjectDisposedExceptionWhenIteratorIsDisposed()
         {
-            var iterator = new AttemptCatchIterator<string, DivideByZeroException>(new[] { string.Empty }, t => { });
-
+            var iterator = new AttemptCatchIterator<int, Exception>(new int[0], exception => { });
             iterator.Dispose();
 
-            iterator.MoveNext().Should().BeFalse();
+            Action moveNext = () => iterator.MoveNext();
+
+            moveNext.ShouldThrow<ObjectDisposedException>()
+                .WithMessage(
+                    "Cannot access a disposed object.\r\nObject name: 'Omego.Extensions."
+                    + "AttemptCatchIterator`2[[System.Int32, mscorlib, Version=4.0.0.0, "
+                    + "Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Exception, "
+                    + "mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]'.")
+                .And.ObjectName.ShouldBeEquivalentTo(
+                    "Omego.Extensions." + "AttemptCatchIterator`2[[System.Int32, mscorlib, Version=4.0.0.0, "
+                    + "Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Exception, "
+                    + "mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]");
         }
 
         [Fact]
