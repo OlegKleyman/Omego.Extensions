@@ -43,26 +43,16 @@
         public static SingleElementResult<T> NoElements => NoElementResult.Value;
 
         public static bool operator ==(SingleElementResult<T> first, SingleElementResult<T> second)
-        {
-            return first.Equals(second);
-        }
+            => first.Elements == second.Elements && first.value.Equals(second.value);
 
         public static bool operator !=(SingleElementResult<T> first, SingleElementResult<T> second)
-        {
-            return !(first == second);
-        }
+            => !(first == second);
 
-        public static implicit operator SingleElementResult<T>(T target)
-        {
-            return new SingleElementResult<T>(target);
-        }
+        public static implicit operator SingleElementResult<T>(T target) => new SingleElementResult<T>(target);
 
-        public static explicit operator T(SingleElementResult<T> target)
-        {
-            return target.Value;
-        }
+        public static explicit operator T(SingleElementResult<T> target) => target.Value;
 
-        public bool Equals(SingleElementResult<T> other) => Elements == other.Elements && (value.Equals(other.value));
+        public bool Equals(SingleElementResult<T> other) => this == other;
 
         public bool Equals(T other) => value == other;
 
