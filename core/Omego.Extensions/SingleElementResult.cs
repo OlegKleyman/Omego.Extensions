@@ -60,7 +60,7 @@
         {
             unchecked
             {
-                return value.Present && value.Value != null ? value.Value.GetHashCode() : 0;
+                return Value.GetHashCode() + Elements.GetHashCode();
             }
         }
     }
