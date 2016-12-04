@@ -89,7 +89,7 @@
         }
 
         [Theory]
-        [InlineData(1, 1)]
+        [InlineData(1, 2)]
         public void GetHashCodeShouldReturnHashCodeRegardlessOfValue(int value, int expectedHashCoe)
         {
             new SingleElementResult<int>(value).GetHashCode().ShouldBeEquivalentTo(expectedHashCoe);
@@ -138,7 +138,7 @@
         [Fact]
         public void GetHashCodeShouldReturnHashCodeIfValueIsNull()
         {
-            new SingleElementResult<string>(null).GetHashCode().ShouldBeEquivalentTo(0);
+            new SingleElementResult<string>(null).GetHashCode().ShouldBeEquivalentTo(1);
         }
     }
 }

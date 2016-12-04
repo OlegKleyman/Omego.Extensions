@@ -52,7 +52,7 @@
         }
 
         public bool Equals(SingleElementResult<T> other)
-        => Elements == other.Elements && (!value.Present || value.Equals(other.value));
+        => Elements == other.Elements && (value.Equals(other.value));
 
         public override bool Equals(object obj) => obj is SingleElementResult<T> && Equals((SingleElementResult<T>)obj);
 
@@ -60,7 +60,7 @@
         {
             unchecked
             {
-                return Value.GetHashCode() + Elements.GetHashCode();
+                return Elements.GetHashCode() + value.GetHashCode();
             }
         }
     }
