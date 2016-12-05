@@ -11,8 +11,6 @@
     [CLSCompliant(false)]
     public class SingleElementResultTests
     {
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
         [Theory]
         [MemberData("ElementEqualityTheory", MemberType = typeof(SingleElementResultTestsTheories))]
         public void EqualsShouldReturnWhetherSingleElementsAreEqual(
