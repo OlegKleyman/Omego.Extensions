@@ -7,7 +7,7 @@
     /// <summary>
     /// Represents a single element.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">The type this value wraps.</typeparam>
     public struct SingleElementResult<T> : IEquatable<SingleElementResult<T>>, IEquatable<T>
     {
         private readonly Element<T> value;
@@ -109,6 +109,9 @@
         /// The <see cref="SingleElementResult{T}"/> of <typeparamref name="T"/> to cast.
         /// </param>
         /// <returns>An instance of <typeparamref name="T"/>.</returns>
+        /// <exception cref="InvalidCastException">
+        /// Thrown when the element does not represent one element.
+        /// </exception>
         public static explicit operator T(SingleElementResult<T> target)
         {
             if (target.Elements != Elements.One)
@@ -124,10 +127,30 @@
             return target.Value;
         }
 
+        /// <summary>
+        /// Checks whether this instance of the value is equal to another
+        /// <see cref="SingleElementResult{T}"/> of <typeparamref name="T"/>.
+        /// </summary>
+        /// <param name="other">
+        /// The other <see cref="SingleElementResult{T}"/> of <typeparamref name="T"/>
+        /// to compare to.
+        /// </param>
+        /// <returns>Whether the value is equal.</returns>
         public bool Equals(SingleElementResult<T> other) => this == other;
 
+        /// <summary>
+        /// Checks whether this instance of the value is equal to an
+        /// instance of <typeparamref name="T"/>.
+        /// </summary>
+        /// <param name="other">
+        /// The instance of <typeparamref name="T"/> to compare to.
+        /// </param>
+        /// <returns>Whether the instance is equal.</returns>
         public bool Equals(T other) => value == other;
 
+        /// <summary>Indicates whether this instance and a specified object are equal.</summary>
+        /// <returns>true if <paramref name="obj" /> and this instance are the same type and represent the same value; otherwise, false. </returns>
+        /// <param name="obj">The object to compare with the current instance. </param>
         public override bool Equals(object obj)
             => (obj is SingleElementResult<T> && Equals((SingleElementResult<T>)obj)) || (obj is T && Equals((T)obj));
 
@@ -135,6 +158,8 @@
 
         private static readonly int ElementsMinValue = Enum.GetValues(typeof(Elements)).Cast<int>().Min();
 
+        /// <summary>Returns the hash code for this instance.</summary>
+        /// <returns>A 32-bit signed integer that is the hash code for this instance.</returns>
         public override int GetHashCode()
         {
             unchecked
