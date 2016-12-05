@@ -35,7 +35,7 @@
         [Fact]
         public void SingleElementByQueryShouldReturnNoMatchesFlagWhenElementIsNotFound()
         {
-            var queryable = new int[0];
+            var queryable = new int[0].AsQueryable();
 
             queryable.SingleElement(x => false).Should().Be(SingleElementResult<int>.NoElements);
         }
@@ -43,7 +43,7 @@
         [Fact]
         public void SingleElementByQueryWhenFoundShouldThrowArgumentNullExceptionWhenPredicateArgumentIsNull()
         {
-            Action singleElement = () => new int[0].SingleElement(null);
+            Action singleElement = () => new int[0].AsQueryable().SingleElement(null);
 
             singleElement.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("predicate");
         }
