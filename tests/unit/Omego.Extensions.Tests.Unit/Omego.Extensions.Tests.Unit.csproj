@@ -72,7 +72,7 @@
     <Compile Include="SingleQueryableExtensionsTests.cs" />
     <Compile Include="FirstQueryableExtensionsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SingleEnumerableExtensions.cs" />
+    <Compile Include="SingleEnumerableExtensionsTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

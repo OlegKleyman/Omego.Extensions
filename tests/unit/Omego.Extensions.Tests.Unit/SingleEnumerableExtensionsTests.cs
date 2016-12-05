@@ -115,7 +115,7 @@
         {
             var enumerable = new object[2];
 
-            Action singleOr = () => enumerable.SingleOr(o => o == null, null);
+            Action singleOr = () => enumerable.SingleOr(o => o == null, (object)null);
 
             singleOr.ShouldThrow<InvalidOperationException>().WithMessage("More than one match found for (o == null).");
         }
@@ -125,7 +125,7 @@
         {
             var enumerable = new[] { "1" };
 
-            enumerable.SingleOr(x => x == "1", null).Should().Be("1");
+            enumerable.SingleOr(x => x == "1", (string)null).Should().Be("1");
         }
 
         [Fact]
@@ -139,7 +139,7 @@
         [Fact]
         public void SingleOrByQueryShouldThrowArgumentNullExceptionWhenEnumerableArgumentIsNullWhenSearching()
         {
-            Action singleOr = () => ((IEnumerable<string>)null).SingleOr(x => false, null);
+            Action singleOr = () => ((IEnumerable<string>)null).SingleOr(x => false, (string)null);
 
             singleOr.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("enumerable");
         }
@@ -147,7 +147,7 @@
         [Fact]
         public void SingleOrByQueryShouldThrowArgumentNullExceptionWhenPredicateArgumentIsNullWhenSearching()
         {
-            Action singleOr = () => new string[] { null }.SingleOr(null, null);
+            Action singleOr = () => new string[] { null }.SingleOr(null, (string)null);
 
             singleOr.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("predicate");
         }
@@ -159,21 +159,21 @@
 
             var enumerable = new object[2];
 
-            Action singleOrDefaultOrThrow = () => enumerable.SingleOrDefaultOrThrow(o => o == null, null, ex);
+            Action singleOrDefaultOrThrow = () => enumerable.SingleOrDefaultOrThrow(o => o == null, (object)null, ex);
 
             singleOrDefaultOrThrow.ShouldThrow<InvalidOperationException>().Which.Should().Be(ex);
         }
 
         [Fact]
-        public void SingleOrDefaultOrThrowShouldReturnElementIfOneExists()
+        public void SingleOrDefaultOrThrowByQueryShouldReturnElementIfOneExists()
         {
             var enumerable = new[] { "1" };
 
-            enumerable.SingleOrDefaultOrThrow(s => s == "1", null, null).Should().Be("1");
+            enumerable.SingleOrDefaultOrThrow(s => s == "1", (string)null, null).Should().Be("1");
         }
 
         [Fact]
-        public void SingleOrDefaultOrThrowShouldReturnRequestedDefaultObjectWhenNoElementsAreFound()
+        public void SingleOrDefaultOrThrowByQueryShouldReturnRequestedDefaultObjectWhenNoElementsAreFound()
         {
             var enumerable = new object[0];
 
@@ -181,9 +181,9 @@
         }
 
         [Fact]
-        public void SingleOrDefaultOrThrowShouldThrowArgumentNullExceptionWhenEnumerableArgumentIsNull()
+        public void SingleOrDefaultOrThrowByQueryShouldThrowArgumentNullExceptionWhenEnumerableArgumentIsNull()
         {
-            Action singleOrDefaultOrThrow = () => ((IEnumerable<string>)null).SingleOrDefaultOrThrow(null, null, null);
+            Action singleOrDefaultOrThrow = () => ((IEnumerable<string>)null).SingleOrDefaultOrThrow(null, (string)null, null);
 
             singleOrDefaultOrThrow.ShouldThrowExactly<ArgumentNullException>()
                 .Which.ParamName.ShouldBeEquivalentTo("enumerable");
@@ -194,7 +194,7 @@
         {
             var enumerable = new[] { "1" };
 
-            enumerable.SingleOr(null).Should().Be("1");
+            enumerable.SingleOr((string)null).Should().Be("1");
         }
 
         [Fact]
@@ -208,7 +208,7 @@
         [Fact]
         public void SingleOrShouldThrowArgumentNullExceptionWhenEnumerableArgumentIsNull()
         {
-            Action singleOr = () => ((IEnumerable<string>)null).SingleOr(null);
+            Action singleOr = () => ((IEnumerable<string>)null).SingleOr((string)null);
 
             singleOr.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("enumerable");
         }
@@ -218,7 +218,7 @@
         {
             var enumerable = new object[2];
 
-            Action singleOr = () => enumerable.SingleOr(null);
+            Action singleOr = () => enumerable.SingleOr((object)null);
 
             singleOr.ShouldThrow<InvalidOperationException>().WithMessage("More than one match found for true.");
         }
@@ -383,6 +383,102 @@
 
             singleOrThrow.ShouldThrowExactly<InvalidOperationException>()
                 .Which.Message.ShouldBeEquivalentTo("More than one match found for (x == 1).");
+        }
+
+        [Fact]
+        public void SingleOrLazyByQueryShouldArgumentNullExceptionWhenDefaultFuncIsNull()
+        {
+            var enumerable = new[] { "1" };
+
+            Action singleOr = () => enumerable.SingleOr(x => x == "2", (Func<string>)null);
+
+            singleOr.ShouldThrow<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("default");
+        }
+
+        [Fact]
+        public void SingleOrLazyByQueryShouldArgumentNullExceptionWhenPredicateIsNull()
+        {
+            var enumerable = new[] { "1" };
+
+            Action singleOr = () => enumerable.SingleOr(null, (Func<string>)null);
+
+            singleOr.ShouldThrow<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("predicate");
+        }
+
+        [Fact]
+        public void SingleOrLazyByQueryShouldReturnElementWhenFound()
+        {
+            var enumerable = new[] { "1" };
+
+            enumerable.SingleOr(x => x == "1", (Func<string>)null).Should().Be("1");
+        }
+
+        [Fact]
+        public void SingleOrLazyByQueryShouldReturnRequestedDefaultObjectWhenEnumerableIsEmpty()
+        {
+            var enumerable = new string[0];
+
+            enumerable.SingleOr(s => false, () => "3").Should().Be("3");
+        }
+
+        [Fact]
+        public void SingleOrLazyByQueryShouldReturnRequestedDefaultObjectWhenNotFound()
+        {
+            var enumerable = new[] { "1" };
+
+            enumerable.SingleOr(x => x == "2", () => "3").Should().Be("3");
+        }
+
+        [Fact]
+        public void SingleOrLazyShouldReturnElementWhenFound()
+        {
+            var enumerable = new[] { "1" };
+
+            enumerable.SingleOr((Func<string>)null).Should().Be("1");
+        }
+
+        [Fact]
+        public void SingleOrLazyShouldReturnRequestedDefaultObjectWhenEnumerableIsEmpty()
+        {
+            var enumerable = new string[0];
+
+            enumerable.SingleOr(() => "3").Should().Be("3");
+        }
+
+        [Fact]
+        public void SingleOrLazyShouldReturnRequestedDefaultObjectWhenNotFound()
+        {
+            var enumerable = new string[0];
+
+            enumerable.SingleOr(() => "3").Should().Be("3");
+        }
+
+        [Fact]
+        public void SingleOrDefaultOrThrowLazyByQueryShouldThrowExceptionWhenMultipleElementsAreFound()
+        {
+            var ex = new InvalidOperationException();
+
+            var enumerable = new object[2];
+
+            Action singleOrDefaultOrThrow = () => enumerable.SingleOrDefaultOrThrow(o => o == null, null, ex);
+
+            singleOrDefaultOrThrow.ShouldThrow<InvalidOperationException>().Which.Should().Be(ex);
+        }
+
+        [Fact]
+        public void SingleOrDefaultOrThrowLazyByQueryShouldReturnElementIfOneExists()
+        {
+            var enumerable = new[] { "1" };
+
+            enumerable.SingleOrDefaultOrThrow(s => s == "1", (Func<string>)null, null).Should().Be("1");
+        }
+
+        [Fact]
+        public void SingleOrDefaultOrThrowLazyByQueryShouldReturnRequestedDefaultObjectWhenNoElementsAreFound()
+        {
+            var enumerable = new object[0];
+
+            enumerable.SingleOrDefaultOrThrow(o => false, () => "3", null).Should().Be("3");
         }
     }
 }

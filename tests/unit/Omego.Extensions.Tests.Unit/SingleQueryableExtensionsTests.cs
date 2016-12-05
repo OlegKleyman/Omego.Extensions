@@ -154,7 +154,7 @@
         {
             var queryable = new object[2].AsQueryable();
 
-            Action singleOr = () => queryable.SingleOr(o => o == null, null);
+            Action singleOr = () => queryable.SingleOr(o => o == null, (object)null);
 
             singleOr.ShouldThrow<InvalidOperationException>().WithMessage("More than one match found for (o == null).");
         }
@@ -166,7 +166,7 @@
 
             var queryable = new object[2].AsQueryable();
 
-            Action singleOrDefaultOrThrow = () => queryable.SingleOrDefaultOrThrow(o => o == null, null, ex);
+            Action singleOrDefaultOrThrow = () => queryable.SingleOrDefaultOrThrow(o => o == null, (object)null, ex);
 
             singleOrDefaultOrThrow.ShouldThrow<InvalidOperationException>().Which.Should().Be(ex);
         }
@@ -217,7 +217,7 @@
         {
             var queryable = new object[2].AsQueryable();
 
-            Action singleOr = () => queryable.SingleOr(null);
+            Action singleOr = () => queryable.SingleOr((string)null);
 
             singleOr.ShouldThrow<InvalidOperationException>().WithMessage("More than one match found for true.");
         }

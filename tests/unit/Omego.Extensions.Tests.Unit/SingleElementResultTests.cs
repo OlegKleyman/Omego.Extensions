@@ -371,5 +371,35 @@
 
             value.ShouldThrow<InvalidOperationException>().WithMessage("Multiple elements found.");
         }
+
+        [Fact]
+        public void ValueOrShouldThrowInvalidOperationExceptionWhenMultipleElementsExist()
+        {
+            var result = SingleElementResult<int>.MultipleElements;
+
+            Action value = () => result.ValueOr(null);
+
+            value.ShouldThrow<InvalidOperationException>().WithMessage("Multiple elements found.");
+        }
+
+        [Fact]
+        public void ValueOrShouldReturnValueWhenOneExists()
+        {
+            new SingleElementResult<int>(3).ValueOr(null).ShouldBeEquivalentTo(3);
+        }
+
+        [Fact]
+        public void ValueOrShouldReturnDefaultValueWhenNoneExists()
+        {
+            new SingleElementResult<int>().ValueOr(() => 3).ShouldBeEquivalentTo(3);
+        }
+
+        [Fact]
+        public void ValueOrShouldThrowArgumentNullExceptionWhenDefaultSelectorIsNull()
+        {
+            Action valueOr = () => new SingleElementResult<int>().ValueOr(null);
+
+            valueOr.ShouldThrow<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("default");
+        }
     }
 }

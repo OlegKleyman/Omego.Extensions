@@ -356,21 +356,38 @@
         {
             var element = enumerable.FirstElement(predicate);
 
-            return element.Present ? element.Value : new Func<T>(
-                                                         () =>
-                                                             {
-                                                                 if (@default == null)
-                                                                 {
-                                                                     throw new ArgumentNullException(nameof(@default));
-                                                                 }
-
-                                                                 return @default();
-                                                             })();
+            return element.ValueOr(@default);
         }
 
         public static T FirstOr<T>(this IEnumerable<T> enumerable, Func<T> @default)
         {
             return enumerable.FirstOr(x => true, @default);
+        }
+
+        public static T SingleOrDefaultOrThrow<T>(
+            this IEnumerable<T> enumerable,
+            Func<T, bool> predicate,
+            Func<T> @default,
+            Exception multipleMatchesFoundException)
+        {
+            var element = enumerable.SingleElementOrThrowOnMultiple(predicate, multipleMatchesFoundException);
+
+            return element.ValueOr(@default);
+        }
+
+        public static T SingleOr<T>(this IEnumerable<T> enumerable, Expression<Func<T, bool>> predicate, Func<T> @default)
+        {
+            if (predicate == null) throw new ArgumentNullException(nameof(predicate));
+
+            return enumerable.SingleOrDefaultOrThrow(
+                predicate.Compile(),
+                @default,
+                new InvalidOperationException($"More than one match found for {predicate.Body}."));
+        }
+
+        public static T SingleOr<T>(this IEnumerable<T> enumerable, Func<T> @default)
+        {
+            return enumerable.SingleElement(arg => true).ValueOr(@default);
         }
     }
 }

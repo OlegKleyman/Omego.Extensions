@@ -148,5 +148,20 @@
 
             return target.Value;
         }
+
+        public T ValueOr(Func<T> @default)
+        {
+            Func<T> defaultSelector = () =>
+                {
+                    if (@default == null)
+                    {
+                        throw new ArgumentNullException(nameof(@default));
+                    }
+
+                    return @default();
+                };
+
+            return Present ? Value : defaultSelector();
+        }
     }
 }
