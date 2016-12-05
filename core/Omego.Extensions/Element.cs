@@ -1,6 +1,7 @@
 ﻿namespace Omego.Extensions
 {
     using System;
+    using System.Globalization;
 
     /// <summary>
     /// Represents an element.
@@ -65,6 +66,18 @@
 
         public static implicit operator Element<T>(T target) => new Element<T>(target);
 
-        public static explicit operator T(Element<T> target) => target.Value;
+        public static explicit operator T(Element<T> target)
+        {
+            if (!target.Present)
+            {
+                throw new InvalidCastException(
+                          string.Format(
+                              CultureInfo.InvariantCulture,
+                              "No element present to cast to {0}.",
+                              typeof(T).FullName));
+            }
+
+            return target.Value;
+        }
     }
 }
