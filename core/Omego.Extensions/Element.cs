@@ -21,8 +21,19 @@
             Present = true;
         }
 
+        /// <summary>
+        /// Gets <see cref="Present"/>.
+        /// </summary>
+        /// <value>Indicates whether the element exists.</value>
         public bool Present { get; }
 
+        /// <summary>
+        /// Gets <see cref="Value"/>.
+        /// </summary>
+        /// <value>The <typeparamref name="T"/> that this element represents.</value>
+        /// <exception cref="InvalidOperationException">
+        /// Thrown when the element is not present.
+        /// </exception>
         public T Value
         {
             get
@@ -33,13 +44,32 @@
             }
         }
 
+        /// <summary>
+        /// Checks whether this instance of the value is equal to another
+        /// <see cref="Element{T}"/> of <typeparamref name="T"/>.
+        /// </summary>
+        /// <param name="other">
+        /// The other <see cref="Element{T}"/> of <typeparamref name="T"/>
+        /// to compare to.
+        /// </param>
+        /// <returns>Whether the value is equal.</returns>
         public bool Equals(Element<T> other) => this == other;
 
+        /// <summary>
+        /// Checks whether this instance of the value is equal to an
+        /// instance of <typeparamref name="T"/>.
+        /// </summary>
+        /// <param name="other">
+        /// The instance of <typeparamref name="T"/> to compare to.
+        /// </param>
+        /// <returns>Whether the instance is equal.</returns>
         public bool Equals(T other) => Present && (Value != null ? Value.Equals(other) : other == null);
 
+        /// <inheritdoc />
         public override bool Equals(object obj)
             => (obj is Element<T> && Equals((Element<T>)obj)) || (obj is T && Equals((T)obj));
 
+        /// <inheritdoc />
         public override int GetHashCode()
         {
             unchecked
@@ -59,13 +89,46 @@
             }
         }
 
+        /// <summary>
+        /// The equal operator for two <see cref="Element{T}"/> of <typeparamref name="T"/>.
+        /// </summary>
+        /// <param name="first">The first <see cref="Element{T}"/> of <typeparamref name="T"/>
+        /// to compare.</param>
+        /// <param name="second">The second <see cref="Element{T}"/> of <typeparamref name="T"/>
+        /// to compare.</param>
+        /// <returns>A <see cref="bool"/> indicating whether values are equal.</returns>
         public static bool operator ==(Element<T> first, Element<T> second)
             => first.Present ? second.Present && first.Equals(second.Value) : !second.Present;
 
+        /// <summary>
+        /// The not equal operator for two <see cref="Element{T}"/> of <typeparamref name="T"/>.
+        /// </summary>
+        /// <param name="first">The first <see cref="Element{T}"/> of <typeparamref name="T"/>
+        /// to compare.</param>
+        /// <param name="second">The second <see cref="Element{T}"/> of <typeparamref name="T"/>
+        /// to compare.</param>
+        /// <returns>A <see cref="bool"/> indicating whether values are not equal.</returns>
         public static bool operator !=(Element<T> first, Element<T> second) => !(first == second);
 
+        /// <summary>
+        /// The implicit cast operator for casting an object of <typeparamref name="T"/>
+        /// to <see cref="Element{T}"/> of <typeparamref name="T"/>.
+        /// </summary>
+        /// <param name="target">The instance of <typeparamref name="T"/> to cast.</param>
+        /// <returns>A single value of <see cref="Element{T}"/> of <typeparamref name="T"/>.</returns>
         public static implicit operator Element<T>(T target) => new Element<T>(target);
 
+        /// <summary>
+        /// The explicit cast operator for casting a value of <see cref="Element{T}"/> of <typeparamref name="T"/>
+        /// to <typeparamref name="T"/>.
+        /// </summary>
+        /// <param name="target">
+        /// The <see cref="Element{T}"/> of <typeparamref name="T"/> to cast.
+        /// </param>
+        /// <returns>An instance of <typeparamref name="T"/>.</returns>
+        /// <exception cref="InvalidCastException">
+        /// Thrown when the element is not present.
+        /// </exception>
         public static explicit operator T(Element<T> target)
         {
             if (!target.Present)
