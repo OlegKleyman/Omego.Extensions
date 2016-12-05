@@ -23,17 +23,16 @@
             Expression<Func<T, bool>> predicate,
             Exception exception)
         {
-            if (queryable == null) throw new ArgumentNullException(nameof(queryable));
-            if (predicate == null) throw new ArgumentNullException(nameof(predicate));
+            var element = queryable.FirstElement(predicate);
 
-            if (!queryable.Any(predicate))
+            if (!element.Present)
             {
                 if (exception == null) throw new ArgumentNullException(nameof(exception));
 
                 throw exception;
             }
 
-            return queryable.First(predicate);
+            return element.Value;
         }
 
         /// <summary>
@@ -81,20 +80,9 @@
             Exception noMatchFoundException,
             Exception multipleMatchesFoundException)
         {
-            if (queryable == null) throw new ArgumentNullException(nameof(queryable));
+            var element = queryable.SingleElementOrThrowOnMultiple(predicate, multipleMatchesFoundException);
 
-            if (predicate == null) throw new ArgumentNullException(nameof(predicate));
-
-            var count = queryable.Where(predicate).Take(2).Count();
-
-            if (count > 1)
-            {
-                if (multipleMatchesFoundException == null) throw new ArgumentNullException(nameof(multipleMatchesFoundException));
-
-                throw multipleMatchesFoundException;
-            }
-
-            if (count == 0)
+            if (element == SingleElementResult<T>.NoElements)
             {
                 if (noMatchFoundException == null) throw new ArgumentNullException(nameof(noMatchFoundException));
 
