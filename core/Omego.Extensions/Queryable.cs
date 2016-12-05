@@ -19,7 +19,7 @@
         /// <param name="exception">The exception to throw when the element is not found.</param>
         /// <returns>An instance of <typeparamref name="T" />.</returns>
         /// <exception cref="ArgumentNullException">
-        /// Thrown when the <paramref name="exception"/> argument is null.
+        ///     Thrown when the <paramref name="exception" /> argument is null.
         /// </exception>
         public static T FirstOrThrow<T>(
             this IQueryable<T> queryable,
@@ -59,7 +59,7 @@
         /// <param name="predicate">The predicate to use to find the first element.</param>
         /// <returns>An instance of <typeparamref name="T" />.</returns>
         /// <exception cref="ArgumentNullException">
-        /// Thrown when the <paramref name="predicate"/> argument is null.
+        ///     Thrown when the <paramref name="predicate" /> argument is null.
         /// </exception>
         public static T FirstOrThrow<T>(this IQueryable<T> queryable, Expression<Func<T, bool>> predicate)
         {
@@ -81,7 +81,7 @@
         /// <param name="multipleMatchesFoundException">The exception to throw when multiple matches are found.</param>
         /// <returns>An instance of <typeparamref name="T" />.</returns>
         /// <exception cref="ArgumentNullException">
-        /// Thrown when the <paramref name="noMatchFoundException"/> argument is null.
+        ///     Thrown when the <paramref name="noMatchFoundException" /> argument is null.
         /// </exception>
         public static T SingleOrThrow<T>(
             this IQueryable<T> queryable,
@@ -127,7 +127,7 @@
         /// <param name="predicate">The predicate to use to find a single match.</param>
         /// <returns>An instance of <typeparamref name="T" />.</returns>
         /// <exception cref="ArgumentNullException">
-        /// Thrown when the <paramref name="predicate"/> argument is null.
+        ///     Thrown when the <paramref name="predicate" /> argument is null.
         /// </exception>
         public static T SingleOrThrow<T>(this IQueryable<T> queryable, Expression<Func<T, bool>> predicate)
         {

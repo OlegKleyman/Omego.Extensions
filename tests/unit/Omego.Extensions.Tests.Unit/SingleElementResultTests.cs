@@ -298,16 +298,6 @@
                           };
         }
 
-
-        [Fact]
-        public void ExplicitOperatorFromSingleElementToGenericTypeShouldReturnGenericTypeObjectFact()
-        {
-            var element = new SingleElementResult<string>("test");
-            var @string = (string)element;
-
-            @string.Should().IsSameOrEqualTo(element);
-        }
-
         [Theory]
         [MemberData(
              "ExplicitOperatorFromSingleElementToGenericTypeShouldThrowInvalidCastExceptionWhenConversionCantBeDoneTheory",
@@ -320,6 +310,15 @@
             Action explicitCast = () => ((string)element).GetType();
 
             explicitCast.ShouldThrow<InvalidCastException>().WithMessage(expectedMessage);
+        }
+
+        [Fact]
+        public void ExplicitOperatorFromSingleElementToGenericTypeShouldReturnGenericTypeObjectFact()
+        {
+            var element = new SingleElementResult<string>("test");
+            var @string = (string)element;
+
+            @string.Should().IsSameOrEqualTo(element);
         }
 
         [Fact]

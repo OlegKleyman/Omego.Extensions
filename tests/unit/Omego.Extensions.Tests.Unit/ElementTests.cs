@@ -194,6 +194,14 @@
         }
 
         [Fact]
+        public void ExplicitOperatorFromElementToGenericTypeShouldThrowInvalidCastExceptionWhenConversionCantBeDone()
+        {
+            Action explicitCast = () => ((string)new Element<string>()).GetType();
+
+            explicitCast.ShouldThrow<InvalidCastException>().WithMessage("No element present to cast to System.String.");
+        }
+
+        [Fact]
         public void ImplicitOperatorFromGenericTypeToElementShouldReturnElementWrappingGenericTypeObjectFact()
         {
             Element<string> element = "test";
@@ -217,14 +225,6 @@
             Action value = () => element.Value.ToString();
 
             value.ShouldThrow<InvalidOperationException>().WithMessage("Element does not exist.");
-        }
-
-        [Fact]
-        public void ExplicitOperatorFromElementToGenericTypeShouldThrowInvalidCastExceptionWhenConversionCantBeDone()
-        {
-            Action explicitCast = () => ((string)new Element<string>()).GetType();
-
-            explicitCast.ShouldThrow<InvalidCastException>().WithMessage("No element present to cast to System.String.");
         }
     }
 }
