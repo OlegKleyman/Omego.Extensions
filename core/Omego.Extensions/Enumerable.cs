@@ -351,5 +351,26 @@
 
             return result;
         }
+
+        public static T FirstOr<T>(this IEnumerable<T> enumerable, Func<T, bool> predicate, Func<T> @default)
+        {
+            var element = enumerable.FirstElement(predicate);
+
+            return element.Present ? element.Value : new Func<T>(
+                                                         () =>
+                                                             {
+                                                                 if (@default == null)
+                                                                 {
+                                                                     throw new ArgumentNullException(nameof(@default));
+                                                                 }
+
+                                                                 return @default();
+                                                             })();
+        }
+
+        public static T FirstOr<T>(this IEnumerable<T> enumerable, Func<T> @default)
+        {
+            return enumerable.FirstOr(x => true, @default);
+        }
     }
 }
