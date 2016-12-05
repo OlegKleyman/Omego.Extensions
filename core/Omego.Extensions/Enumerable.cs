@@ -49,6 +49,9 @@
         /// <param name="predicate">The predicate to use to find the first element.</param>
         /// <param name="exception">The exception to throw when the element is not found.</param>
         /// <returns>An instance of <typeparamref name="T" />.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when the <paramref name="exception"/> argument is null.
+        /// </exception>
         public static T FirstOrThrow<T>(this IEnumerable<T> enumerable, Func<T, bool> predicate, Exception exception)
         {
             var element = enumerable.FirstElement(predicate);
@@ -71,6 +74,9 @@
         /// <param name="enumerable">The enumerable to find the first element in.</param>
         /// <param name="predicate">The predicate to use to find the first element.</param>
         /// <returns>An instance of <typeparamref name="T" />.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when the <paramref name="predicate"/> argument is null.
+        /// </exception>
         public static T FirstOrThrow<T>(this IEnumerable<T> enumerable, Expression<Func<T, bool>> predicate)
         {
             if (predicate == null) throw new ArgumentNullException(nameof(predicate));
@@ -105,6 +111,9 @@
         /// <param name="enumerable">The enumerable to find the single element in.</param>
         /// <param name="predicate">The predicate to use to find a single match.</param>
         /// <returns>An instance of <typeparamref name="T" />.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when the <paramref name="predicate"/> argument is null.
+        /// </exception>
         public static T SingleOrThrow<T>(this IEnumerable<T> enumerable, Expression<Func<T, bool>> predicate)
         {
             if (predicate == null) throw new ArgumentNullException(nameof(predicate));
@@ -126,6 +135,9 @@
         /// <param name="noMatchFoundException">The exception to throw when the element is not found.</param>
         /// <param name="multipleMatchesFoundException">The exception to throw when multiple matches are found.</param>
         /// <returns>An instance of <typeparamref name="T" />.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when the <paramref name="noMatchFoundException"/> argument is null.
+        /// </exception>
         public static T SingleOrThrow<T>(
             this IEnumerable<T> enumerable,
             Func<T, bool> predicate,
