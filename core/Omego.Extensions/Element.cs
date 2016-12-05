@@ -2,10 +2,18 @@
 {
     using System;
 
+    /// <summary>
+    /// Represents an element.
+    /// </summary>
+    /// <typeparam name="T">The type this value wraps.</typeparam>
     public struct Element<T> : IEquatable<Element<T>>, IEquatable<T>
     {
         private readonly T value;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Element{T}" /> of <typeparamref name="T"/> struct.
+        /// </summary>
+        /// <param name="value">The value to initialize with.</param>
         public Element(T value)
         {
             this.value = value;
