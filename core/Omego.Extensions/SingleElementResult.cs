@@ -18,17 +18,17 @@
         /// <param name="value">The value to initialize with.</param>
         public SingleElementResult(T value)
         {
-            Elements = Elements.One;
+            Elements = ElementCategory.One;
             this.value = new Element<T>(value);
         }
 
-        private SingleElementResult(Elements elements)
+        private SingleElementResult(ElementCategory elements)
         {
             Elements = elements;
             value = default(Element<T>);
         }
 
-        private Elements Elements { get; }
+        private ElementCategory Elements { get; }
 
         /// <summary>
         /// Gets <see cref="Value"/>.
@@ -41,17 +41,17 @@
         {
             get
             {
-                if (Elements == Elements.Multiple) throw new InvalidOperationException("Multiple elements found.");
+                if (Elements == ElementCategory.Multiple) throw new InvalidOperationException("Multiple elements found.");
 
                 return value.Value;
             }
         }
 
         private static readonly Lazy<SingleElementResult<T>> MultipleElementResult =
-            new Lazy<SingleElementResult<T>>(() => new SingleElementResult<T>(Elements.Multiple));
+            new Lazy<SingleElementResult<T>>(() => new SingleElementResult<T>(ElementCategory.Multiple));
 
         private static readonly Lazy<SingleElementResult<T>> NoElementResult =
-            new Lazy<SingleElementResult<T>>(() => new SingleElementResult<T>(Elements.None));
+            new Lazy<SingleElementResult<T>>(() => new SingleElementResult<T>(ElementCategory.None));
 
         /// <summary>
         /// Gets <see cref="MultipleElements"/>.
@@ -114,7 +114,7 @@
         /// </exception>
         public static explicit operator T(SingleElementResult<T> target)
         {
-            if (target.Elements != Elements.One)
+            if (target.Elements != ElementCategory.One)
             {
                 throw new InvalidCastException(
                           string.Format(
@@ -154,9 +154,9 @@
         public override bool Equals(object obj)
             => (obj is SingleElementResult<T> && Equals((SingleElementResult<T>)obj)) || (obj is T && Equals((T)obj));
 
-        private static readonly int ElementsMaxValue = Enum.GetValues(typeof(Elements)).Cast<int>().Max();
+        private static readonly int ElementsMaxValue = Enum.GetValues(typeof(ElementCategory)).Cast<int>().Max();
 
-        private static readonly int ElementsMinValue = Enum.GetValues(typeof(Elements)).Cast<int>().Min();
+        private static readonly int ElementsMinValue = Enum.GetValues(typeof(ElementCategory)).Cast<int>().Min();
 
         /// <summary>Returns the hash code for this instance.</summary>
         /// <returns>A 32-bit signed integer that is the hash code for this instance.</returns>
@@ -168,13 +168,23 @@
 
                 Func<int, int> getHashCode = hash =>
                     {
-                        while ((hash >= ElementsMinValue) && (hash <= ElementsMaxValue) && (hash != (int)Elements.One)) hash = (hash + ElementsMaxValue + 1) * salt;
+                        while ((hash >= ElementsMinValue) && (hash <= ElementsMaxValue)
+                               && (hash != (int)ElementCategory.One)) hash = (hash + ElementsMaxValue + 1) * salt;
 
                         return hash;
                     };
 
-                return Elements == Elements.One ? getHashCode(value.GetHashCode()) : Elements.GetHashCode();
+                return Elements == ElementCategory.One ? getHashCode(value.GetHashCode()) : Elements.GetHashCode();
             }
+        }
+
+        private enum ElementCategory
+        {
+            None,
+
+            One,
+
+            Multiple
         }
     }
 }
