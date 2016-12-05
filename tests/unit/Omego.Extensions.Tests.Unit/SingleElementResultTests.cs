@@ -280,7 +280,24 @@
                                                                                                                  2
                                                                                                              }
                                                                                                      };
+
+            public static IEnumerable
+                ExplicitOperatorFromSingleElementToGenericTypeShouldThrowInvalidCastExceptionWhenConversionCantBeDoneTheory
+                    = new[]
+                          {
+                              new object[]
+                                  {
+                                      SingleElementResult<string>.MultipleElements,
+                                      "Multiple element(s) cannot be cast to System.String."
+                                  },
+                              new object[]
+                                  {
+                                      SingleElementResult<string>.NoElements,
+                                      "None element(s) cannot be cast to System.String."
+                                  }
+                          };
         }
+
 
         [Fact]
         public void ExplicitOperatorFromSingleElementToGenericTypeShouldReturnGenericTypeObjectFact()
@@ -289,6 +306,20 @@
             var @string = (string)element;
 
             @string.Should().IsSameOrEqualTo(element);
+        }
+
+        [Theory]
+        [MemberData(
+             "ExplicitOperatorFromSingleElementToGenericTypeShouldThrowInvalidCastExceptionWhenConversionCantBeDoneTheory",
+             MemberType = typeof(SingleElementResultTestsTheories))]
+        public void
+            ExplicitOperatorFromSingleElementToGenericTypeShouldThrowInvalidCastExceptionWhenConversionCantBeDone(
+                SingleElementResult<string> element,
+                string expectedMessage)
+        {
+            Action explicitCast = () => ((string)element).GetType();
+
+            explicitCast.ShouldThrow<InvalidCastException>().WithMessage(expectedMessage);
         }
 
         [Fact]

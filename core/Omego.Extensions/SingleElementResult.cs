@@ -1,6 +1,7 @@
 ﻿namespace Omego.Extensions
 {
     using System;
+    using System.Globalization;
     using System.Linq;
 
     /// <summary>
@@ -108,7 +109,20 @@
         /// The <see cref="SingleElementResult{T}"/> of <typeparamref name="T"/> to cast.
         /// </param>
         /// <returns>An instance of <typeparamref name="T"/>.</returns>
-        public static explicit operator T(SingleElementResult<T> target) => target.Value;
+        public static explicit operator T(SingleElementResult<T> target)
+        {
+            if (target.Elements != Elements.One)
+            {
+                throw new InvalidCastException(
+                          string.Format(
+                              CultureInfo.InvariantCulture,
+                              "{0} element(s) cannot be cast to {1}.",
+                              target.Elements,
+                              typeof(T).FullName));
+            }
+
+            return target.Value;
+        }
 
         public bool Equals(SingleElementResult<T> other) => this == other;
 
