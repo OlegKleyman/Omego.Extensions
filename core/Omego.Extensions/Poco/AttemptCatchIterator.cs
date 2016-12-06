@@ -1,4 +1,4 @@
-﻿namespace Omego.Extensions
+﻿namespace Omego.Extensions.Poco
 {
     using System;
     using System.Collections;

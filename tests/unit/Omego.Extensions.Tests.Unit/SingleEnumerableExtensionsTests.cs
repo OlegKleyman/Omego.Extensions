@@ -6,6 +6,8 @@
 
     using FluentAssertions;
 
+    using Omego.Extensions.Poco;
+
     using Xunit;
 
     public partial class EnumerableTests

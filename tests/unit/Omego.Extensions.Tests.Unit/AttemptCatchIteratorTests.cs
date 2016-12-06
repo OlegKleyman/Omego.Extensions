@@ -7,6 +7,8 @@
 
     using FluentAssertions;
 
+    using Omego.Extensions.Poco;
+
     using Xunit;
 
     [CLSCompliant(false)]

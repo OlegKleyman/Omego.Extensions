@@ -33,12 +33,12 @@
     <DocumentationFile>bin\Release\Omego.Extensions.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="AttemptCatchIterator.cs" />
+    <Compile Include="Poco\AttemptCatchIterator.cs" />
     <Compile Include="Enumerable.cs" />
-    <Compile Include="Element.cs" />
+    <Compile Include="Poco\Element.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Queryable.cs" />
-    <Compile Include="SingleElementResult.cs" />
+    <Compile Include="Poco\SingleElementResult.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Omego.Extensions.nuspec">
