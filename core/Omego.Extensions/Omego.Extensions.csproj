@@ -33,11 +33,16 @@
     <DocumentationFile>bin\Release\Omego.Extensions.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="EnumerableExtensions\AttemptCatch.cs" />
     <Compile Include="EnumerableExtensions\FirstElement.cs" />
     <Compile Include="EnumerableExtensions\FirstOr.cs" />
     <Compile Include="EnumerableExtensions\FirstOrThrow.cs" />
+    <Compile Include="EnumerableExtensions\SingleElement.cs" />
+    <Compile Include="EnumerableExtensions\SingleElementOrThrowOnMultiple.cs" />
+    <Compile Include="EnumerableExtensions\SingleOr.cs" />
+    <Compile Include="EnumerableExtensions\SingleOrDefaultOrThrow.cs" />
+    <Compile Include="EnumerableExtensions\SingleOrThrow.cs" />
     <Compile Include="Poco\AttemptCatchIterator.cs" />
-    <Compile Include="EnumerableExtensions\Enumerable.cs" />
     <Compile Include="Poco\Element.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QueryableExtensions\Queryable.cs" />
