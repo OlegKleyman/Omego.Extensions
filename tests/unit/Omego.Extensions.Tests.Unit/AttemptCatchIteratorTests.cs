@@ -159,16 +159,11 @@
 
             Action moveNext = () => iterator.MoveNext();
 
+            var typeName = typeof(AttemptCatchIterator<int, Exception>).FullName;
+
             moveNext.ShouldThrow<ObjectDisposedException>()
-                .WithMessage(
-                    "Cannot access a disposed object.\r\nObject name: 'Omego.Extensions."
-                    + "AttemptCatchIterator`2[[System.Int32, mscorlib, Version=4.0.0.0, "
-                    + "Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Exception, "
-                    + "mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]'.")
-                .And.ObjectName.ShouldBeEquivalentTo(
-                    "Omego.Extensions." + "AttemptCatchIterator`2[[System.Int32, mscorlib, Version=4.0.0.0, "
-                    + "Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Exception, "
-                    + "mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]");
+                .WithMessage($"Cannot access a disposed object.\r\nObject name: '{typeName}'.")
+                .And.ObjectName.ShouldBeEquivalentTo(typeName);
         }
 
         [Fact]
@@ -193,16 +188,12 @@
             iterator.Dispose();
 
             Action reset = () => iterator.Reset();
+
+            var typeName = typeof(AttemptCatchIterator<int, Exception>).FullName;
+
             reset.ShouldThrow<ObjectDisposedException>()
-                .WithMessage(
-                    "Cannot access a disposed object.\r\nObject name: 'Omego.Extensions."
-                    + "AttemptCatchIterator`2[[System.Int32, mscorlib, Version=4.0.0.0, "
-                    + "Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Exception, "
-                    + "mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]'.")
-                .And.ObjectName.ShouldBeEquivalentTo(
-                    "Omego.Extensions." + "AttemptCatchIterator`2[[System.Int32, mscorlib, Version=4.0.0.0, "
-                    + "Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Exception, "
-                    + "mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]");
+                .WithMessage($"Cannot access a disposed object.\r\nObject name: '{typeName}'.")
+                .And.ObjectName.ShouldBeEquivalentTo(typeName);
         }
     }
 }
