@@ -37,7 +37,7 @@
     <Compile Include="EnumerableExtensions\Enumerable.cs" />
     <Compile Include="Poco\Element.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Queryable.cs" />
+    <Compile Include="QueryableExtensions\Queryable.cs" />
     <Compile Include="Poco\SingleElementResult.cs" />
   </ItemGroup>
   <ItemGroup>

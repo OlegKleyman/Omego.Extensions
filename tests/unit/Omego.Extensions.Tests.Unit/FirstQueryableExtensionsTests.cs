@@ -6,6 +6,8 @@
 
     using FluentAssertions;
 
+    using Omego.Extensions.QueryableExtensions;
+
     using Xunit;
 
     public class FirstQueryableExtensionsTests

@@ -1,4 +1,4 @@
-﻿namespace Omego.Extensions
+﻿namespace Omego.Extensions.QueryableExtensions
 {
     using System;
     using System.Linq;

@@ -6,6 +6,7 @@
     using FluentAssertions;
 
     using Omego.Extensions.Poco;
+    using Omego.Extensions.QueryableExtensions;
 
     using Xunit;
 
