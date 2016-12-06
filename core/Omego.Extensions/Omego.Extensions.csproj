@@ -45,8 +45,15 @@
     <Compile Include="Poco\AttemptCatchIterator.cs" />
     <Compile Include="Poco\Element.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="QueryableExtensions\Queryable.cs" />
+    <Compile Include="QueryableExtensions\FirstElement.cs" />
+    <Compile Include="QueryableExtensions\FirstOr.cs" />
+    <Compile Include="QueryableExtensions\FirstOrThrow.cs" />
     <Compile Include="Poco\SingleElementResult.cs" />
+    <Compile Include="QueryableExtensions\SingleElement.cs" />
+    <Compile Include="QueryableExtensions\SingleElementOrThrowOnMultiple.cs" />
+    <Compile Include="QueryableExtensions\SingleOr.cs" />
+    <Compile Include="QueryableExtensions\SingleOrDefaultOrThrow.cs" />
+    <Compile Include="QueryableExtensions\SingleOrThrow.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Omego.Extensions.nuspec">
