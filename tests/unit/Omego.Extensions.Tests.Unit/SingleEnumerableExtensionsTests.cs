@@ -6,9 +6,11 @@
 
     using FluentAssertions;
 
-    using Omego.Extensions.Poco;
+    using Omego.Extensions.EnumerableExtensions;
 
     using Xunit;
+
+    using Omego.Extensions.Poco;
 
     public partial class EnumerableTests
     {
@@ -269,7 +271,7 @@
         [Fact]
         public void SingleOrThrowShouldThrowArgumentNullExceptionWhenExceptionArgumentIsNullWhenQueryIsNotFound()
         {
-            Action singleOrThrow = () => Enumerable.Empty<object>().SingleOrThrow(x => false, null, null);
+            Action singleOrThrow = () => System.Linq.Enumerable.Empty<object>().SingleOrThrow(x => false, null, null);
 
             singleOrThrow.ShouldThrowExactly<ArgumentNullException>()
                 .Which.ParamName.ShouldBeEquivalentTo("noMatchFoundException");
@@ -287,7 +289,7 @@
         [Fact]
         public void SingleOrThrowShouldThrowArgumentNullExceptionWhenNoMatchExceptionArgumentIsNull()
         {
-            Action singleOrThrow = () => Enumerable.Empty<object>().SingleOrThrow(null, null);
+            Action singleOrThrow = () => System.Linq.Enumerable.Empty<object>().SingleOrThrow(null, null);
 
             singleOrThrow.ShouldThrowExactly<ArgumentNullException>()
                 .Which.ParamName.ShouldBeEquivalentTo("noMatchFoundException");
@@ -316,7 +318,7 @@
         {
             var ex = new InvalidOperationException();
 
-            Action singleOrThrow = () => Enumerable.Empty<object>().SingleOrThrow(ex, null);
+            Action singleOrThrow = () => System.Linq.Enumerable.Empty<object>().SingleOrThrow(ex, null);
 
             singleOrThrow.ShouldThrowExactly<InvalidOperationException>().Which.Should().Be(ex);
         }

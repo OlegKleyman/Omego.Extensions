@@ -1,13 +1,15 @@
-﻿namespace Omego.Extensions
+﻿namespace Omego.Extensions.EnumerableExtensions
 {
     using System;
     using System.Collections.Generic;
     using System.Linq.Expressions;
 
+    using Omego.Extensions.Poco;
+
     /// <summary>
     ///     Contains extension methods for <see cref="IEnumerable{T}" />.
     /// </summary>
-    public static class Enumerable
+    public static partial class Enumerable
     {
         /// <summary>
         ///     Attempts to catch an exception an enumeration might throw and continue the enumeration.
