@@ -28,9 +28,7 @@
             T @default,
             Exception multipleMatchesFoundException)
         {
-            var element = enumerable.SingleElementOrThrowOnMultiple(predicate, multipleMatchesFoundException);
-
-            return element == SingleElementResult<T>.NoElements ? @default : element.Value;
+            return enumerable.SingleOrDefaultOrThrow(predicate, () => @default, multipleMatchesFoundException);
         }
 
         public static T SingleOrDefaultOrThrow<T>(
@@ -39,9 +37,7 @@
             Func<T> @default,
             Exception multipleMatchesFoundException)
         {
-            var element = enumerable.SingleElementOrThrowOnMultiple(predicate, multipleMatchesFoundException);
-
-            return element.ValueOr(@default);
+            return enumerable.SingleElementOrThrowOnMultiple(predicate, multipleMatchesFoundException).ValueOr(@default);
         }
     }
 }

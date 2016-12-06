@@ -23,9 +23,7 @@
         /// <exception cref="ArgumentNullException"></exception>
         public static T FirstOr<T>(this IEnumerable<T> enumerable, Func<T, bool> predicate, T @default)
         {
-            var element = enumerable.FirstElement(predicate);
-
-            return element.Present ? element.Value : @default;
+            return enumerable.FirstOr(predicate, () => @default);
         }
 
         /// <summary>
@@ -38,16 +36,12 @@
         /// <returns>An instance of <typeparamref name="T" />.</returns>
         public static T FirstOr<T>(this IEnumerable<T> enumerable, T @default)
         {
-            var element = enumerable.FirstElement(arg => true);
-
-            return element.Present ? element.Value : @default;
+            return enumerable.FirstOr(arg => true, @default);
         }
 
         public static T FirstOr<T>(this IEnumerable<T> enumerable, Func<T, bool> predicate, Func<T> @default)
         {
-            var element = enumerable.FirstElement(predicate);
-
-            return element.ValueOr(@default);
+            return enumerable.FirstElement(predicate).ValueOr(@default);
         }
 
         public static T FirstOr<T>(this IEnumerable<T> enumerable, Func<T> @default)
