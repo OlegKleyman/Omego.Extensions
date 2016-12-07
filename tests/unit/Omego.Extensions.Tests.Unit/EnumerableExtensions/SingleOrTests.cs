@@ -54,40 +54,6 @@
         }
 
         [Fact]
-        public void SingleOrShouldReturnElementIfOneExists()
-        {
-            var enumerable = new[] { "1" };
-
-            enumerable.SingleOr((string)null).Should().Be("1");
-        }
-
-        [Fact]
-        public void SingleOrShouldReturnRequestedDefaultObjectWhenNoElementsAreFound()
-        {
-            var enumerable = new object[0];
-
-            enumerable.SingleOr("3").Should().Be("3");
-        }
-
-        [Fact]
-        public void SingleOrShouldThrowArgumentNullExceptionWhenEnumerableArgumentIsNull()
-        {
-            Action singleOr = () => ((IEnumerable<string>)null).SingleOr((string)null);
-
-            singleOr.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("enumerable");
-        }
-
-        [Fact]
-        public void SingleOrShouldThrowInvalidOperationExceptionWhenMultipleElementsAreFound()
-        {
-            var enumerable = new object[2];
-
-            Action singleOr = () => enumerable.SingleOr((object)null);
-
-            singleOr.ShouldThrow<InvalidOperationException>().WithMessage("More than one match found for true.");
-        }
-
-        [Fact]
         public void SingleOrLazyByQueryShouldArgumentNullExceptionWhenDefaultFuncIsNull()
         {
             var enumerable = new[] { "1" };
@@ -153,6 +119,40 @@
             var enumerable = new string[0];
 
             enumerable.SingleOr(() => "3").Should().Be("3");
+        }
+
+        [Fact]
+        public void SingleOrShouldReturnElementIfOneExists()
+        {
+            var enumerable = new[] { "1" };
+
+            enumerable.SingleOr((string)null).Should().Be("1");
+        }
+
+        [Fact]
+        public void SingleOrShouldReturnRequestedDefaultObjectWhenNoElementsAreFound()
+        {
+            var enumerable = new object[0];
+
+            enumerable.SingleOr("3").Should().Be("3");
+        }
+
+        [Fact]
+        public void SingleOrShouldThrowArgumentNullExceptionWhenEnumerableArgumentIsNull()
+        {
+            Action singleOr = () => ((IEnumerable<string>)null).SingleOr((string)null);
+
+            singleOr.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("enumerable");
+        }
+
+        [Fact]
+        public void SingleOrShouldThrowInvalidOperationExceptionWhenMultipleElementsAreFound()
+        {
+            var enumerable = new object[2];
+
+            Action singleOr = () => enumerable.SingleOr((object)null);
+
+            singleOr.ShouldThrow<InvalidOperationException>().WithMessage("More than one match found for true.");
         }
     }
 }

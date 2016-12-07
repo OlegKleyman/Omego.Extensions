@@ -27,11 +27,11 @@
         {
             var enumerable = new[] { -1, 0, 1 }.Select(
                 i =>
-                {
-                    if (i == 1) throw new InvalidOperationException();
+                    {
+                        if (i == 1) throw new InvalidOperationException();
 
-                    return 1 / i;
-                });
+                        return 1 / i;
+                    });
 
             var dividedByZeroExceptionHandled = false;
             var invalidOperationExceptionHandled = false;

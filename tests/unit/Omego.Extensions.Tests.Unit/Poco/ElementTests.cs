@@ -212,6 +212,26 @@
         }
 
         [Fact]
+        public void ValueOrShouldReturnDefaultValueWhenNoneExists()
+        {
+            new Element<int>().ValueOr(() => 3).ShouldBeEquivalentTo(3);
+        }
+
+        [Fact]
+        public void ValueOrShouldReturnValueWhenOneExists()
+        {
+            new Element<int>(3).ValueOr(null).ShouldBeEquivalentTo(3);
+        }
+
+        [Fact]
+        public void ValueOrShouldThrowArgumentNullExceptionWhenDefaultSelectorIsNull()
+        {
+            Action value = () => new Element<int>().ValueOr(null);
+
+            value.ShouldThrow<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("default");
+        }
+
+        [Fact]
         public void ValueShouldReturnValueWhenExists()
         {
             var element = new Element<string>("test");
@@ -227,26 +247,6 @@
             Action value = () => element.Value.ToString();
 
             value.ShouldThrow<InvalidOperationException>().WithMessage("Element does not exist.");
-        }
-
-        [Fact]
-        public void ValueOrShouldReturnValueWhenOneExists()
-        {
-            new Element<int>(3).ValueOr(null).ShouldBeEquivalentTo(3);
-        }
-
-        [Fact]
-        public void ValueOrShouldReturnDefaultValueWhenNoneExists()
-        {
-            new Element<int>().ValueOr(() => 3).ShouldBeEquivalentTo(3);
-        }
-
-        [Fact]
-        public void ValueOrShouldThrowArgumentNullExceptionWhenDefaultSelectorIsNull()
-        {
-            Action value = () => new Element<int>().ValueOr(null);
-
-            value.ShouldThrow<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("default");
         }
     }
 }

@@ -206,7 +206,7 @@
                     return @default();
                 };
 
-            return Elements == ElementCategory.None ? @defaultSelector() : Value;
+            return Elements == ElementCategory.None ? defaultSelector() : Value;
         }
     }
 }

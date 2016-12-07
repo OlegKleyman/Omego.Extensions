@@ -4,8 +4,6 @@
     using System.Collections.Generic;
     using System.Linq.Expressions;
 
-    using Omego.Extensions.Poco;
-
     /// <summary>
     ///     Contains extension methods for <see cref="IEnumerable{T}" />.
     /// </summary>
@@ -46,7 +44,10 @@
             return enumerable.SingleOr(arg => true, @default);
         }
 
-        public static T SingleOr<T>(this IEnumerable<T> enumerable, Expression<Func<T, bool>> predicate, Func<T> @default)
+        public static T SingleOr<T>(
+            this IEnumerable<T> enumerable,
+            Expression<Func<T, bool>> predicate,
+            Func<T> @default)
         {
             if (predicate == null) throw new ArgumentNullException(nameof(predicate));
 

@@ -9,6 +9,8 @@
 
     using Xunit;
 
+    using Enumerable = System.Linq.Enumerable;
+
     public class SingleOrThrow
     {
         [Fact]
@@ -55,7 +57,7 @@
         [Fact]
         public void SingleOrThrowShouldThrowArgumentNullExceptionWhenExceptionArgumentIsNullWhenQueryIsNotFound()
         {
-            Action singleOrThrow = () => System.Linq.Enumerable.Empty<object>().SingleOrThrow(x => false, null, null);
+            Action singleOrThrow = () => Enumerable.Empty<object>().SingleOrThrow(x => false, null, null);
 
             singleOrThrow.ShouldThrowExactly<ArgumentNullException>()
                 .Which.ParamName.ShouldBeEquivalentTo("noMatchFoundException");
@@ -73,7 +75,7 @@
         [Fact]
         public void SingleOrThrowShouldThrowArgumentNullExceptionWhenNoMatchExceptionArgumentIsNull()
         {
-            Action singleOrThrow = () => System.Linq.Enumerable.Empty<object>().SingleOrThrow(null, null);
+            Action singleOrThrow = () => Enumerable.Empty<object>().SingleOrThrow(null, null);
 
             singleOrThrow.ShouldThrowExactly<ArgumentNullException>()
                 .Which.ParamName.ShouldBeEquivalentTo("noMatchFoundException");
@@ -102,7 +104,7 @@
         {
             var ex = new InvalidOperationException();
 
-            Action singleOrThrow = () => System.Linq.Enumerable.Empty<object>().SingleOrThrow(ex, null);
+            Action singleOrThrow = () => Enumerable.Empty<object>().SingleOrThrow(ex, null);
 
             singleOrThrow.ShouldThrowExactly<InvalidOperationException>().Which.Should().Be(ex);
         }

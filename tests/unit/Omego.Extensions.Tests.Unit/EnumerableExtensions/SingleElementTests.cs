@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Omego.Extensions.Tests.Unit.EnumerableExtensions
+﻿namespace Omego.Extensions.Tests.Unit.EnumerableExtensions
 {
+    using System;
+    using System.Collections.Generic;
+
     using FluentAssertions;
 
     using Omego.Extensions.EnumerableExtensions;

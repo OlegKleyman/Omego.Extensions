@@ -24,6 +24,34 @@
         }
 
         [Fact]
+        public void SingleOrDefaultOrThrowLazyByQueryShouldReturnElementIfOneExists()
+        {
+            var queryable = new[] { "1" }.AsQueryable();
+
+            queryable.SingleOrDefaultOrThrow(s => s == "1", (Func<string>)null, null).Should().Be("1");
+        }
+
+        [Fact]
+        public void SingleOrDefaultOrThrowLazyByQueryShouldReturnRequestedDefaultObjectWhenNoElementsAreFound()
+        {
+            var queryable = new object[0].AsQueryable();
+
+            queryable.SingleOrDefaultOrThrow(o => false, () => "3", null).Should().Be("3");
+        }
+
+        [Fact]
+        public void SingleOrDefaultOrThrowLazyByQueryShouldThrowExceptionWhenMultipleElementsAreFound()
+        {
+            var ex = new InvalidOperationException();
+
+            var queryable = new object[2].AsQueryable();
+
+            Action singleOrDefaultOrThrow = () => queryable.SingleOrDefaultOrThrow(o => o == null, null, ex);
+
+            singleOrDefaultOrThrow.ShouldThrow<InvalidOperationException>().Which.Should().Be(ex);
+        }
+
+        [Fact]
         public void SingleOrDefaultOrThrowShouldReturnElementIfOneExists()
         {
             var queryable = new[] { "1" }.AsQueryable();
@@ -47,34 +75,6 @@
 
             singleOrDefaultOrThrow.ShouldThrowExactly<ArgumentNullException>()
                 .Which.ParamName.ShouldBeEquivalentTo("queryable");
-        }
-
-        [Fact]
-        public void SingleOrDefaultOrThrowLazyByQueryShouldThrowExceptionWhenMultipleElementsAreFound()
-        {
-            var ex = new InvalidOperationException();
-
-            var queryable = new object[2].AsQueryable();
-
-            Action singleOrDefaultOrThrow = () => queryable.SingleOrDefaultOrThrow(o => o == null, null, ex);
-
-            singleOrDefaultOrThrow.ShouldThrow<InvalidOperationException>().Which.Should().Be(ex);
-        }
-
-        [Fact]
-        public void SingleOrDefaultOrThrowLazyByQueryShouldReturnElementIfOneExists()
-        {
-            var queryable = new[] { "1" }.AsQueryable();
-
-            queryable.SingleOrDefaultOrThrow(s => s == "1", (Func<string>)null, null).Should().Be("1");
-        }
-
-        [Fact]
-        public void SingleOrDefaultOrThrowLazyByQueryShouldReturnRequestedDefaultObjectWhenNoElementsAreFound()
-        {
-            var queryable = new object[0].AsQueryable();
-
-            queryable.SingleOrDefaultOrThrow(o => false, () => "3", null).Should().Be("3");
         }
     }
 }

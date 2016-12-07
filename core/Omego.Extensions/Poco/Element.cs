@@ -153,10 +153,7 @@
         {
             Func<T> defaultSelector = () =>
                 {
-                    if (@default == null)
-                    {
-                        throw new ArgumentNullException(nameof(@default));
-                    }
+                    if (@default == null) throw new ArgumentNullException(nameof(@default));
 
                     return @default();
                 };
