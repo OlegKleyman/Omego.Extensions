@@ -21,9 +21,9 @@
         /// <summary>
         ///     Initializes a new instance of the <see cref="AttemptCatchIterator{T,TE}" /> class.
         /// </summary>
-        /// <param name="enumerable">The <see cref="IEnumerable{T}" /> of <see cref="T" /> to iterate on.</param>
+        /// <param name="enumerable">The <see cref="IEnumerable{T}" /> of <typeparamref name="T"/> to iterate on.</param>
         /// <param name="handler">
-        ///     The <see cref="Action{T}" /> of <see cref="TE" /> to call when a(n) <see cref="TE" /> exception
+        ///     The <see cref="Action{T}" /> of <typeparamref name="TE"/> to call when a(n) <typeparamref name="TE"/> exception
         ///     occurrs.
         /// </param>
         public AttemptCatchIterator(IEnumerable<T> enumerable, Action<TE> handler)
@@ -47,7 +47,7 @@
         ///     true if the enumerator was successfully advanced to the next element; false if the enumerator has passed the
         ///     end of the collection.
         /// </returns>
-        /// <exception cref="T:System.InvalidOperationException">The collection was modified after the enumerator was created. </exception>
+        /// <exception cref="InvalidOperationException">The collection was modified after the enumerator was created. </exception>
         public bool MoveNext()
         {
             if (disposed) throw new ObjectDisposedException(GetType().FullName);
