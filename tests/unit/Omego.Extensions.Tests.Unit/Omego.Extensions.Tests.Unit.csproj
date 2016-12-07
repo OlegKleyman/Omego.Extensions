@@ -66,13 +66,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AttemptCatchIteratorTests.cs" />
-    <Compile Include="EnumerableTests.cs" />
+    <Compile Include="EnumerableExtensions\AttemptCatchTests.cs" />
+    <Compile Include="EnumerableExtensions\FirstElementTests.cs" />
+    <Compile Include="EnumerableExtensions\FirstOrTests.cs" />
+    <Compile Include="EnumerableExtensions\FirstOrThrowTests.cs" />
     <Compile Include="ElementTests.cs" />
+    <Compile Include="EnumerableExtensions\SingleElementOrThrowOnMultipleTests.cs" />
+    <Compile Include="EnumerableExtensions\SingleElementTests.cs" />
+    <Compile Include="EnumerableExtensions\SingleOrDefaultOrThrowTests.cs" />
+    <Compile Include="EnumerableExtensions\SingleOrTests.cs" />
+    <Compile Include="EnumerableExtensions\SingleOrThrow.cs" />
     <Compile Include="SingleElementResultTests.cs" />
     <Compile Include="SingleQueryableExtensionsTests.cs" />
     <Compile Include="FirstQueryableExtensionsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SingleEnumerableExtensionsTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
