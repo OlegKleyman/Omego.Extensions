@@ -149,6 +149,12 @@
             return target.Value;
         }
 
+        /// <summary>
+        /// Gets the value of this element or <paramref name="default"/> if no value exists.
+        /// </summary>
+        /// <param name="default">The default value to return if one does not exist.</param>
+        /// <returns>An instance or value of <typeparamref name="T"/>.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="default"/> is null.</exception>
         public T ValueOr(Func<T> @default)
         {
             Func<T> defaultSelector = () =>
