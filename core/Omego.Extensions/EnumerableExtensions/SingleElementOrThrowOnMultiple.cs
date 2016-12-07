@@ -30,27 +30,15 @@
         {
             if (enumerable == null) throw new ArgumentNullException(nameof(enumerable));
 
-            if (predicate == null) throw new ArgumentNullException(nameof(predicate));
+            var element = enumerable.SingleElement(predicate);
 
-            var result = default(SingleElementResult<T>);
-
-            using (var e = enumerable.GetEnumerator())
+            if (element == SingleElementResult<T>.MultipleElements)
             {
-                while (e.MoveNext())
-                    if (predicate(e.Current))
-                    {
-                        result = new SingleElementResult<T>(e.Current);
-
-                        while (e.MoveNext())
-                            if (predicate(e.Current))
-                            {
-                                if (multipleMatchesFoundException == null) throw new ArgumentNullException(nameof(multipleMatchesFoundException));
-                                throw multipleMatchesFoundException;
-                            }
-                    }
+                if (multipleMatchesFoundException == null) throw new ArgumentNullException(nameof(multipleMatchesFoundException));
+                throw multipleMatchesFoundException;
             }
 
-            return result;
+            return element;
         }
     }
 }
