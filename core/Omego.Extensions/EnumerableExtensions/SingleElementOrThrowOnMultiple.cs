@@ -21,15 +21,13 @@
         /// <typeparam name="T">The type of the object to return.</typeparam>
         /// <returns>An instance of <typeparamref name="T" />.</returns>
         /// <exception cref="ArgumentNullException">
-        ///     Thrown when <paramref name="enumerable" /> or <paramref name="predicate" /> argument is null.
+        ///     Thrown when <paramref name="multipleMatchesFoundException" /> argument is null.
         /// </exception>
         public static SingleElementResult<T> SingleElementOrThrowOnMultiple<T>(
             this IEnumerable<T> enumerable,
             Func<T, bool> predicate,
             Exception multipleMatchesFoundException)
         {
-            if (enumerable == null) throw new ArgumentNullException(nameof(enumerable));
-
             var element = enumerable.SingleElement(predicate);
 
             if (element == SingleElementResult<T>.MultipleElements)
