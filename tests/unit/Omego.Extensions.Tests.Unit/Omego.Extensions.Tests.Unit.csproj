@@ -77,8 +77,15 @@
     <Compile Include="EnumerableExtensions\SingleOrTests.cs" />
     <Compile Include="EnumerableExtensions\SingleOrThrow.cs" />
     <Compile Include="Poco\SingleElementResultTests.cs" />
+    <Compile Include="QueryableExtensions\FirstElementTests.cs" />
+    <Compile Include="QueryableExtensions\FirstOrTests.cs" />
+    <Compile Include="QueryableExtensions\FirstOrThrowTests.cs" />
+    <Compile Include="QueryableExtensions\SingleElementOrThrowOnMultipleTests.cs" />
+    <Compile Include="QueryableExtensions\SingleElementTests.cs" />
+    <Compile Include="QueryableExtensions\SingleOrDefaultOrThrowTests.cs" />
+    <Compile Include="QueryableExtensions\SingleOrTests.cs" />
+    <Compile Include="QueryableExtensions\SingleOrThrow.cs" />
     <Compile Include="SingleQueryableExtensionsTests.cs" />
-    <Compile Include="FirstQueryableExtensionsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
