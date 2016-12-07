@@ -1,4 +1,4 @@
-﻿namespace Omego.Extensions.Tests.Unit
+﻿namespace Omego.Extensions.Tests.Unit.Poco
 {
     using System;
     using System.Collections;
