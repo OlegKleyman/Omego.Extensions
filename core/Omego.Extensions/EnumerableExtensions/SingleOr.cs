@@ -25,10 +25,7 @@
         {
             if (predicate == null) throw new ArgumentNullException(nameof(predicate));
 
-            return enumerable.SingleOrDefaultOrThrow(
-                predicate.Compile(),
-                @default,
-                new InvalidOperationException($"More than one match found for {predicate.Body}."));
+            return enumerable.SingleOr(predicate, () => @default);
         }
 
         /// <summary>
