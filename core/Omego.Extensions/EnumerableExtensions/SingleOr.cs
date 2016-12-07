@@ -23,8 +23,6 @@
         /// </exception>
         public static T SingleOr<T>(this IEnumerable<T> enumerable, Expression<Func<T, bool>> predicate, T @default)
         {
-            if (predicate == null) throw new ArgumentNullException(nameof(predicate));
-
             return enumerable.SingleOr(predicate, () => @default);
         }
 
