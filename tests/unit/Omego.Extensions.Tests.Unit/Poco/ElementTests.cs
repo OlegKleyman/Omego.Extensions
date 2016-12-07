@@ -175,6 +175,16 @@
                                                                                                            1
                                                                                                        }
                                                                                                };
+
+            public static IEnumerable ToStringShouldReturnStringRepresentationOfTheValueTheory = new[]
+                                                                                               {
+                                                                                                   new object[]
+                                                                                                       {
+                                                                                                           1,
+                                                                                                           "1"
+                                                                                                       },
+                                                                                                   new object[] { null, "Exists" }
+                                                                                               };
         }
 
         [Fact]
@@ -247,6 +257,19 @@
             Action value = () => element.Value.ToString();
 
             value.ShouldThrow<InvalidOperationException>().WithMessage("Element does not exist.");
+        }
+
+        [Theory]
+        [MemberData("ToStringShouldReturnStringRepresentationOfTheValueTheory", MemberType = typeof(ElementTestsTheories))]
+        public void ToStringShouldReturnStringRepresentationOfTheValue(object value, string expectedString)
+        {
+            new Element<object>(value).ToString().ShouldBeEquivalentTo(expectedString);
+        }
+
+        [Fact]
+        public void ToStringShouldReturnDoesNotExistWhenValueDoesNotExist()
+        {
+            new Element<object>().ToString().ShouldBeEquivalentTo("Does not exist");
         }
     }
 }

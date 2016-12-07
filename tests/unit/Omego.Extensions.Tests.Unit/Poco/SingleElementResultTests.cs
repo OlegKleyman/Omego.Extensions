@@ -298,6 +298,17 @@
                                       "None element(s) cannot be cast to System.String."
                                   }
                           };
+
+            public static IEnumerable ToStringShouldReturnStringRepresentationOfTheValueTheory = new[]
+                                                                                               {
+                                                                                                   new object[]
+                                                                                                       {
+                                                                                                           1,
+                                                                                                           "1"
+                                                                                                       },
+                                                                                                   new object[] { null, "Exists" }
+                                                                                               };
+
         }
 
         [Theory]
@@ -402,6 +413,25 @@
             Action value = () => result.Value.ToString();
 
             value.ShouldThrow<InvalidOperationException>().WithMessage("Multiple elements found.");
+        }
+
+        [Theory]
+        [MemberData("ToStringShouldReturnStringRepresentationOfTheValueTheory", MemberType = typeof(SingleElementResultTestsTheories))]
+        public void ToStringShouldReturnStringRepresentationOfTheValue(object value, string expectedString)
+        {
+            new SingleElementResult<object>(value).ToString().ShouldBeEquivalentTo(expectedString);
+        }
+
+        [Fact]
+        public void ToStringShouldReturnStringRepresentationOfTheElementWhenElementDoesNotExist()
+        {
+            SingleElementResult<object>.NoElements.ToString().ShouldBeEquivalentTo("Does not exist");
+        }
+
+        [Fact]
+        public void ToStringShouldReturnStringRepresentationOfTheElementWhenMultipleElementsExist()
+        {
+            SingleElementResult<object>.MultipleElements.ToString().ShouldBeEquivalentTo("Multiple");
         }
     }
 }

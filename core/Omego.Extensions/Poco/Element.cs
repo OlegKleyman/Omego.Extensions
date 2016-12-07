@@ -160,5 +160,22 @@
 
             return Present ? Value : defaultSelector();
         }
+
+        /// <inheritdoc />
+        public override string ToString()
+        {
+            string stringValue;
+
+            if (Present)
+            {
+                stringValue = value != null ? value.ToString() : "Exists";
+            }
+            else
+            {
+                stringValue = "Does not exist";
+            }
+
+            return stringValue;
+        }
     }
 }

@@ -214,5 +214,13 @@
 
             return Elements == ElementCategory.None ? defaultSelector() : Value;
         }
+
+        /// <inheritdoc />
+        public override string ToString()
+        {
+            return Elements == ElementCategory.One || Elements == ElementCategory.None
+                       ? value.ToString()
+                       : Elements.ToString();
+        }
     }
 }
