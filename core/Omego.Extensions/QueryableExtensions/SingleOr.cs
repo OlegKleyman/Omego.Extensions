@@ -46,5 +46,20 @@
         {
             return queryable.SingleOr(arg => true, @default);
         }
+
+        public static T SingleOr<T>(this IQueryable<T> queryable, Expression<Func<T, bool>> predicate, Func<T> @default)
+        {
+            if (predicate == null) throw new ArgumentNullException(nameof(predicate));
+
+            return queryable.SingleOrDefaultOrThrow(
+                predicate,
+                @default,
+                new InvalidOperationException($"More than one match found for {predicate.Body}."));
+        }
+
+        public static T SingleOr<T>(this IQueryable<T> queryable, Func<T> @default)
+        {
+            return queryable.SingleOr(arg => true, @default);
+        }
     }
 }
