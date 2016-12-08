@@ -54,10 +54,7 @@
         public static T SingleOrThrow<T>(
             this IQueryable<T> queryable,
             Exception noMatchFoundException,
-            Exception multipleMatchesFoundException)
-        {
-            return queryable.SingleOrThrow(element => true, noMatchFoundException, multipleMatchesFoundException);
-        }
+            Exception multipleMatchesFoundException) => queryable.SingleOrThrow(element => true, noMatchFoundException, multipleMatchesFoundException);
 
         /// <summary>
         ///     Returns a single match from an <see cref="IQueryable{T}" /> of <typeparamref name="T" /> or throws an

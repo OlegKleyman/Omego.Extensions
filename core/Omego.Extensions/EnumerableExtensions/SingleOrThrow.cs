@@ -23,10 +23,7 @@
         public static T SingleOrThrow<T>(
             this IEnumerable<T> enumerable,
             Exception noMatchFoundException,
-            Exception multipleMatchesFoundException)
-        {
-            return enumerable.SingleOrThrow(element => true, noMatchFoundException, multipleMatchesFoundException);
-        }
+            Exception multipleMatchesFoundException) => enumerable.SingleOrThrow(element => true, noMatchFoundException, multipleMatchesFoundException);
 
         /// <summary>
         ///     Returns a single match from an <see cref="IEnumerable{T}" /> of <typeparamref name="T" /> or throws an
