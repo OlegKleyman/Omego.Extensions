@@ -1,10 +1,12 @@
-﻿namespace Omego.Extensions.Tests.Unit
+﻿namespace Omego.Extensions.Tests.Unit.Poco
 {
     using System;
     using System.Collections;
 
     using FluentAssertions;
     using FluentAssertions.Common;
+
+    using Omego.Extensions.Poco;
 
     using Xunit;
 
@@ -296,6 +298,20 @@
                                       "None element(s) cannot be cast to System.String."
                                   }
                           };
+
+            public static IEnumerable ToStringShouldReturnStringRepresentationOfTheValueTheory = new[]
+                                                                                                     {
+                                                                                                         new object[]
+                                                                                                             {
+                                                                                                                 1,
+                                                                                                                 "1"
+                                                                                                             },
+                                                                                                         new object[]
+                                                                                                             {
+                                                                                                                 null,
+                                                                                                                 "Exists"
+                                                                                                             }
+                                                                                                     };
         }
 
         [Theory]
@@ -310,6 +326,14 @@
             Action explicitCast = () => ((string)element).GetType();
 
             explicitCast.ShouldThrow<InvalidCastException>().WithMessage(expectedMessage);
+        }
+
+        [Theory]
+        [MemberData("ToStringShouldReturnStringRepresentationOfTheValueTheory",
+             MemberType = typeof(SingleElementResultTestsTheories))]
+        public void ToStringShouldReturnStringRepresentationOfTheValue(object value, string expectedString)
+        {
+            new SingleElementResult<object>(value).ToString().ShouldBeEquivalentTo(expectedString);
         }
 
         [Fact]
@@ -347,11 +371,53 @@
         }
 
         [Fact]
+        public void ToStringShouldReturnStringRepresentationOfTheElementWhenElementDoesNotExist()
+        {
+            SingleElementResult<object>.NoElements.ToString().ShouldBeEquivalentTo("Does not exist");
+        }
+
+        [Fact]
+        public void ToStringShouldReturnStringRepresentationOfTheElementWhenMultipleElementsExist()
+        {
+            SingleElementResult<object>.MultipleElements.ToString().ShouldBeEquivalentTo("Multiple");
+        }
+
+        [Fact]
         public void ValueConstructorShouldSetProperties()
         {
             var result = new SingleElementResult<int>(2);
 
             result.Value.ShouldBeEquivalentTo(2);
+        }
+
+        [Fact]
+        public void ValueOrShouldReturnDefaultValueWhenNoneExists()
+        {
+            new SingleElementResult<int>().ValueOr(() => 3).ShouldBeEquivalentTo(3);
+        }
+
+        [Fact]
+        public void ValueOrShouldReturnValueWhenOneExists()
+        {
+            new SingleElementResult<int>(3).ValueOr(null).ShouldBeEquivalentTo(3);
+        }
+
+        [Fact]
+        public void ValueOrShouldThrowArgumentNullExceptionWhenDefaultSelectorIsNull()
+        {
+            Action valueOr = () => new SingleElementResult<int>().ValueOr(null);
+
+            valueOr.ShouldThrow<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("default");
+        }
+
+        [Fact]
+        public void ValueOrShouldThrowInvalidOperationExceptionWhenMultipleElementsExist()
+        {
+            var result = SingleElementResult<int>.MultipleElements;
+
+            Action value = () => result.ValueOr(null);
+
+            value.ShouldThrow<InvalidOperationException>().WithMessage("Multiple elements found.");
         }
 
         [Fact]

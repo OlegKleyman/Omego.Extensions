@@ -1,10 +1,12 @@
-﻿namespace Omego.Extensions.Tests.Unit
+﻿namespace Omego.Extensions.Tests.Unit.Poco
 {
     using System;
     using System.Collections;
 
     using FluentAssertions;
     using FluentAssertions.Common;
+
+    using Omego.Extensions.Poco;
 
     using Xunit;
 
@@ -173,6 +175,28 @@
                                                                                                            1
                                                                                                        }
                                                                                                };
+
+            public static IEnumerable ToStringShouldReturnStringRepresentationOfTheValueTheory = new[]
+                                                                                                     {
+                                                                                                         new object[]
+                                                                                                             {
+                                                                                                                 1,
+                                                                                                                 "1"
+                                                                                                             },
+                                                                                                         new object[]
+                                                                                                             {
+                                                                                                                 null,
+                                                                                                                 "Exists"
+                                                                                                             }
+                                                                                                     };
+        }
+
+        [Theory]
+        [MemberData("ToStringShouldReturnStringRepresentationOfTheValueTheory",
+             MemberType = typeof(ElementTestsTheories))]
+        public void ToStringShouldReturnStringRepresentationOfTheValue(object value, string expectedString)
+        {
+            new Element<object>(value).ToString().ShouldBeEquivalentTo(expectedString);
         }
 
         [Fact]
@@ -207,6 +231,32 @@
             Element<string> element = "test";
 
             element.Should().IsSameOrEqualTo("test");
+        }
+
+        [Fact]
+        public void ToStringShouldReturnDoesNotExistWhenValueDoesNotExist()
+        {
+            new Element<object>().ToString().ShouldBeEquivalentTo("Does not exist");
+        }
+
+        [Fact]
+        public void ValueOrShouldReturnDefaultValueWhenNoneExists()
+        {
+            new Element<int>().ValueOr(() => 3).ShouldBeEquivalentTo(3);
+        }
+
+        [Fact]
+        public void ValueOrShouldReturnValueWhenOneExists()
+        {
+            new Element<int>(3).ValueOr(null).ShouldBeEquivalentTo(3);
+        }
+
+        [Fact]
+        public void ValueOrShouldThrowArgumentNullExceptionWhenDefaultSelectorIsNull()
+        {
+            Action value = () => new Element<int>().ValueOr(null);
+
+            value.ShouldThrow<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("default");
         }
 
         [Fact]
