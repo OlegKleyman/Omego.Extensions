@@ -177,14 +177,26 @@
                                                                                                };
 
             public static IEnumerable ToStringShouldReturnStringRepresentationOfTheValueTheory = new[]
-                                                                                               {
-                                                                                                   new object[]
-                                                                                                       {
-                                                                                                           1,
-                                                                                                           "1"
-                                                                                                       },
-                                                                                                   new object[] { null, "Exists" }
-                                                                                               };
+                                                                                                     {
+                                                                                                         new object[]
+                                                                                                             {
+                                                                                                                 1,
+                                                                                                                 "1"
+                                                                                                             },
+                                                                                                         new object[]
+                                                                                                             {
+                                                                                                                 null,
+                                                                                                                 "Exists"
+                                                                                                             }
+                                                                                                     };
+        }
+
+        [Theory]
+        [MemberData("ToStringShouldReturnStringRepresentationOfTheValueTheory",
+             MemberType = typeof(ElementTestsTheories))]
+        public void ToStringShouldReturnStringRepresentationOfTheValue(object value, string expectedString)
+        {
+            new Element<object>(value).ToString().ShouldBeEquivalentTo(expectedString);
         }
 
         [Fact]
@@ -219,6 +231,12 @@
             Element<string> element = "test";
 
             element.Should().IsSameOrEqualTo("test");
+        }
+
+        [Fact]
+        public void ToStringShouldReturnDoesNotExistWhenValueDoesNotExist()
+        {
+            new Element<object>().ToString().ShouldBeEquivalentTo("Does not exist");
         }
 
         [Fact]
@@ -257,19 +275,6 @@
             Action value = () => element.Value.ToString();
 
             value.ShouldThrow<InvalidOperationException>().WithMessage("Element does not exist.");
-        }
-
-        [Theory]
-        [MemberData("ToStringShouldReturnStringRepresentationOfTheValueTheory", MemberType = typeof(ElementTestsTheories))]
-        public void ToStringShouldReturnStringRepresentationOfTheValue(object value, string expectedString)
-        {
-            new Element<object>(value).ToString().ShouldBeEquivalentTo(expectedString);
-        }
-
-        [Fact]
-        public void ToStringShouldReturnDoesNotExistWhenValueDoesNotExist()
-        {
-            new Element<object>().ToString().ShouldBeEquivalentTo("Does not exist");
         }
     }
 }

@@ -45,7 +45,8 @@
         /// <param name="queryable">The <see cref="IQueryable{T}" /> of <typeparamref name="T" /> to find the first element in.</param>
         /// <param name="exception">The exception to throw when the element is not found.</param>
         /// <returns>An instance of <typeparamref name="T" />.</returns>
-        public static T FirstOrThrow<T>(this IQueryable<T> queryable, Exception exception) => queryable.FirstOrThrow(element => true, exception);
+        public static T FirstOrThrow<T>(this IQueryable<T> queryable, Exception exception)
+            => queryable.FirstOrThrow(element => true, exception);
 
         /// <summary>
         ///     Returns the first element of an <see cref="IQueryable{T}" /> matching the given predicate or throws an

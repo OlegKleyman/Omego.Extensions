@@ -21,9 +21,9 @@
         /// <summary>
         ///     Initializes a new instance of the <see cref="AttemptCatchIterator{T,TE}" /> class.
         /// </summary>
-        /// <param name="enumerable">The <see cref="IEnumerable{T}" /> of <typeparamref name="T"/> to iterate on.</param>
+        /// <param name="enumerable">The <see cref="IEnumerable{T}" /> of <typeparamref name="T" /> to iterate on.</param>
         /// <param name="handler">
-        ///     The <see cref="Action{T}" /> of <typeparamref name="TE"/> to call when a(n) <typeparamref name="TE"/> exception
+        ///     The <see cref="Action{T}" /> of <typeparamref name="TE" /> to call when a(n) <typeparamref name="TE" /> exception
         ///     occurrs.
         /// </param>
         public AttemptCatchIterator(IEnumerable<T> enumerable, Action<TE> handler)
