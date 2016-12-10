@@ -62,6 +62,34 @@
                                                                                                                  "Test1.Test2Field"
                                                                                                              }
                                                                                                      };
+
+            public static IEnumerable OnNullShouldSetCurrentObjectTheory = new object[]
+                                                                               {
+                                                                                   new object[]
+                                                                                       {
+                                                                                           new Test
+                                                                                               {
+                                                                                                   Test1 =
+                                                                                                       new Test1
+                                                                                                           {
+                                                                                                               Test2 =
+                                                                                                                   new Test2
+                                                                                                                       {
+                                                                                                                           TestString
+                                                                                                                               =
+                                                                                                                               "testing2"
+                                                                                                                       }
+                                                                                                           }
+                                                                                               },
+                                                                                           (
+                                                                                           Expression
+                                                                                           <Func<Test, object>>)
+                                                                                           (test =>
+                                                                                               test.Test1.Test2
+                                                                                                   .TestString),
+                                                                                           "testing2"
+                                                                                       }
+                                                                               };
         }
 
         [Theory]
@@ -75,6 +103,17 @@
             visitor.OnNull(expression, handler);
 
             handler.Received(1)(Arg.Is(expected));
+        }
+
+        [Theory]
+        [MemberData("OnNullShouldSetCurrentObjectTheory", MemberType = typeof(SmartGetVisitorTestsTheories))]
+        public void OnNullShouldSetCurrentObject(Test target, Expression expression, string expected)
+        {
+            var visitor = GetVisitor(target);
+
+            visitor.OnNull(expression, null);
+
+            visitor.Current.ShouldBeEquivalentTo(expected);
         }
 
         private SmartGetVisitor GetVisitor(object target) => new SmartGetVisitor(target);

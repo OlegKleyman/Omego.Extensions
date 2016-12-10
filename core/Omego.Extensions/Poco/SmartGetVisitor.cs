@@ -7,16 +7,16 @@
 
     public class SmartGetVisitor : ExpressionVisitor
     {
-        private object target;
+        public object Current { get; private set; }
 
         private readonly Queue<string> nameQueue;
 
         private static readonly NotSupportedException NotSupportedNodeException =
             new NotSupportedException("Only non-default properties and fields fields are supported.");
 
-        public SmartGetVisitor(object target)
+        public SmartGetVisitor(object current)
         {
-            this.target = target;
+            Current = current;
             nameQueue = new Queue<string>();
         }
         
@@ -102,7 +102,7 @@
         {
             base.VisitMember(node);
 
-            if (target == null)
+            if (Current == null)
             {
                 return node;
             }
@@ -110,16 +110,16 @@
             if (node.Member is PropertyInfo)
             {
                 var member = (PropertyInfo)node.Member;
-                target = member.GetValue(target);
+                Current = member.GetValue(Current);
             }
             else if (node.Member is FieldInfo)
             {
                 var member = (FieldInfo)node.Member;
-                target = member.GetValue(target);
+                Current = member.GetValue(Current);
             }
 
             nameQueue.Enqueue(node.Member.Name);
-
+            
             return node;
         }
 
@@ -235,7 +235,7 @@
         {
             Visit(expression);
 
-            if (nameQueue.Count > 0)
+            if (nameQueue.Count > 0 && Current == null)
             {
                 onNullCallBack(string.Join(".", nameQueue));
             }
