@@ -77,6 +77,7 @@
     <Compile Include="EnumerableExtensions\SingleOrTests.cs" />
     <Compile Include="EnumerableExtensions\SingleOrThrow.cs" />
     <Compile Include="Poco\SingleElementResultTests.cs" />
+    <Compile Include="Poco\SmartGetVisitorTests.cs" />
     <Compile Include="QueryableExtensions\FirstElementTests.cs" />
     <Compile Include="QueryableExtensions\FirstOrTests.cs" />
     <Compile Include="QueryableExtensions\FirstOrThrowTests.cs" />
