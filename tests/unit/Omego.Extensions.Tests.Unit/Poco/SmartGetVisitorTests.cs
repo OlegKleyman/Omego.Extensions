@@ -2,9 +2,13 @@
 {
     using System;
     using System.Collections;
+    using System.Collections.Generic;
     using System.Linq.Expressions;
+    using System.Reflection;
 
     using FluentAssertions;
+
+    using NSubstitute;
 
     using Omego.Extensions.Poco;
 
@@ -45,6 +49,17 @@
                                                                                                                      },
                                                                                                                  (Expression<Func<Test, object>>)(test => test.Test1.Test2.TestString),
                                                                                                                  "Test1.Test2"
+                                                                                                             },
+                                                                                                         new object[]
+                                                                                                             {
+                                                                                                                 new Test
+                                                                                                                     {
+                                                                                                                         Test1
+                                                                                                                             =
+                                                                                                                             new Test1()
+                                                                                                                     },
+                                                                                                                 (Expression<Func<Test, object>>)(test => test.Test1.Test2Field),
+                                                                                                                 "Test1.Test2Field"
                                                                                                              }
                                                                                                      };
         }
@@ -54,14 +69,15 @@
         public void OnNullShouldSetNullQualifiedNameToNullForProperties(Test target, Expression expression, string expected)
         {
             var visitor = GetVisitor(target);
-            
-            visitor.OnNull(expression, qualifiedName => qualifiedName.ShouldBeEquivalentTo(expected));
+
+            var handler = Substitute.For<Action<string>>();
+
+            visitor.OnNull(expression, handler);
+
+            handler.Received(1)(Arg.Is(expected));
         }
 
-        private SmartGetVisitor GetVisitor(object target)
-        {
-            return new SmartGetVisitor(target);
-        }
+        private SmartGetVisitor GetVisitor(object target) => new SmartGetVisitor(target);
 
         public class Test
         {
@@ -70,7 +86,11 @@
 
         public class Test1
         {
+            public Test2 Test2Field;
+
             internal Test2 Test2 { get; set; }
+
+            public Test2 GetTest2() => new Test2();
         }
 
         public class Test2
