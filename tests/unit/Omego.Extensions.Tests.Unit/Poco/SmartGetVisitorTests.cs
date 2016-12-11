@@ -128,6 +128,26 @@
                                 null
                             }
                     };
+
+            public static IEnumerable ResetWithShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory =
+                new[]
+                    {
+                        new object[]
+                            {
+                                "Value cannot be null.\r\nParameter name: target", "target", typeof(ArgumentNullException),
+                                null
+                            }
+                    };
+
+            public static IEnumerable ConstructorShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory =
+                new[]
+                    {
+                        new object[]
+                            {
+                                "Value cannot be null.\r\nParameter name: target", "target", typeof(ArgumentNullException),
+                                null
+                            }
+                    };
         }
 
         [Theory]
@@ -191,7 +211,7 @@
             Type exceptionType,
             MemberExpression expression)
         {
-            var visitor = new MockVisitor(null);
+            var visitor = new MockVisitor(new object());
 
             Action visitMember = () => visitor.VisitMember(expression);
 
@@ -203,6 +223,62 @@
                 .And.Should()
                 .BeOfType(exceptionType);
         }
+
+        [Theory]
+        [MemberData("ResetWithShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory",
+             MemberType = typeof(SmartGetVisitorTestsTheories))]
+        public void ResetWithShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalid(
+            string message,
+            string parameterName,
+            Type exceptionType,
+            object target)
+        {
+            var visitor = GetVisitor(new object());
+
+            Action resetWith = () => visitor.ResetWith(target);
+
+            resetWith.ShouldThrow<ArgumentException>()
+                .WithMessage(message)
+                .Where(
+                    exception => exception.ParamName == parameterName,
+                    "the parameter name should be of the problematic parameter")
+                .And.Should()
+                .BeOfType(exceptionType);
+        }
+
+        [Fact]
+        public void ResetWithShouldResetCurrentWithTargetObject()
+        {
+            var visitor = GetVisitor(new object());
+
+            var target = new object();
+
+            visitor.ResetWith(target);
+
+            visitor.Current.Should().Be(target);
+        }
+
+        [Theory]
+        [MemberData("ConstructorShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory",
+             MemberType = typeof(SmartGetVisitorTestsTheories))]
+        public void ConstructorShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalid(
+            string message,
+            string parameterName,
+            Type exceptionType,
+            object target)
+        {
+            Action resetWith = () => new SmartGetVisitor(target);
+
+            resetWith.ShouldThrow<ArgumentException>()
+                .WithMessage(message)
+                .Where(
+                    exception => exception.ParamName == parameterName,
+                    "the parameter name should be of the problematic parameter")
+                .And.Should()
+                .BeOfType(exceptionType);
+        }
+
+        
 
         private SmartGetVisitor GetVisitor(object target) => new SmartGetVisitor(target);
 
@@ -250,10 +326,13 @@
         [Fact]
         public void VisitMemberShouldReturnNodeWhenCurrentIsNull()
         {
-            var visitor = new MockVisitor(null);
+            var visitor = new MockVisitor(new Test2());
             Expression<Func<Test2, string>> expression = test2 => test2.TestString;
 
-            visitor.VisitMember((MemberExpression)expression.Body).ShouldBeEquivalentTo(expression.Body);
+            var memberExpression = (MemberExpression)visitor.VisitMember((MemberExpression)expression.Body);
+
+            visitor.Current.Should().BeNull();
+            visitor.VisitMember(memberExpression).ShouldBeEquivalentTo(expression.Body);
         }
 
         [Fact]

@@ -16,13 +16,15 @@
 
         private readonly Queue<string> nameQueue;
 
-        public SmartGetVisitor(object current)
+        public SmartGetVisitor(object target)
         {
-            Current = current;
+            if(target == null) throw new ArgumentNullException(nameof(target));
+
+            Current = target;
             nameQueue = new Queue<string>();
         }
 
-        public object Current { get; set; }
+        public object Current { get; private set; }
 
         /// <inheritdoc />
         protected override Expression VisitBinary(BinaryExpression node)
@@ -250,6 +252,13 @@
                 if (onNullCallBack == null) throw new ArgumentNullException(nameof(onNullCallBack));
                 onNullCallBack(string.Join(".", nameQueue));
             }
+        }
+
+        public void ResetWith(object target)
+        {
+            if (target == null) throw new ArgumentNullException(nameof(target));
+
+            Current = target;
         }
     }
 }
