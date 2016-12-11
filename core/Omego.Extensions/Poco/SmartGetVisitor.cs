@@ -91,6 +91,8 @@
 
         protected override Expression VisitMember(MemberExpression node)
         {
+            if(node == null) throw new ArgumentNullException(nameof(node));
+
             base.VisitMember(node);
 
             if (Current == null)

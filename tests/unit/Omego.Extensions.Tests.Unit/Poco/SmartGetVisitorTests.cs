@@ -119,6 +119,22 @@
                                                                                                                                     (Expression<Func<Test, object>>)(test => test.Test1.Test2.TestString), null
                                                                                                                                 }
                                                                                                                     };
+
+            public static IEnumerable VisitMemberShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory = new[]
+                                                                                                                    {
+                                                                                                                        new object
+                                                                                                                            [
+                                                                                                                            ]
+                                                                                                                                {
+                                                                                                                                    "Value cannot be null.\r\nParameter name: node",
+                                                                                                                                    "node",
+                                                                                                                                    typeof
+                                                                                                                                    (
+                                                                                                                                        ArgumentNullException
+                                                                                                                                    ),
+                                                                                                                                    null
+                                                                                                                                }
+                                                                                                                    };
         }
 
         [Theory]
@@ -217,6 +233,28 @@
 
             visitor.VisitMember((MemberExpression)expression.Body);
             visitor.Current.ShouldBeEquivalentTo(20);
+        }
+
+        [Theory]
+        [MemberData("VisitMemberShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory",
+             MemberType = typeof(SmartGetVisitorTestsTheories))]
+        public void VisitMemberShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalid(
+            string message,
+            string parameterName,
+            Type exceptionType,
+            MemberExpression expression)
+        {
+            var visitor = new MockVisitor(null);
+
+            Action visitMember = () => visitor.VisitMember(expression);
+
+            visitMember.ShouldThrow<ArgumentException>()
+                .WithMessage(message)
+                .Where(
+                    exception => exception.ParamName == parameterName,
+                    "the parameter name should be of the problematic parameter")
+                .And.Should()
+                .BeOfType(exceptionType);
         }
 
         private SmartGetVisitor GetVisitor(object target) => new SmartGetVisitor(target);
