@@ -65,6 +65,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NullExtensions\SmartGetTests.cs" />
     <Compile Include="Poco\AttemptCatchIteratorTests.cs" />
     <Compile Include="EnumerableExtensions\AttemptCatchTests.cs" />
     <Compile Include="EnumerableExtensions\FirstElementTests.cs" />
