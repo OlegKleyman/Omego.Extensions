@@ -16,6 +16,13 @@
 
         private readonly Queue<string> nameQueue;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SmartGetVisitor"/> class.
+        /// </summary>
+        /// <param name="target">The <see cref="object"/> to search null members in.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="target"/> is null.
+        /// </exception>
         public SmartGetVisitor(object target)
         {
             if(target == null) throw new ArgumentNullException(nameof(target));
@@ -24,6 +31,10 @@
             nameQueue = new Queue<string>();
         }
 
+        /// <summary>
+        /// Gets <see cref="Current"/>.
+        /// </summary>
+        /// <value>The current object to be searched.</value>
         public object Current { get; private set; }
 
         /// <inheritdoc />
@@ -243,6 +254,16 @@
             throw NotSupportedNodeException;
         }
 
+        /// <summary>
+        /// Checks if an expression contains null members.
+        /// </summary>
+        /// <param name="expression">The <see cref="Exception"/> that contains members to check.</param>
+        /// <param name="onNullCallBack">
+        /// The <see cref="Action{T}"/> of <see cref="string"/> to call when null members are found.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="onNullCallBack"/> is null.
+        /// </exception>
         public void OnNull(Expression expression, Action<string> onNullCallBack)
         {
             Visit(expression);
@@ -254,6 +275,13 @@
             }
         }
 
+        /// <summary>
+        /// Resets the target root to search null members in.
+        /// </summary>
+        /// <param name="target">The <see cref="object"/> to search null members in.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="target"/> is null.
+        /// </exception>
         public void ResetWith(object target)
         {
             if (target == null) throw new ArgumentNullException(nameof(target));
