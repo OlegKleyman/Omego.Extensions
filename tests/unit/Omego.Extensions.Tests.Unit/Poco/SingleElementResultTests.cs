@@ -280,6 +280,14 @@
                                                                                                                      >
                                                                                                                      .MultipleElements,
                                                                                                                  2
+                                                                                                             },
+                                                                                                         new object[]
+                                                                                                             {
+                                                                                                                 new SingleElementResult
+                                                                                                                 <
+                                                                                                                     object
+                                                                                                                 >(2),
+                                                                                                                 965
                                                                                                              }
                                                                                                      };
 

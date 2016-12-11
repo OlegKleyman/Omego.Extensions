@@ -8,7 +8,7 @@
     /// <summary>
     ///     Contains extension methods for <see cref="object" />.
     /// </summary>
-    public static class ObjectExtensions
+    public static partial class ObjectExtensions
     {
         /// <summary>
         ///     Gets an instance or value specified by <paramref name="result" /> or throws
@@ -48,7 +48,7 @@
 
                         if (toThrow == null) throw new InvalidOperationException("Exception to throw returned null.");
 
-                        throw exception(nullQualifier);
+                        throw toThrow;
                     });
 
             if (result == null) throw new ArgumentNullException(nameof(result));
