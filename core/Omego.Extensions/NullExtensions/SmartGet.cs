@@ -8,7 +8,7 @@
     /// <summary>
     ///     Contains extension methods for <see cref="object" />.
     /// </summary>
-    public static class ObjectExtensions
+    public static partial class ObjectExtensions
     {
         /// <summary>
         ///     Gets an instance or value specified by <paramref name="result" /> or throws
