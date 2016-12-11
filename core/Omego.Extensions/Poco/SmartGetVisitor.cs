@@ -24,74 +24,88 @@
             nameQueue = new Queue<string>();
         }
 
+        /// <inheritdoc />
         protected override Expression VisitBinary(BinaryExpression node)
         {
             throw NotSupportedNodeException;
         }
 
+        /// <inheritdoc />
         protected override Expression VisitBlock(BlockExpression node)
         {
             throw NotSupportedNodeException;
         }
 
+        /// <inheritdoc />
         protected override Expression VisitConditional(ConditionalExpression node)
         {
             throw NotSupportedNodeException;
         }
 
+        /// <inheritdoc />
         protected override Expression VisitConstant(ConstantExpression node)
         {
             throw NotSupportedNodeException;
         }
 
+        /// <inheritdoc />
         protected override Expression VisitDebugInfo(DebugInfoExpression node)
         {
             throw NotSupportedNodeException;
         }
 
+        /// <inheritdoc />
         protected override Expression VisitDynamic(DynamicExpression node)
         {
             throw NotSupportedNodeException;
         }
 
+        /// <inheritdoc />
         protected override Expression VisitDefault(DefaultExpression node)
         {
             throw NotSupportedNodeException;
         }
 
+        /// <inheritdoc />
         protected override Expression VisitExtension(Expression node)
         {
             throw NotSupportedNodeException;
         }
 
+        /// <inheritdoc />
         protected override Expression VisitGoto(GotoExpression node)
         {
             throw NotSupportedNodeException;
         }
 
+        /// <inheritdoc />
         protected override Expression VisitInvocation(InvocationExpression node)
         {
             throw NotSupportedNodeException;
         }
 
+        /// <inheritdoc />
         protected override LabelTarget VisitLabelTarget(LabelTarget node)
         {
             throw NotSupportedNodeException;
         }
 
+        /// <inheritdoc />
         protected override Expression VisitLabel(LabelExpression node)
         {
             throw NotSupportedNodeException;
         }
 
+        /// <inheritdoc />
         protected override Expression VisitLoop(LoopExpression node)
         {
             throw NotSupportedNodeException;
         }
 
+        /// <inheritdoc />
         protected override Expression VisitMember(MemberExpression node)
         {
-            if(node == null) throw new ArgumentNullException(nameof(node));
+            if (node == null) throw new ArgumentNullException(nameof(node));
 
             base.VisitMember(node);
 
@@ -122,91 +136,109 @@
             return node;
         }
 
+        /// <inheritdoc />
         protected override Expression VisitIndex(IndexExpression node)
         {
             throw NotSupportedNodeException;
         }
 
+        /// <inheritdoc />
         protected override Expression VisitMethodCall(MethodCallExpression node)
         {
             throw NotSupportedNodeException;
         }
 
+        /// <inheritdoc />
         protected override Expression VisitNewArray(NewArrayExpression node)
         {
             throw NotSupportedNodeException;
         }
 
+        /// <inheritdoc />
         protected override Expression VisitNew(NewExpression node)
         {
             throw NotSupportedNodeException;
         }
 
+        /// <inheritdoc />
         protected override Expression VisitRuntimeVariables(RuntimeVariablesExpression node)
         {
             throw NotSupportedNodeException;
         }
 
+        /// <inheritdoc />
         protected override SwitchCase VisitSwitchCase(SwitchCase node)
         {
             throw NotSupportedNodeException;
         }
 
+        /// <inheritdoc />
         protected override Expression VisitSwitch(SwitchExpression node)
         {
             throw NotSupportedNodeException;
         }
 
+        /// <inheritdoc />
         protected override CatchBlock VisitCatchBlock(CatchBlock node)
         {
             throw NotSupportedNodeException;
         }
 
+        /// <inheritdoc />
         protected override Expression VisitTry(TryExpression node)
         {
             throw NotSupportedNodeException;
         }
 
+        /// <inheritdoc />
         protected override Expression VisitTypeBinary(TypeBinaryExpression node)
         {
             throw NotSupportedNodeException;
         }
 
+        /// <inheritdoc />
         protected override Expression VisitUnary(UnaryExpression node)
         {
             throw NotSupportedNodeException;
         }
 
+        /// <inheritdoc />
         protected override Expression VisitMemberInit(MemberInitExpression node)
         {
             throw NotSupportedNodeException;
         }
 
+        /// <inheritdoc />
         protected override Expression VisitListInit(ListInitExpression node)
         {
             throw NotSupportedNodeException;
         }
 
+        /// <inheritdoc />
         protected override ElementInit VisitElementInit(ElementInit node)
         {
             throw NotSupportedNodeException;
         }
 
+        /// <inheritdoc />
         protected override MemberBinding VisitMemberBinding(MemberBinding node)
         {
             throw NotSupportedNodeException;
         }
 
+        /// <inheritdoc />
         protected override MemberAssignment VisitMemberAssignment(MemberAssignment node)
         {
             throw NotSupportedNodeException;
         }
 
+        /// <inheritdoc />
         protected override MemberMemberBinding VisitMemberMemberBinding(MemberMemberBinding node)
         {
             throw NotSupportedNodeException;
         }
 
+        /// <inheritdoc />
         protected override MemberListBinding VisitMemberListBinding(MemberListBinding node)
         {
             throw NotSupportedNodeException;
@@ -218,7 +250,7 @@
 
             if (nameQueue.Count > 0 && Current == null)
             {
-                if(onNullCallBack == null) throw new ArgumentNullException(nameof(onNullCallBack));
+                if (onNullCallBack == null) throw new ArgumentNullException(nameof(onNullCallBack));
                 onNullCallBack(string.Join(".", nameQueue));
             }
         }
