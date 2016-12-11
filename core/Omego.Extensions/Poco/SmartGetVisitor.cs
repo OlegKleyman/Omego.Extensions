@@ -216,6 +216,7 @@
 
             if (nameQueue.Count > 0 && Current == null)
             {
+                if(onNullCallBack == null) throw new ArgumentNullException(nameof(onNullCallBack));
                 onNullCallBack(string.Join(".", nameQueue));
             }
         }

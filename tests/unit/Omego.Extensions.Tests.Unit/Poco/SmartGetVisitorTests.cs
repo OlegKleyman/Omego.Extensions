@@ -90,6 +90,35 @@
                                                                                            "testing2"
                                                                                        }
                                                                                };
+
+            public static IEnumerable OnNullShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory = new[]
+                                                                                                                    {
+                                                                                                                        new object
+                                                                                                                            [
+                                                                                                                            ]
+                                                                                                                                {
+                                                                                                                                    "Value cannot be null.\r\nParameter name: onNullCallBack",
+                                                                                                                                    "onNullCallBack",
+                                                                                                                                    typeof
+                                                                                                                                    (
+                                                                                                                                        ArgumentNullException
+                                                                                                                                    ),
+                                                                                                                                    new Test
+                                                                                                                                        {
+                                                                                                                                            Test1
+                                                                                                                                                =
+                                                                                                                                                new Test1
+                                                                                                                                                    {
+                                                                                                                                                        Test2
+                                                                                                                                                            =
+                                                                                                                                                            new Test2
+                                                                                                                                                            (
+                                                                                                                                                            )
+                                                                                                                                                    }
+                                                                                                                                        },
+                                                                                                                                    (Expression<Func<Test, object>>)(test => test.Test1.Test2.TestString), null
+                                                                                                                                }
+                                                                                                                    };
         }
 
         [Theory]
@@ -114,6 +143,30 @@
             visitor.OnNull(expression, null);
 
             visitor.Current.ShouldBeEquivalentTo(expected);
+        }
+
+        [Theory]
+        [MemberData("OnNullShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory",
+             MemberType = typeof(SmartGetVisitorTestsTheories))]
+        public void OnNullShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalid(
+            string message,
+            string parameterName,
+            Type exceptionType,
+            object target,
+            Expression expression,
+            Action<string> callBack)
+        {
+            var visitor = GetVisitor(target);
+
+            Action onNull = () => visitor.OnNull(expression, callBack);
+
+            onNull.ShouldThrow<ArgumentException>()
+                .WithMessage(message)
+                .Where(
+                    exception => exception.ParamName == parameterName,
+                    "the parameter name should be of the problematic parameter")
+                .And.Should()
+                .BeOfType(exceptionType);
         }
 
         private SmartGetVisitor GetVisitor(object target) => new SmartGetVisitor(target);
