@@ -310,6 +310,28 @@
         }
 
         [Fact]
+        public void ResetWithShouldClearQualifyingPath()
+        {
+            var visitor = new MockVisitor(new Test2 { TestString = "testing" });
+
+            Expression<Func<Test2, string>> expression = test2 => test2.TestString;
+
+            visitor.VisitMember((MemberExpression)expression.Body);
+
+            var secondTarget = new Test { Test1 = new Test1 { Test2 = new Test2() } };
+            
+            visitor.ResetWith(secondTarget);
+
+            var handler = Substitute.For<Action<string>>();
+
+            Expression<Func<Test, string>> secondExpression = test => test.Test1.Test2.TestString;
+
+            visitor.OnNull(secondExpression, handler);
+
+            handler.Received(1)(Arg.Is("Test1.Test2.TestString"));
+        }
+
+        [Fact]
         public void VisitMemberShouldReturnNodeWhenCurrentIsNotNull()
         {
             var visitor = new MockVisitor(new Test2 { TestString = "testing" });

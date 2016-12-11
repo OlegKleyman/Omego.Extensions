@@ -287,6 +287,7 @@
             if (target == null) throw new ArgumentNullException(nameof(target));
 
             Current = target;
+            nameQueue.Clear();
         }
     }
 }
