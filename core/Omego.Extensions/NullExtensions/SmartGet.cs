@@ -3,16 +3,16 @@
     using System;
     using System.Linq.Expressions;
 
-    using Poco;
+    using Omego.Extensions.Poco;
 
     /// <summary>
-    /// Contains extension methods for <see cref="object"/>.
+    ///     Contains extension methods for <see cref="object" />.
     /// </summary>
     public static class ObjectExtensions
     {
         /// <summary>
-        /// Gets an instance or value specified by <paramref name="result"/> or throws
-        /// an exception if part of the <paramref name="qualifierPath"/> is null.
+        ///     Gets an instance or value specified by <paramref name="result" /> or throws
+        ///     an exception if part of the <paramref name="qualifierPath" /> is null.
         /// </summary>
         /// <typeparam name="TTarget">The type check qualifying path on.</typeparam>
         /// <typeparam name="TObject">The final type of the qualifying path to check.</typeparam>
@@ -21,14 +21,14 @@
         /// <param name="qualifierPath">The qualifying path to check.</param>
         /// <param name="result">The object or value to retrieve when the qualifying path is not null.</param>
         /// <param name="exception">
-        /// The exception to throw when the qualifying path contains null.
+        ///     The exception to throw when the qualifying path contains null.
         /// </param>
-        /// <returns>The <typeparamref name="TResult"/>.</returns>
+        /// <returns>The <typeparamref name="TResult" />.</returns>
         /// <exception cref="ArgumentNullException">
-        /// Occurs when <paramref name="result"/> or <paramref name="exception"/> is null.
+        ///     Occurs when <paramref name="result" /> or <paramref name="exception" /> is null.
         /// </exception>
         /// <exception cref="InvalidOperationException">
-        /// Occurs when <paramref name="exception"/> returns null.
+        ///     Occurs when <paramref name="exception" /> returns null.
         /// </exception>
         public static TResult SmartGet<TTarget, TObject, TResult>(
             this TTarget target,
@@ -51,7 +51,7 @@
                         throw exception(nullQualifier);
                     });
 
-            if(result == null) throw new ArgumentNullException(nameof(result));
+            if (result == null) throw new ArgumentNullException(nameof(result));
 
             return result((TObject)visitor.Current);
         }

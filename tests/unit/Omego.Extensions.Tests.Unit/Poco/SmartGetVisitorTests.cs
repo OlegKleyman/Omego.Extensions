@@ -134,8 +134,8 @@
                     {
                         new object[]
                             {
-                                "Value cannot be null.\r\nParameter name: target", "target", typeof(ArgumentNullException),
-                                null
+                                "Value cannot be null.\r\nParameter name: target", "target",
+                                typeof(ArgumentNullException), null
                             }
                     };
 
@@ -144,8 +144,8 @@
                     {
                         new object[]
                             {
-                                "Value cannot be null.\r\nParameter name: target", "target", typeof(ArgumentNullException),
-                                null
+                                "Value cannot be null.\r\nParameter name: target", "target",
+                                typeof(ArgumentNullException), null
                             }
                     };
         }
@@ -246,18 +246,6 @@
                 .BeOfType(exceptionType);
         }
 
-        [Fact]
-        public void ResetWithShouldResetCurrentWithTargetObject()
-        {
-            var visitor = GetVisitor(new object());
-
-            var target = new object();
-
-            visitor.ResetWith(target);
-
-            visitor.Current.Should().Be(target);
-        }
-
         [Theory]
         [MemberData("ConstructorShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory",
              MemberType = typeof(SmartGetVisitorTestsTheories))]
@@ -277,8 +265,6 @@
                 .And.Should()
                 .BeOfType(exceptionType);
         }
-
-        
 
         private SmartGetVisitor GetVisitor(object target) => new SmartGetVisitor(target);
 
@@ -311,6 +297,18 @@
             }
 
             public Expression VisitMember(MemberExpression node) => base.VisitMember(node);
+        }
+
+        [Fact]
+        public void ResetWithShouldResetCurrentWithTargetObject()
+        {
+            var visitor = GetVisitor(new object());
+
+            var target = new object();
+
+            visitor.ResetWith(target);
+
+            visitor.Current.Should().Be(target);
         }
 
         [Fact]
