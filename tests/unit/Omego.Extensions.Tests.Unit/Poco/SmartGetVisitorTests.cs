@@ -169,6 +169,56 @@
                 .BeOfType(exceptionType);
         }
 
+        [Fact]
+        public void VisitMemberShouldReturnNodeWhenCurrentIsNull()
+        {
+            var visitor = new MockVisitor(null);
+            Expression<Func<Test2, string>> expression = test2 => test2.TestString;
+            
+            visitor.VisitMember((MemberExpression )expression.Body).ShouldBeEquivalentTo(expression.Body);
+        }
+
+        [Fact]
+        public void VisitMemberShouldReturnNodeWhenCurrentIsNotNull()
+        {
+            var visitor = new MockVisitor(new Test2
+                                              {
+                                                  TestString = "testing"
+                                              });
+
+            Expression<Func<Test2, string>> expression = test2 => test2.TestString;
+
+            visitor.VisitMember((MemberExpression)expression.Body).ShouldBeEquivalentTo(expression.Body);
+        }
+
+        [Fact]
+        public void VisitMemberShouldSetCurrentToPropertyValue()
+        {
+            var visitor = new MockVisitor(new Test2
+            {
+                TestString = "testing"
+            });
+
+            Expression<Func<Test2, string>> expression = test2 => test2.TestString;
+
+            visitor.VisitMember((MemberExpression)expression.Body);
+            visitor.Current.ShouldBeEquivalentTo("testing");
+        }
+
+        [Fact]
+        public void VisitMemberShouldSetCurrentToFieldValue()
+        {
+            var visitor = new MockVisitor(new Test2
+            {
+                Test2Field = 20
+            });
+
+            Expression<Func<Test2, int>> expression = test2 => test2.Test2Field;
+
+            visitor.VisitMember((MemberExpression)expression.Body);
+            visitor.Current.ShouldBeEquivalentTo(20);
+        }
+
         private SmartGetVisitor GetVisitor(object target) => new SmartGetVisitor(target);
 
         public class Test
@@ -188,6 +238,17 @@
         public class Test2
         {
             internal string TestString { get; set; }
+
+            internal int Test2Field;
+        }
+
+        public class MockVisitor : SmartGetVisitor
+        {
+            public MockVisitor(object target) : base(target)
+            {
+            }
+
+            public Expression VisitMember(MemberExpression node) => base.VisitMember(node);
         }
     }
 }
