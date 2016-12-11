@@ -7,10 +7,10 @@
 
     public static partial class ObjectExtensions
     {
-        public static void SmartCheck<TTarget, TObject>(
+        public static void SmartCheck<TTarget>(
             this TTarget target,
             Func<string, Exception> exception,
-            params Expression<Func<TTarget, TObject>>[] qualifierPath)
+            params Expression<Func<TTarget, object>>[] qualifierPath)
         {
             if (qualifierPath == null) throw new ArgumentNullException(nameof(qualifierPath));
 
