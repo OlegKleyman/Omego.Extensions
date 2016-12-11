@@ -59,7 +59,7 @@
                         new object[]
                             {
                                 "Value cannot be null.\r\nParameter name: result", "result",
-                                typeof(ArgumentNullException), null, null, null, null
+                                typeof(ArgumentNullException), new Test(), null, null, null
                             },
                         new object[]
                             {
