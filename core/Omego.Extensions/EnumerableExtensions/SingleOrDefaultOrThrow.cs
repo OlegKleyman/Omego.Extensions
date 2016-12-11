@@ -20,10 +20,11 @@
         /// <typeparam name="T">The type of the object to return.</typeparam>
         /// <returns>An instance of <typeparamref name="T" />.</returns>
         public static T SingleOrDefaultOrThrow<T>(
-            this IEnumerable<T> enumerable,
-            Func<T, bool> predicate,
-            T @default,
-            Exception multipleMatchesFoundException) => enumerable.SingleOrDefaultOrThrow(predicate, () => @default, multipleMatchesFoundException);
+                this IEnumerable<T> enumerable,
+                Func<T, bool> predicate,
+                T @default,
+                Exception multipleMatchesFoundException)
+            => enumerable.SingleOrDefaultOrThrow(predicate, () => @default, multipleMatchesFoundException);
 
         /// <summary>
         ///     Returns a single element of an <see cref="IEnumerable{T}" /> matching the given predicate or returns
@@ -40,9 +41,10 @@
         /// <typeparam name="T">The type of the object to return.</typeparam>
         /// <returns>An instance of <typeparamref name="T" />.</returns>
         public static T SingleOrDefaultOrThrow<T>(
-            this IEnumerable<T> enumerable,
-            Func<T, bool> predicate,
-            Func<T> @default,
-            Exception multipleMatchesFoundException) => enumerable.SingleElementOrThrowOnMultiple(predicate, multipleMatchesFoundException).ValueOr(@default);
+                this IEnumerable<T> enumerable,
+                Func<T, bool> predicate,
+                Func<T> @default,
+                Exception multipleMatchesFoundException)
+            => enumerable.SingleElementOrThrowOnMultiple(predicate, multipleMatchesFoundException).ValueOr(@default);
     }
 }

@@ -42,8 +42,10 @@
     <Compile Include="EnumerableExtensions\SingleOr.cs" />
     <Compile Include="EnumerableExtensions\SingleOrDefaultOrThrow.cs" />
     <Compile Include="EnumerableExtensions\SingleOrThrow.cs" />
+    <Compile Include="NullExtensions\SmartGet.cs" />
     <Compile Include="Poco\AttemptCatchIterator.cs" />
     <Compile Include="Poco\Element.cs" />
+    <Compile Include="Poco\SmartGetVisitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QueryableExtensions\FirstElement.cs" />
     <Compile Include="QueryableExtensions\FirstOr.cs" />

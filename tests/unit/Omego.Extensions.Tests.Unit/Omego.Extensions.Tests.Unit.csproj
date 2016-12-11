@@ -65,6 +65,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NullExtensions\SmartGetTests.cs" />
     <Compile Include="Poco\AttemptCatchIteratorTests.cs" />
     <Compile Include="EnumerableExtensions\AttemptCatchTests.cs" />
     <Compile Include="EnumerableExtensions\FirstElementTests.cs" />
@@ -77,6 +78,7 @@
     <Compile Include="EnumerableExtensions\SingleOrTests.cs" />
     <Compile Include="EnumerableExtensions\SingleOrThrow.cs" />
     <Compile Include="Poco\SingleElementResultTests.cs" />
+    <Compile Include="Poco\SmartGetVisitorTests.cs" />
     <Compile Include="QueryableExtensions\FirstElementTests.cs" />
     <Compile Include="QueryableExtensions\FirstOrTests.cs" />
     <Compile Include="QueryableExtensions\FirstOrThrowTests.cs" />
