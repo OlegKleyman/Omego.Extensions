@@ -52,7 +52,7 @@
                     });
 
             if (result == null) throw new ArgumentNullException(nameof(result));
-            
+
             return result((TObject)visitor.Current);
         }
     }

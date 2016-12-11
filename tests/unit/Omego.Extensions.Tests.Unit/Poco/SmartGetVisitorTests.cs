@@ -298,18 +298,6 @@
         }
 
         [Fact]
-        public void ResetWithShouldResetCurrentWithTargetObject()
-        {
-            var visitor = GetVisitor(new object());
-
-            var target = new object();
-
-            visitor.ResetWith(target);
-
-            visitor.Current.Should().Be(target);
-        }
-
-        [Fact]
         public void ResetWithShouldClearQualifyingPath()
         {
             var visitor = new MockVisitor(new Test2 { TestString = "testing" });
@@ -319,7 +307,7 @@
             visitor.VisitMember((MemberExpression)expression.Body);
 
             var secondTarget = new Test { Test1 = new Test1 { Test2 = new Test2() } };
-            
+
             visitor.ResetWith(secondTarget);
 
             var handler = Substitute.For<Action<string>>();
@@ -329,6 +317,18 @@
             visitor.OnNull(secondExpression, handler);
 
             handler.Received(1)(Arg.Is("Test1.Test2.TestString"));
+        }
+
+        [Fact]
+        public void ResetWithShouldResetCurrentWithTargetObject()
+        {
+            var visitor = GetVisitor(new object());
+
+            var target = new object();
+
+            visitor.ResetWith(target);
+
+            visitor.Current.Should().Be(target);
         }
 
         [Fact]

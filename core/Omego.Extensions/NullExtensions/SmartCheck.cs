@@ -12,7 +12,7 @@
             Func<string, Exception> exception,
             params Expression<Func<TTarget, TObject>>[] qualifierPath)
         {
-            if(qualifierPath == null) throw new ArgumentNullException(nameof(qualifierPath));
+            if (qualifierPath == null) throw new ArgumentNullException(nameof(qualifierPath));
 
             var visitor = new SmartGetVisitor(target);
 
@@ -21,15 +21,15 @@
                 visitor.OnNull(
                     expression,
                     s =>
-                    {
-                        if (exception == null) throw new ArgumentNullException(nameof(exception));
+                        {
+                            if (exception == null) throw new ArgumentNullException(nameof(exception));
 
-                        var toThrow = exception(s);
+                            var toThrow = exception(s);
 
-                        if (toThrow == null) throw new InvalidOperationException("Exception to throw returned null.");
+                            if (toThrow == null) throw new InvalidOperationException("Exception to throw returned null.");
 
-                        throw toThrow;
-                    });
+                            throw toThrow;
+                        });
 
                 visitor.ResetWith(target);
             }
