@@ -2,9 +2,7 @@
 {
     using System;
     using System.Collections;
-    using System.Collections.Generic;
     using System.Linq.Expressions;
-    using System.Reflection;
 
     using FluentAssertions;
 
@@ -20,48 +18,49 @@
         public class SmartGetVisitorTestsTheories
         {
             public static IEnumerable OnNullShouldSetNullQualifiedNameToNullForPropertiesTheory = new object[]
-                                                                                                     {
-                                                                                                         new object[]
-                                                                                                             {
-                                                                                                                 new Test
-                                                                                                                     {
-                                                                                                                         Test1
-                                                                                                                             =
-                                                                                                                             new Test1
-                                                                                                                                 {
-                                                                                                                                     Test2
-                                                                                                                                         =
-                                                                                                                                         new Test2
-                                                                                                                                         (
-                                                                                                                                         )
-                                                                                                                                 }
-                                                                                                                     },
-                                                                                                                 (Expression<Func<Test, object>>)(test => test.Test1.Test2.TestString),
-                                                                                                                 "Test1.Test2.TestString"
-                                                                                                             },
-                                                                                                         new object[]
-                                                                                                             {
-                                                                                                                 new Test
-                                                                                                                     {
-                                                                                                                         Test1
-                                                                                                                             =
-                                                                                                                             new Test1()
-                                                                                                                     },
-                                                                                                                 (Expression<Func<Test, object>>)(test => test.Test1.Test2.TestString),
-                                                                                                                 "Test1.Test2"
-                                                                                                             },
-                                                                                                         new object[]
-                                                                                                             {
-                                                                                                                 new Test
-                                                                                                                     {
-                                                                                                                         Test1
-                                                                                                                             =
-                                                                                                                             new Test1()
-                                                                                                                     },
-                                                                                                                 (Expression<Func<Test, object>>)(test => test.Test1.Test2Field),
-                                                                                                                 "Test1.Test2Field"
-                                                                                                             }
-                                                                                                     };
+                                                                                                      {
+                                                                                                          new object[]
+                                                                                                              {
+                                                                                                                  new Test
+                                                                                                                      {
+                                                                                                                          Test1
+                                                                                                                              =
+                                                                                                                              new Test1
+                                                                                                                                  {
+                                                                                                                                      Test2
+                                                                                                                                          =
+                                                                                                                                          new Test2
+                                                                                                                                          (
+                                                                                                                                          )
+                                                                                                                                  }
+                                                                                                                      },
+                                                                                                                  (Expression<Func<Test, object>>)(test => test.Test1.Test2.TestString), "Test1.Test2.TestString"
+                                                                                                              },
+                                                                                                          new object[]
+                                                                                                              {
+                                                                                                                  new Test
+                                                                                                                      {
+                                                                                                                          Test1
+                                                                                                                              =
+                                                                                                                              new Test1
+                                                                                                                              (
+                                                                                                                              )
+                                                                                                                      },
+                                                                                                                  (Expression<Func<Test, object>>)(test => test.Test1.Test2.TestString), "Test1.Test2"
+                                                                                                              },
+                                                                                                          new object[]
+                                                                                                              {
+                                                                                                                  new Test
+                                                                                                                      {
+                                                                                                                          Test1
+                                                                                                                              =
+                                                                                                                              new Test1
+                                                                                                                              (
+                                                                                                                              )
+                                                                                                                      },
+                                                                                                                  (Expression<Func<Test, object>>)(test => test.Test1.Test2Field), "Test1.Test2Field"
+                                                                                                              }
+                                                                                                      };
 
             public static IEnumerable OnNullShouldSetCurrentObjectTheory = new object[]
                                                                                {
@@ -120,26 +119,24 @@
                                                                                                                                 }
                                                                                                                     };
 
-            public static IEnumerable VisitMemberShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory = new[]
-                                                                                                                    {
-                                                                                                                        new object
-                                                                                                                            [
-                                                                                                                            ]
-                                                                                                                                {
-                                                                                                                                    "Value cannot be null.\r\nParameter name: node",
-                                                                                                                                    "node",
-                                                                                                                                    typeof
-                                                                                                                                    (
-                                                                                                                                        ArgumentNullException
-                                                                                                                                    ),
-                                                                                                                                    null
-                                                                                                                                }
-                                                                                                                    };
+            public static IEnumerable VisitMemberShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory =
+                new[]
+                    {
+                        new object[]
+                            {
+                                "Value cannot be null.\r\nParameter name: node", "node", typeof(ArgumentNullException),
+                                null
+                            }
+                    };
         }
 
         [Theory]
-        [MemberData("OnNullShouldSetNullQualifiedNameToNullForPropertiesTheory", MemberType = typeof(SmartGetVisitorTestsTheories))]
-        public void OnNullShouldSetNullQualifiedNameToNullForProperties(Test target, Expression expression, string expected)
+        [MemberData("OnNullShouldSetNullQualifiedNameToNullForPropertiesTheory",
+             MemberType = typeof(SmartGetVisitorTestsTheories))]
+        public void OnNullShouldSetNullQualifiedNameToNullForProperties(
+            Test target,
+            Expression expression,
+            string expected)
         {
             var visitor = GetVisitor(target);
 
@@ -185,56 +182,6 @@
                 .BeOfType(exceptionType);
         }
 
-        [Fact]
-        public void VisitMemberShouldReturnNodeWhenCurrentIsNull()
-        {
-            var visitor = new MockVisitor(null);
-            Expression<Func<Test2, string>> expression = test2 => test2.TestString;
-            
-            visitor.VisitMember((MemberExpression )expression.Body).ShouldBeEquivalentTo(expression.Body);
-        }
-
-        [Fact]
-        public void VisitMemberShouldReturnNodeWhenCurrentIsNotNull()
-        {
-            var visitor = new MockVisitor(new Test2
-                                              {
-                                                  TestString = "testing"
-                                              });
-
-            Expression<Func<Test2, string>> expression = test2 => test2.TestString;
-
-            visitor.VisitMember((MemberExpression)expression.Body).ShouldBeEquivalentTo(expression.Body);
-        }
-
-        [Fact]
-        public void VisitMemberShouldSetCurrentToPropertyValue()
-        {
-            var visitor = new MockVisitor(new Test2
-            {
-                TestString = "testing"
-            });
-
-            Expression<Func<Test2, string>> expression = test2 => test2.TestString;
-
-            visitor.VisitMember((MemberExpression)expression.Body);
-            visitor.Current.ShouldBeEquivalentTo("testing");
-        }
-
-        [Fact]
-        public void VisitMemberShouldSetCurrentToFieldValue()
-        {
-            var visitor = new MockVisitor(new Test2
-            {
-                Test2Field = 20
-            });
-
-            Expression<Func<Test2, int>> expression = test2 => test2.Test2Field;
-
-            visitor.VisitMember((MemberExpression)expression.Body);
-            visitor.Current.ShouldBeEquivalentTo(20);
-        }
-
         [Theory]
         [MemberData("VisitMemberShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory",
              MemberType = typeof(SmartGetVisitorTestsTheories))]
@@ -275,18 +222,60 @@
 
         public class Test2
         {
-            internal string TestString { get; set; }
-
             internal int Test2Field;
+
+            internal string TestString { get; set; }
         }
 
         public class MockVisitor : SmartGetVisitor
         {
-            public MockVisitor(object target) : base(target)
+            public MockVisitor(object target)
+                : base(target)
             {
             }
 
             public Expression VisitMember(MemberExpression node) => base.VisitMember(node);
+        }
+
+        [Fact]
+        public void VisitMemberShouldReturnNodeWhenCurrentIsNotNull()
+        {
+            var visitor = new MockVisitor(new Test2 { TestString = "testing" });
+
+            Expression<Func<Test2, string>> expression = test2 => test2.TestString;
+
+            visitor.VisitMember((MemberExpression)expression.Body).ShouldBeEquivalentTo(expression.Body);
+        }
+
+        [Fact]
+        public void VisitMemberShouldReturnNodeWhenCurrentIsNull()
+        {
+            var visitor = new MockVisitor(null);
+            Expression<Func<Test2, string>> expression = test2 => test2.TestString;
+
+            visitor.VisitMember((MemberExpression)expression.Body).ShouldBeEquivalentTo(expression.Body);
+        }
+
+        [Fact]
+        public void VisitMemberShouldSetCurrentToFieldValue()
+        {
+            var visitor = new MockVisitor(new Test2 { Test2Field = 20 });
+
+            Expression<Func<Test2, int>> expression = test2 => test2.Test2Field;
+
+            visitor.VisitMember((MemberExpression)expression.Body);
+            visitor.Current.ShouldBeEquivalentTo(20);
+        }
+
+        [Fact]
+        public void VisitMemberShouldSetCurrentToPropertyValue()
+        {
+            var visitor = new MockVisitor(new Test2 { TestString = "testing" });
+
+            Expression<Func<Test2, string>> expression = test2 => test2.TestString;
+
+            visitor.VisitMember((MemberExpression)expression.Body);
+            visitor.Current.ShouldBeEquivalentTo("testing");
         }
     }
 }

@@ -6,23 +6,23 @@
     using System.Reflection;
 
     /// <summary>
-    /// Represents a smart get listener.
+    ///     Represents a smart get listener.
     /// </summary>
     /// <threadsafety static="true" instance="false" />
     public class SmartGetVisitor : ExpressionVisitor
     {
-        public object Current { get; set; }
-
-        private readonly Queue<string> nameQueue;
-
         private static readonly NotSupportedException NotSupportedNodeException =
             new NotSupportedException("Only non-default properties and fields fields are supported.");
+
+        private readonly Queue<string> nameQueue;
 
         public SmartGetVisitor(object current)
         {
             Current = current;
             nameQueue = new Queue<string>();
         }
+
+        public object Current { get; set; }
 
         /// <inheritdoc />
         protected override Expression VisitBinary(BinaryExpression node)
@@ -109,15 +109,12 @@
 
             base.VisitMember(node);
 
-            if (Current == null)
-            {
-                return node;
-            }
+            if (Current == null) return node;
 
             var propertyInfo = node.Member as PropertyInfo;
             var fieldInfo = node.Member as FieldInfo;
 
-            if (propertyInfo != null || fieldInfo != null)
+            if ((propertyInfo != null) || (fieldInfo != null))
             {
                 if (propertyInfo != null)
                 {
@@ -248,7 +245,7 @@
         {
             Visit(expression);
 
-            if (nameQueue.Count > 0 && Current == null)
+            if ((nameQueue.Count > 0) && (Current == null))
             {
                 if (onNullCallBack == null) throw new ArgumentNullException(nameof(onNullCallBack));
                 onNullCallBack(string.Join(".", nameQueue));

@@ -57,6 +57,7 @@
         /// </param>
         /// <typeparam name="T">The type of the object to return.</typeparam>
         /// <returns>An instance of <typeparamref name="T" />.</returns>
-        public static T FirstOr<T>(this IEnumerable<T> enumerable, Func<T> @default) => enumerable.FirstOr(x => true, @default);
+        public static T FirstOr<T>(this IEnumerable<T> enumerable, Func<T> @default)
+            => enumerable.FirstOr(x => true, @default);
     }
 }

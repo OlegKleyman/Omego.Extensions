@@ -217,8 +217,10 @@
         }
 
         /// <inheritdoc />
-        public override string ToString() => (Elements == ElementCategory.One) || (Elements == ElementCategory.None)
-                                                 ? value.ToString()
-                                                 : Elements.ToString();
+        public override string ToString()
+            =>
+            (Elements == ElementCategory.One) || (Elements == ElementCategory.None)
+                ? value.ToString()
+                : Elements.ToString();
     }
 }
