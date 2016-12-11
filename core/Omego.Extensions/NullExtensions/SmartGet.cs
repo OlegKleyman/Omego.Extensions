@@ -48,11 +48,11 @@
 
                         if (toThrow == null) throw new InvalidOperationException("Exception to throw returned null.");
 
-                        throw exception(nullQualifier);
+                        throw toThrow;
                     });
 
             if (result == null) throw new ArgumentNullException(nameof(result));
-
+            
             return result((TObject)visitor.Current);
         }
     }
