@@ -278,8 +278,6 @@
             public Test2 Test2Field;
 
             internal Test2 Test2 { get; set; }
-
-            public Test2 GetTest2() => new Test2();
         }
 
         public class Test2
