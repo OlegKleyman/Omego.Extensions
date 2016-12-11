@@ -5,9 +5,13 @@
     using System.Linq.Expressions;
     using System.Reflection;
 
+    /// <summary>
+    /// Represents a smart get listener.
+    /// </summary>
+    /// <threadsafety static="true" instance="false" />
     public class SmartGetVisitor : ExpressionVisitor
     {
-        public object Current { get; private set; }
+        public object Current { get; set; }
 
         private readonly Queue<string> nameQueue;
 
@@ -107,18 +111,24 @@
                 return node;
             }
 
-            if (node.Member is PropertyInfo)
-            {
-                var member = (PropertyInfo)node.Member;
-                Current = member.GetValue(Current);
-            }
-            else if (node.Member is FieldInfo)
-            {
-                var member = (FieldInfo)node.Member;
-                Current = member.GetValue(Current);
-            }
+            var propertyInfo = node.Member as PropertyInfo;
+            var fieldInfo = node.Member as FieldInfo;
 
-            nameQueue.Enqueue(node.Member.Name);
+            if (propertyInfo != null || fieldInfo != null)
+            {
+                if (propertyInfo != null)
+                {
+                    var member = propertyInfo;
+                    Current = member.GetValue(Current);
+                }
+                else
+                {
+                    var member = (FieldInfo)node.Member;
+                    Current = member.GetValue(Current);
+                }
+
+                nameQueue.Enqueue(node.Member.Name);
+            }
             
             return node;
         }
