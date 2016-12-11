@@ -39,7 +39,7 @@
         [Fact]
         public void SmartCheckShouldThrowArgumentNullExceptionWhenQualifierPathArgumentIsNull()
         {
-            Action smartCheck = () => string.Empty.SmartCheck<string, string>(null, null);
+            Action smartCheck = () => string.Empty.SmartCheck<string>(null, null);
 
             smartCheck.ShouldThrow<ArgumentNullException>()
                 .WithMessage("Value cannot be null.\r\nParameter name: qualifierPath")
