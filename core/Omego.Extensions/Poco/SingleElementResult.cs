@@ -179,7 +179,7 @@
                 Func<int, int> getHashCode = hash =>
                     {
                         while ((hash >= ElementsMinValue) && (hash <= ElementsMaxValue)
-                               && (hash != (int)ElementCategory.One)) hash = (hash + ElementsMaxValue + 1) * salt;
+                               && (hash != (int)ElementCategory.One)) hash += salt;
 
                         return hash;
                     };
