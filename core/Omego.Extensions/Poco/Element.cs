@@ -80,7 +80,7 @@
 
                 Func<int, int> presentHash = hash =>
                     {
-                        while ((hash == notPresentHashCode) || (hash == nullHashCode)) hash = (nullHashCode + hash + 1) * salt;
+                        while ((hash == notPresentHashCode) || (hash == nullHashCode)) hash += salt;
 
                         return hash;
                     };
