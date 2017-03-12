@@ -5,17 +5,17 @@ namespace Omego.Extensions.Poco
 
     public class GenericEqualityComparer<TSource> : IEqualityComparer<TSource>
     {
+        private readonly Func<TSource, TSource, bool> areEqual;
+
         private readonly Func<TSource, int> hashCode;
 
-        public GenericEqualityComparer(Func<TSource, int> hashCode)
+        public GenericEqualityComparer(Func<TSource, TSource, bool> areEqual, Func<TSource, int> hashCode)
         {
+            this.areEqual = areEqual;
             this.hashCode = hashCode;
         }
 
-        public bool Equals(TSource x, TSource y)
-        {
-            throw new NotImplementedException();
-        }
+        public bool Equals(TSource x, TSource y) => areEqual(x, y);
 
         public int GetHashCode(TSource obj) => hashCode(obj);
     }
