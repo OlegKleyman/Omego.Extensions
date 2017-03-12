@@ -294,7 +294,7 @@
             {
             }
 
-            public Expression VisitMember(MemberExpression node) => base.VisitMember(node);
+            public new Expression VisitMember(MemberExpression node) => base.VisitMember(node);
         }
 
         [Fact]
