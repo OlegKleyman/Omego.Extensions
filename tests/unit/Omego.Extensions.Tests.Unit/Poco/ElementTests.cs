@@ -101,8 +101,8 @@
                                                                           },
                                                                       new object[]
                                                                           {
-                                                                              new Element<object>(),
-                                                                              new Element<object>(), true
+                                                                              new Element<object>(), new Element<object>(),
+                                                                              true
                                                                           }
                                                                   };
 
@@ -112,7 +112,7 @@
                                                                     new object[] { new Element<object>(1), 2, false },
                                                                     new object[] { new Element<object>(null), 2, false },
                                                                     new object[]
-                                                                            { new Element<object>(null), null, true },
+                                                                        { new Element<object>(null), null, true },
                                                                     new object[] { new Element<object>(), 2, false }
                                                                 };
 
@@ -149,11 +149,11 @@
                                                                                     new Element<object>(), true
                                                                                 },
                                                                             new object[]
-                                                                                    { new Element<object>(), 1, false },
+                                                                                { new Element<object>(), 1, false },
                                                                             new object[]
                                                                                 {
-                                                                                    new Element<object>("test"),
-                                                                                    "test", true
+                                                                                    new Element<object>("test"), "test",
+                                                                                    true
                                                                                 }
                                                                         };
 
@@ -179,10 +179,7 @@
             public static IEnumerable ToStringShouldReturnStringRepresentationOfTheValueTheory = new[]
                                                                                                      {
                                                                                                          new object[]
-                                                                                                             {
-                                                                                                                 1,
-                                                                                                                 "1"
-                                                                                                             },
+                                                                                                             { 1, "1" },
                                                                                                          new object[]
                                                                                                              {
                                                                                                                  null,
@@ -193,7 +190,7 @@
 
         [Theory]
         [MemberData("ToStringShouldReturnStringRepresentationOfTheValueTheory",
-             MemberType = typeof(ElementTestsTheories))]
+            MemberType = typeof(ElementTestsTheories))]
         public void ToStringShouldReturnStringRepresentationOfTheValue(object value, string expectedString)
         {
             new Element<object>(value).ToString().ShouldBeEquivalentTo(expectedString);

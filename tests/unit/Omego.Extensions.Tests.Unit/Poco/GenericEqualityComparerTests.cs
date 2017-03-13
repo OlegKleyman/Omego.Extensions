@@ -1,10 +1,7 @@
-﻿using System;
-
-namespace Omego.Extensions.Tests.Unit.Poco
+﻿namespace Omego.Extensions.Tests.Unit.Poco
 {
+    using System;
     using System.Collections;
-    using System.Collections.Generic;
-    using System.Linq.Expressions;
 
     using FluentAssertions;
 
@@ -35,14 +32,13 @@ namespace Omego.Extensions.Tests.Unit.Poco
 
         [Theory]
         [MemberData("ConstructorShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory",
-             MemberType = typeof(GenericEqualityComparerTestsTheories))]
+            MemberType = typeof(GenericEqualityComparerTestsTheories))]
         public void ConstructorShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalid(
             string message,
             string parameterName,
             Type exceptionType,
             Func<object, object, bool> areEqual,
-            Func<object, int> hashCode
-            )
+            Func<object, int> hashCode)
         {
             Action constructor = () => new GenericEqualityComparer<object>(areEqual, hashCode);
 
@@ -72,14 +68,13 @@ namespace Omego.Extensions.Tests.Unit.Poco
                     {
                         new object[]
                             {
-                                "Value cannot be null.\r\nParameter name: areEqual", "areEqual", typeof(ArgumentNullException),
-                                null, null
+                                "Value cannot be null.\r\nParameter name: areEqual", "areEqual",
+                                typeof(ArgumentNullException), null, null
                             },
                         new object[]
                             {
                                 "Value cannot be null.\r\nParameter name: hashCode", "hashCode",
-                                typeof(ArgumentNullException), (Func<object, object, bool>)((x, y) => true),
-                                null
+                                typeof(ArgumentNullException), (Func<object, object, bool>)((x, y) => true), null
                             }
                     };
         }

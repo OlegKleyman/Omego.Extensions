@@ -52,9 +52,9 @@
         /// <param name="multipleMatchesFoundException">The exception to throw when multiple matches are found.</param>
         /// <returns>An instance of <typeparamref name="T" />.</returns>
         public static T SingleOrThrow<T>(
-                this IQueryable<T> queryable,
-                Exception noMatchFoundException,
-                Exception multipleMatchesFoundException)
+            this IQueryable<T> queryable,
+            Exception noMatchFoundException,
+            Exception multipleMatchesFoundException)
             => queryable.SingleOrThrow(element => true, noMatchFoundException, multipleMatchesFoundException);
 
         /// <summary>

@@ -46,7 +46,7 @@
 
         [Theory]
         [MemberData("ObjectGetHashCodeShouldReturnSingleElementHashCodeTheory",
-             MemberType = typeof(SingleElementResultTestsTheories))]
+            MemberType = typeof(SingleElementResultTestsTheories))]
         public void ObjectGetHashCodeShouldReturnSingleElementHashCode(
             SingleElementResult<object> element,
             int expected)
@@ -113,23 +113,20 @@
                                                                           },
                                                                       new object[]
                                                                           {
-                                                                              SingleElementResult<object>
-                                                                                  .MultipleElements,
+                                                                              SingleElementResult<object>.MultipleElements,
                                                                               SingleElementResult<object>
                                                                                   .MultipleElements,
                                                                               true
                                                                           },
                                                                       new object[]
                                                                           {
-                                                                              SingleElementResult<object>
-                                                                                  .MultipleElements,
+                                                                              SingleElementResult<object>.MultipleElements,
                                                                               SingleElementResult<object>.NoElements,
                                                                               false
                                                                           },
                                                                       new object[]
                                                                           {
-                                                                              SingleElementResult<object>
-                                                                                  .MultipleElements,
+                                                                              SingleElementResult<object>.MultipleElements,
                                                                               new SingleElementResult<object>(1), false
                                                                           }
                                                                   };
@@ -137,15 +134,9 @@
             public static IEnumerable ValueEqualityTheory = new object[]
                                                                 {
                                                                     new object[]
-                                                                        {
-                                                                            new SingleElementResult<object>(1), 1,
-                                                                            true
-                                                                        },
+                                                                        { new SingleElementResult<object>(1), 1, true },
                                                                     new object[]
-                                                                        {
-                                                                            new SingleElementResult<object>(1), 2,
-                                                                            false
-                                                                        },
+                                                                        { new SingleElementResult<object>(1), 2, false },
                                                                     new object[]
                                                                         {
                                                                             new SingleElementResult<object>(null), 2,
@@ -153,14 +144,11 @@
                                                                         },
                                                                     new object[]
                                                                         {
-                                                                            new SingleElementResult<object>(null),
-                                                                            null, true
+                                                                            new SingleElementResult<object>(null), null,
+                                                                            true
                                                                         },
                                                                     new object[]
-                                                                        {
-                                                                            new SingleElementResult<object>(), 2,
-                                                                            false
-                                                                        },
+                                                                        { new SingleElementResult<object>(), 2, false },
                                                                     new object[]
                                                                         {
                                                                             SingleElementResult<object>.MultipleElements,
@@ -310,10 +298,7 @@
             public static IEnumerable ToStringShouldReturnStringRepresentationOfTheValueTheory = new[]
                                                                                                      {
                                                                                                          new object[]
-                                                                                                             {
-                                                                                                                 1,
-                                                                                                                 "1"
-                                                                                                             },
+                                                                                                             { 1, "1" },
                                                                                                          new object[]
                                                                                                              {
                                                                                                                  null,
@@ -324,8 +309,8 @@
 
         [Theory]
         [MemberData(
-             "ExplicitOperatorFromSingleElementToGenericTypeShouldThrowInvalidCastExceptionWhenConversionCantBeDoneTheory",
-             MemberType = typeof(SingleElementResultTestsTheories))]
+            "ExplicitOperatorFromSingleElementToGenericTypeShouldThrowInvalidCastExceptionWhenConversionCantBeDoneTheory",
+            MemberType = typeof(SingleElementResultTestsTheories))]
         public void
             ExplicitOperatorFromSingleElementToGenericTypeShouldThrowInvalidCastExceptionWhenConversionCantBeDone(
                 SingleElementResult<string> element,
@@ -338,7 +323,7 @@
 
         [Theory]
         [MemberData("ToStringShouldReturnStringRepresentationOfTheValueTheory",
-             MemberType = typeof(SingleElementResultTestsTheories))]
+            MemberType = typeof(SingleElementResultTestsTheories))]
         public void ToStringShouldReturnStringRepresentationOfTheValue(object value, string expectedString)
         {
             new SingleElementResult<object>(value).ToString().ShouldBeEquivalentTo(expectedString);

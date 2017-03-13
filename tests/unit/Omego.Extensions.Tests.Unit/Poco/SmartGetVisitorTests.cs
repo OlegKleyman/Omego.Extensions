@@ -71,7 +71,8 @@
                                                                                                    Test1 =
                                                                                                        new Test1
                                                                                                            {
-                                                                                                               Test2 =
+                                                                                                               Test2
+                                                                                                                   =
                                                                                                                    new Test2
                                                                                                                        {
                                                                                                                            TestString
@@ -93,30 +94,30 @@
             public static IEnumerable OnNullShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory = new[]
                                                                                                                     {
                                                                                                                         new object
-                                                                                                                            [
-                                                                                                                            ]
-                                                                                                                                {
-                                                                                                                                    "Value cannot be null.\r\nParameter name: onNullCallBack",
-                                                                                                                                    "onNullCallBack",
-                                                                                                                                    typeof
-                                                                                                                                    (
-                                                                                                                                        ArgumentNullException
-                                                                                                                                    ),
-                                                                                                                                    new Test
-                                                                                                                                        {
-                                                                                                                                            Test1
-                                                                                                                                                =
-                                                                                                                                                new Test1
-                                                                                                                                                    {
-                                                                                                                                                        Test2
-                                                                                                                                                            =
-                                                                                                                                                            new Test2
-                                                                                                                                                            (
-                                                                                                                                                            )
-                                                                                                                                                    }
-                                                                                                                                        },
-                                                                                                                                    (Expression<Func<Test, object>>)(test => test.Test1.Test2.TestString), null
-                                                                                                                                }
+                                                                                                                        [
+                                                                                                                        ]
+                                                                                                                            {
+                                                                                                                                "Value cannot be null.\r\nParameter name: onNullCallBack",
+                                                                                                                                "onNullCallBack",
+                                                                                                                                typeof
+                                                                                                                                (
+                                                                                                                                    ArgumentNullException
+                                                                                                                                ),
+                                                                                                                                new Test
+                                                                                                                                    {
+                                                                                                                                        Test1
+                                                                                                                                            =
+                                                                                                                                            new Test1
+                                                                                                                                                {
+                                                                                                                                                    Test2
+                                                                                                                                                        =
+                                                                                                                                                        new Test2
+                                                                                                                                                        (
+                                                                                                                                                        )
+                                                                                                                                                }
+                                                                                                                                    },
+                                                                                                                                (Expression<Func<Test, object>>)(test => test.Test1.Test2.TestString), null
+                                                                                                                            }
                                                                                                                     };
 
             public static IEnumerable VisitMemberShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory =
@@ -134,8 +135,8 @@
                     {
                         new object[]
                             {
-                                "Value cannot be null.\r\nParameter name: target", "target",
-                                typeof(ArgumentNullException), null
+                                "Value cannot be null.\r\nParameter name: target", "target", typeof(ArgumentNullException),
+                                null
                             }
                     };
 
@@ -144,15 +145,15 @@
                     {
                         new object[]
                             {
-                                "Value cannot be null.\r\nParameter name: target", "target",
-                                typeof(ArgumentNullException), null
+                                "Value cannot be null.\r\nParameter name: target", "target", typeof(ArgumentNullException),
+                                null
                             }
                     };
         }
 
         [Theory]
         [MemberData("OnNullShouldSetNullQualifiedNameToNullForPropertiesTheory",
-             MemberType = typeof(SmartGetVisitorTestsTheories))]
+            MemberType = typeof(SmartGetVisitorTestsTheories))]
         public void OnNullShouldSetNullQualifiedNameToNullForProperties(
             Test target,
             Expression expression,
@@ -180,7 +181,7 @@
 
         [Theory]
         [MemberData("OnNullShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory",
-             MemberType = typeof(SmartGetVisitorTestsTheories))]
+            MemberType = typeof(SmartGetVisitorTestsTheories))]
         public void OnNullShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalid(
             string message,
             string parameterName,
@@ -204,7 +205,7 @@
 
         [Theory]
         [MemberData("VisitMemberShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory",
-             MemberType = typeof(SmartGetVisitorTestsTheories))]
+            MemberType = typeof(SmartGetVisitorTestsTheories))]
         public void VisitMemberShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalid(
             string message,
             string parameterName,
@@ -226,7 +227,7 @@
 
         [Theory]
         [MemberData("ResetWithShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory",
-             MemberType = typeof(SmartGetVisitorTestsTheories))]
+            MemberType = typeof(SmartGetVisitorTestsTheories))]
         public void ResetWithShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalid(
             string message,
             string parameterName,
@@ -248,7 +249,7 @@
 
         [Theory]
         [MemberData("ConstructorShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory",
-             MemberType = typeof(SmartGetVisitorTestsTheories))]
+            MemberType = typeof(SmartGetVisitorTestsTheories))]
         public void ConstructorShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalid(
             string message,
             string parameterName,
