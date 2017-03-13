@@ -21,9 +21,9 @@
         /// <param name="multipleMatchesFoundException">The exception to throw when multiple matches are found.</param>
         /// <returns>An instance of <typeparamref name="T" />.</returns>
         public static T SingleOrThrow<T>(
-                this IEnumerable<T> enumerable,
-                Exception noMatchFoundException,
-                Exception multipleMatchesFoundException)
+            this IEnumerable<T> enumerable,
+            Exception noMatchFoundException,
+            Exception multipleMatchesFoundException)
             => enumerable.SingleOrThrow(element => true, noMatchFoundException, multipleMatchesFoundException);
 
         /// <summary>

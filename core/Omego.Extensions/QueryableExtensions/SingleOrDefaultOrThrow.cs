@@ -21,10 +21,10 @@
         /// <typeparam name="T">The type of the object to return.</typeparam>
         /// <returns>An instance of <typeparamref name="T" />.</returns>
         public static T SingleOrDefaultOrThrow<T>(
-                this IQueryable<T> queryable,
-                Expression<Func<T, bool>> predicate,
-                T @default,
-                Exception multipleMatchesFoundException)
+            this IQueryable<T> queryable,
+            Expression<Func<T, bool>> predicate,
+            T @default,
+            Exception multipleMatchesFoundException)
             => queryable.SingleOrDefaultOrThrow(predicate, () => @default, multipleMatchesFoundException);
 
         /// <summary>
@@ -42,10 +42,10 @@
         /// <typeparam name="T">The type of the object to return.</typeparam>
         /// <returns>An instance of <typeparamref name="T" />.</returns>
         public static T SingleOrDefaultOrThrow<T>(
-                this IQueryable<T> queryable,
-                Expression<Func<T, bool>> predicate,
-                Func<T> @default,
-                Exception multipleMatchesFoundException)
+            this IQueryable<T> queryable,
+            Expression<Func<T, bool>> predicate,
+            Func<T> @default,
+            Exception multipleMatchesFoundException)
             => queryable.SingleElementOrThrowOnMultiple(predicate, multipleMatchesFoundException).ValueOr(@default);
     }
 }

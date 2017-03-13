@@ -67,7 +67,7 @@
 
         /// <inheritdoc />
         public override bool Equals(object obj)
-            => (obj is Element<T> && Equals((Element<T>)obj)) || (obj is T && Equals((T)obj));
+            => obj is Element<T> && Equals((Element<T>)obj) || obj is T && Equals((T)obj);
 
         /// <inheritdoc />
         public override int GetHashCode()
@@ -80,7 +80,7 @@
 
                 Func<int, int> presentHash = hash =>
                     {
-                        while ((hash == notPresentHashCode) || (hash == nullHashCode)) hash += salt;
+                        while (hash == notPresentHashCode || hash == nullHashCode) hash += salt;
 
                         return hash;
                     };
@@ -141,10 +141,10 @@
         {
             if (!target.Present)
                 throw new InvalidCastException(
-                          string.Format(
-                              CultureInfo.InvariantCulture,
-                              "No element present to cast to {0}.",
-                              typeof(T).FullName));
+                    string.Format(
+                        CultureInfo.InvariantCulture,
+                        "No element present to cast to {0}.",
+                        typeof(T).FullName));
 
             return target.Value;
         }

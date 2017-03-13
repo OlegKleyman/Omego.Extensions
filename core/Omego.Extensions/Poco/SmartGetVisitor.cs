@@ -127,7 +127,7 @@
             var propertyInfo = node.Member as PropertyInfo;
             var fieldInfo = node.Member as FieldInfo;
 
-            if ((propertyInfo != null) || (fieldInfo != null))
+            if (propertyInfo != null || fieldInfo != null)
             {
                 if (propertyInfo != null)
                 {
@@ -268,7 +268,7 @@
         {
             Visit(expression);
 
-            if ((nameQueue.Count > 0) && (Current == null))
+            if (nameQueue.Count > 0 && Current == null)
             {
                 if (onNullCallBack == null) throw new ArgumentNullException(nameof(onNullCallBack));
                 onNullCallBack(string.Join(".", nameQueue));

@@ -84,7 +84,7 @@
         /// </param>
         /// <returns>A <see cref="bool" /> indicating whether values are equal.</returns>
         public static bool operator ==(SingleElementResult<T> first, SingleElementResult<T> second)
-            => (first.Elements == second.Elements) && first.value.Equals(second.value);
+            => first.Elements == second.Elements && first.value.Equals(second.value);
 
         /// <summary>
         ///     The not equal operator for two <see cref="SingleElementResult{T}" /> of <typeparamref name="T" />.
@@ -125,11 +125,11 @@
         {
             if (target.Elements != ElementCategory.One)
                 throw new InvalidCastException(
-                          string.Format(
-                              CultureInfo.InvariantCulture,
-                              "{0} element(s) cannot be cast to {1}.",
-                              target.Elements,
-                              typeof(T).FullName));
+                    string.Format(
+                        CultureInfo.InvariantCulture,
+                        "{0} element(s) cannot be cast to {1}.",
+                        target.Elements,
+                        typeof(T).FullName));
 
             return target.Value;
         }
@@ -162,7 +162,7 @@
         /// </returns>
         /// <param name="obj">The object to compare with the current instance. </param>
         public override bool Equals(object obj)
-            => (obj is SingleElementResult<T> && Equals((SingleElementResult<T>)obj)) || (obj is T && Equals((T)obj));
+            => obj is SingleElementResult<T> && Equals((SingleElementResult<T>)obj) || obj is T && Equals((T)obj);
 
         private static readonly int ElementsMaxValue = Enum.GetValues(typeof(ElementCategory)).Cast<int>().Max();
 
@@ -178,8 +178,7 @@
 
                 Func<int, int> getHashCode = hash =>
                     {
-                        while ((hash >= ElementsMinValue) && (hash <= ElementsMaxValue)
-                               && (hash != (int)ElementCategory.One)) hash += salt;
+                        while (hash >= ElementsMinValue && hash <= ElementsMaxValue && hash != (int)ElementCategory.One) hash += salt;
 
                         return hash;
                     };
@@ -219,8 +218,8 @@
         /// <inheritdoc />
         public override string ToString()
             =>
-            (Elements == ElementCategory.One) || (Elements == ElementCategory.None)
-                ? value.ToString()
-                : Elements.ToString();
+                Elements == ElementCategory.One || Elements == ElementCategory.None
+                    ? value.ToString()
+                    : Elements.ToString();
     }
 }

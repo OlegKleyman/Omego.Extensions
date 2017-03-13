@@ -30,7 +30,7 @@
 
         [Theory]
         [MemberData("SmartGetShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory",
-             MemberType = typeof(SmartGetTestsTheories))]
+            MemberType = typeof(SmartGetTestsTheories))]
         public void SmartGetShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalid(
             string message,
             string parameterName,
@@ -58,8 +58,8 @@
                     {
                         new object[]
                             {
-                                "Value cannot be null.\r\nParameter name: result", "result",
-                                typeof(ArgumentNullException), new Test(), null, null, null
+                                "Value cannot be null.\r\nParameter name: result", "result", typeof(ArgumentNullException),
+                                new Test(), null, null, null
                             },
                         new object[]
                             {
