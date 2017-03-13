@@ -17,7 +17,9 @@
         {
             var enumerable = new int[0];
 
-            enumerable.SingleElementOrThrowOnMultiple(x => false, null).Should().Be(SingleElementResult<int>.NoElements);
+            enumerable.SingleElementOrThrowOnMultiple(x => false, null)
+                .Should()
+                .Be(SingleElementResult<int>.NoElements);
         }
 
         [Fact]
@@ -44,8 +46,7 @@
         }
 
         [Fact]
-        public void
-            SingleElementOrThrowOnMultipleByQueryWhenFoundShouldThrowArgumentNullExceptionWhenEnumerableArgumentIsNull()
+        public void SingleElementOrThrowOnMultipleByQueryWhenFoundShouldThrowArgumentNullExceptionWhenEnumerableArgumentIsNull()
         {
             Action singleElementOrThrowOnMultiple =
                 () => ((IEnumerable<int>)null).SingleElementOrThrowOnMultiple(null, null);
@@ -55,8 +56,7 @@
         }
 
         [Fact]
-        public void
-            SingleElementOrThrowOnMultipleByQueryWhenFoundShouldThrowArgumentNullExceptionWhenPredicateArgumentIsNull()
+        public void SingleElementOrThrowOnMultipleByQueryWhenFoundShouldThrowArgumentNullExceptionWhenPredicateArgumentIsNull()
         {
             Action singleElementOrThrowOnMultiple = () => new int[0].SingleElementOrThrowOnMultiple(null, null);
 

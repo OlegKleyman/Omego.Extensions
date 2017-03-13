@@ -32,7 +32,8 @@
 
             if (element == SingleElementResult<T>.MultipleElements)
             {
-                if (multipleMatchesFoundException == null) throw new ArgumentNullException(nameof(multipleMatchesFoundException));
+                if (multipleMatchesFoundException == null)
+                    throw new ArgumentNullException(nameof(multipleMatchesFoundException));
                 throw multipleMatchesFoundException;
             }
 

@@ -95,9 +95,7 @@
         }
 
         [Fact]
-        public void
-            FirstOrThrowWithGenericExceptionShouldThrowArgumentNullExceptionWhenEnumerableArgumentIsNullWhenSearchingByQuery
-            ()
+        public void FirstOrThrowWithGenericExceptionShouldThrowArgumentNullExceptionWhenEnumerableArgumentIsNullWhenSearchingByQuery()
         {
             Action firstOrThrow = () => ((IEnumerable<int>)null).FirstOrThrow(x => false);
 
@@ -105,9 +103,7 @@
         }
 
         [Fact]
-        public void
-            FirstOrThrowWithGenericExceptionShouldThrowArgumentNullExceptionWhenPredicateArgumentIsNullWhenSearchingByQuery
-            ()
+        public void FirstOrThrowWithGenericExceptionShouldThrowArgumentNullExceptionWhenPredicateArgumentIsNullWhenSearchingByQuery()
         {
             Action firstOrThrow = () => new int[0].FirstOrThrow((Expression<Func<int, bool>>)null);
 

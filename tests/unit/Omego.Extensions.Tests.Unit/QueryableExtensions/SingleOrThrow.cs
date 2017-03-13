@@ -28,8 +28,7 @@
         }
 
         [Fact]
-        public void
-            SingleOrThrowByQueryShouldThrowArgumentNullExceptionWhenExceptionArgumentIsNullWhenMultipleMatchesFound()
+        public void SingleOrThrowByQueryShouldThrowArgumentNullExceptionWhenExceptionArgumentIsNullWhenMultipleMatchesFound()
         {
             Action singleOrThrow = () => new[] { 1, 1 }.AsQueryable().SingleOrThrow(x => true, null, null);
 
@@ -137,8 +136,7 @@
         }
 
         [Fact]
-        public void SingleOrThrowWithGenericExceptionByQueryShouldThrowArgumentNullExceptionWhenEnumerableArgumentIsNull
-            ()
+        public void SingleOrThrowWithGenericExceptionByQueryShouldThrowArgumentNullExceptionWhenEnumerableArgumentIsNull()
         {
             Action singleOrThrow = () => ((IQueryable<int>)null).SingleOrThrow(x => false);
 
@@ -146,8 +144,7 @@
         }
 
         [Fact]
-        public void SingleOrThrowWithGenericExceptionByQueryShouldThrowArgumentNullExceptionWhenPredicateArgumentIsNull(
-        )
+        public void SingleOrThrowWithGenericExceptionByQueryShouldThrowArgumentNullExceptionWhenPredicateArgumentIsNull()
         {
             Action singleOrThrow = () => new int[0].AsQueryable().SingleOrThrow(null);
 

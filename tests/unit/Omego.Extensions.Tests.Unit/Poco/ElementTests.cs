@@ -26,27 +26,23 @@
 
         [Theory]
         [MemberData("ValueEqualityTheory", MemberType = typeof(ElementTestsTheories))]
-        public void EqualsShouldReturnWhetherElementValuesAreEqual(Element<object> element, object value, bool expected)
-        {
-            element.Equals(value).ShouldBeEquivalentTo(expected);
-        }
+        public void EqualsShouldReturnWhetherElementValuesAreEqual(
+            Element<object> element,
+            object value,
+            bool expected) => element.Equals(value).ShouldBeEquivalentTo(expected);
 
         [Theory]
         [MemberData("ObjectElementEqualityTheory", MemberType = typeof(ElementTestsTheories))]
         public void ObjectEqualsShouldReturnWhetherElementsAreEqual(
             Element<object> element,
             object value,
-            bool expected)
-        {
-            ((object)element).Equals(value).ShouldBeEquivalentTo(expected);
-        }
+            bool expected) => ((object)element).Equals(value).ShouldBeEquivalentTo(expected);
 
         [Theory]
         [MemberData("ObjectGetHashCodeShouldReturnElementHashCodeTheory", MemberType = typeof(ElementTestsTheories))]
-        public void ObjectGetHashCodeShouldReturnElementHashCode(Element<object> element, int expected)
-        {
-            element.GetHashCode().ShouldBeEquivalentTo(expected);
-        }
+        public void ObjectGetHashCodeShouldReturnElementHashCode(Element<object> element, int expected) => element
+            .GetHashCode()
+            .ShouldBeEquivalentTo(expected);
 
         [Theory]
         [MemberData("ElementEqualityTheory", MemberType = typeof(ElementTestsTheories))]
@@ -101,8 +97,8 @@
                                                                           },
                                                                       new object[]
                                                                           {
-                                                                              new Element<object>(), new Element<object>(),
-                                                                              true
+                                                                              new Element<object>(),
+                                                                              new Element<object>(), true
                                                                           }
                                                                   };
 
@@ -110,7 +106,8 @@
                                                                 {
                                                                     new object[] { new Element<object>(1), 1, true },
                                                                     new object[] { new Element<object>(1), 2, false },
-                                                                    new object[] { new Element<object>(null), 2, false },
+                                                                    new object[]
+                                                                        { new Element<object>(null), 2, false },
                                                                     new object[]
                                                                         { new Element<object>(null), null, true },
                                                                     new object[] { new Element<object>(), 2, false }
@@ -161,40 +158,40 @@
                                                                                                {
                                                                                                    new object[]
                                                                                                        {
-                                                                                                           new Element
-                                                                                                               <object>(
-                                                                                                               ),
+                                                                                                           new Element<object>(),
                                                                                                            0
                                                                                                        },
-                                                                                                   new object[] { new Element<object>(1), 194 }, new object[] { new Element<object>(0), 193 },
                                                                                                    new object[]
                                                                                                        {
-                                                                                                           new Element
-                                                                                                               <object>(
-                                                                                                                   null),
+                                                                                                           new Element<object>(
+                                                                                                               1),
+                                                                                                           194
+                                                                                                       },
+                                                                                                   new object[]
+                                                                                                       {
+                                                                                                           new Element<object>(
+                                                                                                               0),
+                                                                                                           193
+                                                                                                       },
+                                                                                                   new object[]
+                                                                                                       {
+                                                                                                           new Element<object>(
+                                                                                                               null),
                                                                                                            1
                                                                                                        }
                                                                                                };
 
-            public static IEnumerable ToStringShouldReturnStringRepresentationOfTheValueTheory = new[]
-                                                                                                     {
-                                                                                                         new object[]
-                                                                                                             { 1, "1" },
-                                                                                                         new object[]
-                                                                                                             {
-                                                                                                                 null,
-                                                                                                                 "Exists"
-                                                                                                             }
-                                                                                                     };
+            public static IEnumerable ToStringShouldReturnStringRepresentationOfTheValueTheory =
+                new[] { new object[] { 1, "1" }, new object[] { null, "Exists" } };
         }
 
         [Theory]
-        [MemberData("ToStringShouldReturnStringRepresentationOfTheValueTheory",
+        [MemberData(
+            "ToStringShouldReturnStringRepresentationOfTheValueTheory",
             MemberType = typeof(ElementTestsTheories))]
-        public void ToStringShouldReturnStringRepresentationOfTheValue(object value, string expectedString)
-        {
-            new Element<object>(value).ToString().ShouldBeEquivalentTo(expectedString);
-        }
+        public void ToStringShouldReturnStringRepresentationOfTheValue(
+            object value,
+            string expectedString) => new Element<object>(value).ToString().ShouldBeEquivalentTo(expectedString);
 
         [Fact]
         public void ConstructorShouldCreateElementWithValue()
@@ -219,7 +216,8 @@
         {
             Action explicitCast = () => ((string)new Element<string>()).GetType();
 
-            explicitCast.ShouldThrow<InvalidCastException>().WithMessage("No element present to cast to System.String.");
+            explicitCast.ShouldThrow<InvalidCastException>()
+                .WithMessage("No element present to cast to System.String.");
         }
 
         [Fact]
@@ -231,22 +229,16 @@
         }
 
         [Fact]
-        public void ToStringShouldReturnDoesNotExistWhenValueDoesNotExist()
-        {
-            new Element<object>().ToString().ShouldBeEquivalentTo("Does not exist");
-        }
+        public void ToStringShouldReturnDoesNotExistWhenValueDoesNotExist() => new Element<object>().ToString()
+            .ShouldBeEquivalentTo("Does not exist");
 
         [Fact]
-        public void ValueOrShouldReturnDefaultValueWhenNoneExists()
-        {
-            new Element<int>().ValueOr(() => 3).ShouldBeEquivalentTo(3);
-        }
+        public void ValueOrShouldReturnDefaultValueWhenNoneExists() => new Element<int>().ValueOr(() => 3)
+            .ShouldBeEquivalentTo(3);
 
         [Fact]
-        public void ValueOrShouldReturnValueWhenOneExists()
-        {
-            new Element<int>(3).ValueOr(null).ShouldBeEquivalentTo(3);
-        }
+        public void ValueOrShouldReturnValueWhenOneExists() => new Element<int>(3).ValueOr(null)
+            .ShouldBeEquivalentTo(3);
 
         [Fact]
         public void ValueOrShouldThrowArgumentNullExceptionWhenDefaultSelectorIsNull()

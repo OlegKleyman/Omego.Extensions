@@ -52,8 +52,7 @@
         }
 
         [Fact]
-        public void
-            SingleElementOrThrowOnMultipleByQueryWhenFoundShouldThrowArgumentNullExceptionWhenEnumerableArgumentIsNull()
+        public void SingleElementOrThrowOnMultipleByQueryWhenFoundShouldThrowArgumentNullExceptionWhenEnumerableArgumentIsNull()
         {
             Action singleElementOrThrowOnMultiple =
                 () => ((IQueryable<int>)null).SingleElementOrThrowOnMultiple(null, null);
@@ -63,11 +62,10 @@
         }
 
         [Fact]
-        public void
-            SingleElementOrThrowOnMultipleByQueryWhenFoundShouldThrowArgumentNullExceptionWhenPredicateArgumentIsNull()
+        public void SingleElementOrThrowOnMultipleByQueryWhenFoundShouldThrowArgumentNullExceptionWhenPredicateArgumentIsNull()
         {
-            Action singleElementOrThrowOnMultiple =
-                () => new int[0].AsQueryable().SingleElementOrThrowOnMultiple(null, null);
+            Action singleElementOrThrowOnMultiple = () => new int[0].AsQueryable()
+                .SingleElementOrThrowOnMultiple(null, null);
 
             singleElementOrThrowOnMultiple.ShouldThrowExactly<ArgumentNullException>()
                 .Which.ParamName.ShouldBeEquivalentTo("predicate");

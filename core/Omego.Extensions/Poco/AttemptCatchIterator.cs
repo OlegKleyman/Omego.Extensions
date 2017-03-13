@@ -28,11 +28,11 @@
         /// </param>
         public AttemptCatchIterator(IEnumerable<T> enumerable, Action<TE> handler)
         {
-            if (enumerable == null) throw new ArgumentNullException(nameof(enumerable));
-            if (handler == null) throw new ArgumentNullException(nameof(handler));
+            enumerator = enumerable != null
+                             ? enumerable.GetEnumerator()
+                             : throw new ArgumentNullException(nameof(enumerable));
 
-            enumerator = enumerable.GetEnumerator();
-            this.handler = handler;
+            this.handler = handler ?? throw new ArgumentNullException(nameof(handler));
         }
 
         /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>

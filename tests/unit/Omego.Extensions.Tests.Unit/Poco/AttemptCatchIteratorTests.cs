@@ -15,7 +15,9 @@
     public class AttemptCatchIteratorTests
     {
         [Theory]
-        [MemberData("MoveNextShouldReturnWhetherMovingToTheNextIterationWasSuccessfulTheory", null,
+        [MemberData(
+            "MoveNextShouldReturnWhetherMovingToTheNextIterationWasSuccessfulTheory",
+            null,
             MemberType = typeof(AttemptCatchIteratorTestTheories))]
         public void MoveNextShouldReturnWhetherMovingToTheNextIterationWasSuccessful(
             int times,
@@ -32,7 +34,9 @@
         }
 
         [Theory]
-        [MemberData("MoveNextShouldUseHandlerIfAnExceptionOccursTheory", null,
+        [MemberData(
+            "MoveNextShouldUseHandlerIfAnExceptionOccursTheory",
+            null,
             MemberType = typeof(AttemptCatchIteratorTestTheories))]
         public void MoveNextShouldUseHandlerIfAnExceptionOccurs(int times, IEnumerable<int> enumerable, bool expected)
         {
@@ -48,7 +52,9 @@
         }
 
         [Theory]
-        [MemberData("ConstructorShouldThrowExceptionWhenRequiredArgumentsAreNullTheory", null,
+        [MemberData(
+            "ConstructorShouldThrowExceptionWhenRequiredArgumentsAreNullTheory",
+            null,
             MemberType = typeof(AttemptCatchIteratorTestTheories))]
         public void ConstructorShouldThrowExceptionWhenRequiredArgumentsAreNull(
             IEnumerable<int> enumerable,
@@ -64,23 +70,18 @@
         {
             public static IEnumerable ConstructorShouldThrowExceptionWhenRequiredArgumentsAreNullTheory = new object[]
                                                                                                               {
-                                                                                                                  new object
-                                                                                                                      []
-                                                                                                                          {
-                                                                                                                              null,
-                                                                                                                              null,
-                                                                                                                              "enumerable"
-                                                                                                                          },
-                                                                                                                  new object
-                                                                                                                      []
-                                                                                                                          {
-                                                                                                                              new int
-                                                                                                                                  [
-                                                                                                                                  0
-                                                                                                                                  ],
-                                                                                                                              null,
-                                                                                                                              "handler"
-                                                                                                                          }
+                                                                                                                  new object[]
+                                                                                                                      {
+                                                                                                                          null,
+                                                                                                                          null,
+                                                                                                                          "enumerable"
+                                                                                                                      },
+                                                                                                                  new object[]
+                                                                                                                      {
+                                                                                                                          new int [0],
+                                                                                                                          null,
+                                                                                                                          "handler"
+                                                                                                                      }
                                                                                                               };
 
             public static IEnumerable MoveNextShouldReturnWhetherMovingToTheNextIterationWasSuccessfulTheory =
@@ -94,12 +95,14 @@
                                                                                               {
                                                                                                   new object[]
                                                                                                       {
-                                                                                                          1, new[] { 1 },
+                                                                                                          1,
+                                                                                                          new[] { 1 },
                                                                                                           false
                                                                                                       },
                                                                                                   new object[]
                                                                                                       {
-                                                                                                          1, new[] { 0 },
+                                                                                                          1,
+                                                                                                          new[] { 0 },
                                                                                                           true
                                                                                                       }
                                                                                               };

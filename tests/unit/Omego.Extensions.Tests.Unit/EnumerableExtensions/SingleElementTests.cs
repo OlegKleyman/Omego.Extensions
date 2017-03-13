@@ -41,7 +41,8 @@
         {
             Action singleElement = () => ((IEnumerable<int>)null).SingleElement(null);
 
-            singleElement.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("enumerable");
+            singleElement.ShouldThrowExactly<ArgumentNullException>()
+                .Which.ParamName.ShouldBeEquivalentTo("enumerable");
         }
 
         [Fact]

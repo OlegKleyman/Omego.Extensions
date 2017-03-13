@@ -19,8 +19,10 @@
         /// <typeparam name="T">The type of the object to return.</typeparam>
         /// <returns>An instance of <typeparamref name="T" />.</returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public static T FirstOr<T>(this IQueryable<T> queryable, Expression<Func<T, bool>> predicate, T @default)
-            => queryable.FirstOr(predicate, () => @default);
+        public static T FirstOr<T>(
+            this IQueryable<T> queryable,
+            Expression<Func<T, bool>> predicate,
+            T @default) => queryable.FirstOr(predicate, () => @default);
 
         /// <summary>
         ///     Returns the first element of an <see cref="IQueryable{T}" /> matching the given predicate or returns
@@ -30,7 +32,9 @@
         /// <param name="default">The object to return if no elements are found.</param>
         /// <typeparam name="T">The type of the object to return.</typeparam>
         /// <returns>An instance of <typeparamref name="T" />.</returns>
-        public static T FirstOr<T>(this IQueryable<T> queryable, T @default) => queryable.FirstOr(arg => true, @default);
+        public static T FirstOr<T>(this IQueryable<T> queryable, T @default) => queryable.FirstOr(
+            arg => true,
+            @default);
 
         /// <summary>
         ///     Returns the first element of an <see cref="IQueryable{T}" /> matching the given predicate or returns
@@ -45,8 +49,10 @@
         /// <typeparam name="T">The type of the object to return.</typeparam>
         /// <returns>An instance of <typeparamref name="T" />.</returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public static T FirstOr<T>(this IQueryable<T> queryable, Expression<Func<T, bool>> predicate, Func<T> @default)
-            => queryable.FirstElement(predicate).ValueOr(@default);
+        public static T FirstOr<T>(
+            this IQueryable<T> queryable,
+            Expression<Func<T, bool>> predicate,
+            Func<T> @default) => queryable.FirstElement(predicate).ValueOr(@default);
 
         /// <summary>
         ///     Returns the first element of an <see cref="IQueryable{T}" /> matching the given predicate or returns
@@ -59,7 +65,8 @@
         /// </param>
         /// <typeparam name="T">The type of the object to return.</typeparam>
         /// <returns>An instance of <typeparamref name="T" />.</returns>
-        public static T FirstOr<T>(this IQueryable<T> queryable, Func<T> @default)
-            => queryable.FirstOr(arg => true, @default);
+        public static T FirstOr<T>(this IQueryable<T> queryable, Func<T> @default) => queryable.FirstOr(
+            arg => true,
+            @default);
     }
 }

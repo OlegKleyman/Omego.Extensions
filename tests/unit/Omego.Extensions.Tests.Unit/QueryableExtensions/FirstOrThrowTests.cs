@@ -85,9 +85,7 @@
         }
 
         [Fact]
-        public void
-            FirstOrThrowWithGenericExceptionShouldThrowArgumentNullExceptionWhenPredicateArgumentIsNullWhenSearchingByQuery
-            ()
+        public void FirstOrThrowWithGenericExceptionShouldThrowArgumentNullExceptionWhenPredicateArgumentIsNullWhenSearchingByQuery()
         {
             Action firstOrThrow = () => new int[0].AsQueryable().FirstOrThrow((Expression<Func<int, bool>>)null);
 

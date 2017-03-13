@@ -51,9 +51,10 @@
         {
             var target = new { Test2 = new { Test3 = string.Empty }, Test4 = (string)null };
 
-            Action smartCheck =
-                () =>
-                    target.SmartCheck(s => new InvalidOperationException(s), test => test.Test2.Test3, arg => arg.Test4);
+            Action smartCheck = () => target.SmartCheck(
+                s => new InvalidOperationException(s),
+                test => test.Test2.Test3,
+                arg => arg.Test4);
 
             smartCheck.ShouldThrow<InvalidOperationException>().WithMessage("Test4");
         }
@@ -63,7 +64,9 @@
         {
             var target = new { Test2 = new { Test3 = (string)null } };
 
-            Action smartCheck = () => target.SmartCheck(s => new InvalidOperationException(s), test => test.Test2.Test3);
+            Action smartCheck = () => target.SmartCheck(
+                s => new InvalidOperationException(s),
+                test => test.Test2.Test3);
 
             smartCheck.ShouldThrow<InvalidOperationException>().WithMessage("Test2.Test3");
         }

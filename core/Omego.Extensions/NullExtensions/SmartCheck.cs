@@ -41,7 +41,8 @@
 
                             var toThrow = exception(s);
 
-                            if (toThrow == null) throw new InvalidOperationException("Exception to throw returned null.");
+                            if (toThrow == null)
+                                throw new InvalidOperationException("Exception to throw returned null.");
 
                             throw toThrow;
                         });

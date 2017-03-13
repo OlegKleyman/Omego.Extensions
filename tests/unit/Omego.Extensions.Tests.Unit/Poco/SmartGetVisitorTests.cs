@@ -23,42 +23,43 @@
                                                                                                               {
                                                                                                                   new Test
                                                                                                                       {
-                                                                                                                          Test1
-                                                                                                                              =
+                                                                                                                          Test1 =
                                                                                                                               new Test1
                                                                                                                                   {
-                                                                                                                                      Test2
-                                                                                                                                          =
-                                                                                                                                          new Test2
-                                                                                                                                          (
-                                                                                                                                          )
+                                                                                                                                      Test2 =
+                                                                                                                                          new Test2()
                                                                                                                                   }
                                                                                                                       },
-                                                                                                                  (Expression<Func<Test, object>>)(test => test.Test1.Test2.TestString), "Test1.Test2.TestString"
+                                                                                                                  (Expression<Func<Test, object>>)(test => test
+                                                                                                                                                          .Test1
+                                                                                                                                                          .Test2
+                                                                                                                                                          .TestString),
+                                                                                                                  "Test1.Test2.TestString"
                                                                                                               },
                                                                                                           new object[]
                                                                                                               {
                                                                                                                   new Test
                                                                                                                       {
-                                                                                                                          Test1
-                                                                                                                              =
-                                                                                                                              new Test1
-                                                                                                                              (
-                                                                                                                              )
+                                                                                                                          Test1 =
+                                                                                                                              new Test1()
                                                                                                                       },
-                                                                                                                  (Expression<Func<Test, object>>)(test => test.Test1.Test2.TestString), "Test1.Test2"
+                                                                                                                  (Expression<Func<Test, object>>)(test => test
+                                                                                                                                                          .Test1
+                                                                                                                                                          .Test2
+                                                                                                                                                          .TestString),
+                                                                                                                  "Test1.Test2"
                                                                                                               },
                                                                                                           new object[]
                                                                                                               {
                                                                                                                   new Test
                                                                                                                       {
-                                                                                                                          Test1
-                                                                                                                              =
-                                                                                                                              new Test1
-                                                                                                                              (
-                                                                                                                              )
+                                                                                                                          Test1 =
+                                                                                                                              new Test1()
                                                                                                                       },
-                                                                                                                  (Expression<Func<Test, object>>)(test => test.Test1.Test2Field), "Test1.Test2Field"
+                                                                                                                  (Expression<Func<Test, object>>)(test => test
+                                                                                                                                                          .Test1
+                                                                                                                                                          .Test2Field),
+                                                                                                                  "Test1.Test2Field"
                                                                                                               }
                                                                                                       };
 
@@ -71,52 +72,43 @@
                                                                                                    Test1 =
                                                                                                        new Test1
                                                                                                            {
-                                                                                                               Test2
-                                                                                                                   =
+                                                                                                               Test2 =
                                                                                                                    new Test2
                                                                                                                        {
-                                                                                                                           TestString
-                                                                                                                               =
+                                                                                                                           TestString =
                                                                                                                                "testing2"
                                                                                                                        }
                                                                                                            }
                                                                                                },
-                                                                                           (
-                                                                                           Expression
-                                                                                           <Func<Test, object>>)
-                                                                                           (test =>
-                                                                                               test.Test1.Test2
-                                                                                                   .TestString),
+                                                                                           (Expression<Func<Test, object>>)(test => test
+                                                                                                                                   .Test1
+                                                                                                                                   .Test2
+                                                                                                                                   .TestString),
                                                                                            "testing2"
                                                                                        }
                                                                                };
 
             public static IEnumerable OnNullShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory = new[]
                                                                                                                     {
-                                                                                                                        new object
-                                                                                                                        [
-                                                                                                                        ]
+                                                                                                                        new object[]
                                                                                                                             {
                                                                                                                                 "Value cannot be null.\r\nParameter name: onNullCallBack",
                                                                                                                                 "onNullCallBack",
-                                                                                                                                typeof
-                                                                                                                                (
-                                                                                                                                    ArgumentNullException
-                                                                                                                                ),
+                                                                                                                                typeof(ArgumentNullException),
                                                                                                                                 new Test
                                                                                                                                     {
-                                                                                                                                        Test1
-                                                                                                                                            =
+                                                                                                                                        Test1 =
                                                                                                                                             new Test1
                                                                                                                                                 {
-                                                                                                                                                    Test2
-                                                                                                                                                        =
-                                                                                                                                                        new Test2
-                                                                                                                                                        (
-                                                                                                                                                        )
+                                                                                                                                                    Test2 =
+                                                                                                                                                        new Test2()
                                                                                                                                                 }
                                                                                                                                     },
-                                                                                                                                (Expression<Func<Test, object>>)(test => test.Test1.Test2.TestString), null
+                                                                                                                                (Expression<Func<Test, object>>)(test => test
+                                                                                                                                                                        .Test1
+                                                                                                                                                                        .Test2
+                                                                                                                                                                        .TestString),
+                                                                                                                                null
                                                                                                                             }
                                                                                                                     };
 
@@ -130,29 +122,31 @@
                             }
                     };
 
-            public static IEnumerable ResetWithShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory =
-                new[]
-                    {
-                        new object[]
-                            {
-                                "Value cannot be null.\r\nParameter name: target", "target", typeof(ArgumentNullException),
-                                null
-                            }
-                    };
+            public static IEnumerable ResetWithShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory = new[]
+                                                                                                                       {
+                                                                                                                           new object[]
+                                                                                                                               {
+                                                                                                                                   "Value cannot be null.\r\nParameter name: target",
+                                                                                                                                   "target",
+                                                                                                                                   typeof(ArgumentNullException),
+                                                                                                                                   null
+                                                                                                                               }
+                                                                                                                       };
 
             public static IEnumerable ConstructorShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory =
                 new[]
                     {
                         new object[]
                             {
-                                "Value cannot be null.\r\nParameter name: target", "target", typeof(ArgumentNullException),
-                                null
+                                "Value cannot be null.\r\nParameter name: target", "target",
+                                typeof(ArgumentNullException), null
                             }
                     };
         }
 
         [Theory]
-        [MemberData("OnNullShouldSetNullQualifiedNameToNullForPropertiesTheory",
+        [MemberData(
+            "OnNullShouldSetNullQualifiedNameToNullForPropertiesTheory",
             MemberType = typeof(SmartGetVisitorTestsTheories))]
         public void OnNullShouldSetNullQualifiedNameToNullForProperties(
             Test target,
@@ -180,7 +174,8 @@
         }
 
         [Theory]
-        [MemberData("OnNullShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory",
+        [MemberData(
+            "OnNullShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory",
             MemberType = typeof(SmartGetVisitorTestsTheories))]
         public void OnNullShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalid(
             string message,
@@ -204,7 +199,8 @@
         }
 
         [Theory]
-        [MemberData("VisitMemberShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory",
+        [MemberData(
+            "VisitMemberShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory",
             MemberType = typeof(SmartGetVisitorTestsTheories))]
         public void VisitMemberShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalid(
             string message,
@@ -226,7 +222,8 @@
         }
 
         [Theory]
-        [MemberData("ResetWithShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory",
+        [MemberData(
+            "ResetWithShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory",
             MemberType = typeof(SmartGetVisitorTestsTheories))]
         public void ResetWithShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalid(
             string message,
@@ -248,7 +245,8 @@
         }
 
         [Theory]
-        [MemberData("ConstructorShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory",
+        [MemberData(
+            "ConstructorShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory",
             MemberType = typeof(SmartGetVisitorTestsTheories))]
         public void ConstructorShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalid(
             string message,
