@@ -16,8 +16,9 @@
         /// <param name="enumerable">The enumerable to find the first element in.</param>
         /// <param name="exception">The exception to throw when the element is not found.</param>
         /// <returns>An instance of <typeparamref name="T" />.</returns>
-        public static T FirstOrThrow<T>(this IEnumerable<T> enumerable, Exception exception)
-            => enumerable.FirstOrThrow(element => true, exception);
+        public static T FirstOrThrow<T>(this IEnumerable<T> enumerable, Exception exception) => enumerable.FirstOrThrow(
+            element => true,
+            exception);
 
         /// <summary>
         ///     Returns the first element of an <see cref="IEnumerable{T}" /> matching the given predicate or throws an
@@ -35,14 +36,7 @@
         {
             var element = enumerable.FirstElement(predicate);
 
-            if (!element.Present)
-            {
-                if (exception == null) throw new ArgumentNullException(nameof(exception));
-
-                throw exception;
-            }
-
-            return element.Value;
+            return element.Present ? element.Value : throw exception ?? new ArgumentNullException(nameof(exception));
         }
 
         /// <summary>
@@ -56,13 +50,10 @@
         /// <exception cref="ArgumentNullException">
         ///     Thrown when the <paramref name="predicate" /> argument is null.
         /// </exception>
-        public static T FirstOrThrow<T>(this IEnumerable<T> enumerable, Expression<Func<T, bool>> predicate)
-        {
-            if (predicate == null) throw new ArgumentNullException(nameof(predicate));
-
-            return enumerable.FirstOrThrow(
-                predicate.Compile(),
-                new InvalidOperationException($"No " + $"matches" + $" found for: {predicate.Body}"));
-        }
+        public static T FirstOrThrow<T>(
+            this IEnumerable<T> enumerable,
+            Expression<Func<T, bool>> predicate) => enumerable.FirstOrThrow(
+            predicate?.Compile(),
+            new InvalidOperationException($"No " + $"matches" + $" found for: {predicate?.Body}"));
     }
 }

@@ -37,21 +37,15 @@
         /// <exception cref="InvalidOperationException">
         ///     Thrown when there are multiple elements of the value.
         /// </exception>
-        public T Value
-        {
-            get
-            {
-                if (Elements == ElementCategory.Multiple) throw new InvalidOperationException("Multiple elements found.");
+        public T Value => Elements != ElementCategory.Multiple
+                              ? value.Value
+                              : throw new InvalidOperationException("Multiple elements found.");
 
-                return value.Value;
-            }
-        }
+        private static readonly Lazy<SingleElementResult<T>> MultipleElementResult = new Lazy<SingleElementResult<T>>(
+            () => new SingleElementResult<T>(ElementCategory.Multiple));
 
-        private static readonly Lazy<SingleElementResult<T>> MultipleElementResult =
-            new Lazy<SingleElementResult<T>>(() => new SingleElementResult<T>(ElementCategory.Multiple));
-
-        private static readonly Lazy<SingleElementResult<T>> NoElementResult =
-            new Lazy<SingleElementResult<T>>(() => new SingleElementResult<T>(ElementCategory.None));
+        private static readonly Lazy<SingleElementResult<T>> NoElementResult = new Lazy<SingleElementResult<T>>(
+            () => new SingleElementResult<T>(ElementCategory.None));
 
         /// <summary>
         ///     Gets <see cref="MultipleElements" />.
@@ -83,8 +77,9 @@
         ///     to compare.
         /// </param>
         /// <returns>A <see cref="bool" /> indicating whether values are equal.</returns>
-        public static bool operator ==(SingleElementResult<T> first, SingleElementResult<T> second)
-            => first.Elements == second.Elements && first.value.Equals(second.value);
+        public static bool operator ==(
+            SingleElementResult<T> first,
+            SingleElementResult<T> second) => first.Elements == second.Elements && first.value.Equals(second.value);
 
         /// <summary>
         ///     The not equal operator for two <see cref="SingleElementResult{T}" /> of <typeparamref name="T" />.
@@ -98,8 +93,9 @@
         ///     to compare.
         /// </param>
         /// <returns>A <see cref="bool" /> indicating whether values are not equal.</returns>
-        public static bool operator !=(SingleElementResult<T> first, SingleElementResult<T> second)
-            => !(first == second);
+        public static bool operator !=(
+            SingleElementResult<T> first,
+            SingleElementResult<T> second) => !(first == second);
 
         /// <summary>
         ///     The implicit cast operator for casting an object of <typeparamref name="T" />
@@ -121,18 +117,14 @@
         /// <exception cref="InvalidCastException">
         ///     Thrown when the element does not represent one element.
         /// </exception>
-        public static explicit operator T(SingleElementResult<T> target)
-        {
-            if (target.Elements != ElementCategory.One)
-                throw new InvalidCastException(
-                    string.Format(
-                        CultureInfo.InvariantCulture,
-                        "{0} element(s) cannot be cast to {1}.",
-                        target.Elements,
-                        typeof(T).FullName));
-
-            return target.Value;
-        }
+        public static explicit operator T(SingleElementResult<T> target) => target.Elements == ElementCategory.One
+                                                                                ? target.Value
+                                                                                : throw new InvalidCastException(
+                                                                                      string.Format(
+                                                                                          CultureInfo.InvariantCulture,
+                                                                                          "{0} element(s) cannot be cast to {1}.",
+                                                                                          target.Elements,
+                                                                                          typeof(T).FullName));
 
         /// <summary>
         ///     Checks whether this instance of the value is equal to another
@@ -161,8 +153,8 @@
         ///     false.
         /// </returns>
         /// <param name="obj">The object to compare with the current instance. </param>
-        public override bool Equals(object obj)
-            => obj is SingleElementResult<T> && Equals((SingleElementResult<T>)obj) || obj is T && Equals((T)obj);
+        public override bool Equals(object obj) => obj is SingleElementResult<T> && Equals((SingleElementResult<T>)obj)
+                                                   || obj is T && Equals((T)obj);
 
         private static readonly int ElementsMaxValue = Enum.GetValues(typeof(ElementCategory)).Cast<int>().Max();
 
@@ -172,19 +164,19 @@
         /// <returns>A 32-bit signed integer that is the hash code for this instance.</returns>
         public override int GetHashCode()
         {
-            unchecked
+            const int salt = 193;
+
+            int HashCode(int hash)
             {
-                const int salt = 193;
+                unchecked
+                {
+                    while (hash >= ElementsMinValue && hash <= ElementsMaxValue && hash != (int)ElementCategory.One) hash += salt;
 
-                Func<int, int> getHashCode = hash =>
-                    {
-                        while (hash >= ElementsMinValue && hash <= ElementsMaxValue && hash != (int)ElementCategory.One) hash += salt;
-
-                        return hash;
-                    };
-
-                return Elements == ElementCategory.One ? getHashCode(value.GetHashCode()) : Elements.GetHashCode();
+                    return hash;
+                }
             }
+
+            return Elements == ElementCategory.One ? HashCode(value.GetHashCode()) : Elements.GetHashCode();
         }
 
         private enum ElementCategory
@@ -205,21 +197,14 @@
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="default" /> is null.</exception>
         public T ValueOr(Func<T> @default)
         {
-            Func<T> defaultSelector = () =>
-                {
-                    if (@default == null) throw new ArgumentNullException(nameof(@default));
+            T DefaultSelector() => @default != null ? @default() : throw new ArgumentNullException(nameof(@default));
 
-                    return @default();
-                };
-
-            return Elements == ElementCategory.None ? defaultSelector() : Value;
+            return Elements == ElementCategory.None ? DefaultSelector() : Value;
         }
 
         /// <inheritdoc />
-        public override string ToString()
-            =>
-                Elements == ElementCategory.One || Elements == ElementCategory.None
-                    ? value.ToString()
-                    : Elements.ToString();
+        public override string ToString() => Elements == ElementCategory.One || Elements == ElementCategory.None
+                                                 ? value.ToString()
+                                                 : Elements.ToString();
     }
 }

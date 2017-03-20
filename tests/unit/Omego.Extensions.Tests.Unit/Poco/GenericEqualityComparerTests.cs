@@ -15,23 +15,22 @@
         [Theory]
         [InlineData(1)]
         [InlineData(default(int))]
-        public void GetHashCodeShouldReturnHashCodeFromLambda(int hashCode)
-            =>
-                GetGenericEqualityComparer<object>(o => hashCode)
-                    .GetHashCode(default(object))
-                    .ShouldBeEquivalentTo(hashCode);
+        public void GetHashCodeShouldReturnHashCodeFromLambda(int hashCode) => GetGenericEqualityComparer<object>(
+                o => hashCode)
+            .GetHashCode(default(object))
+            .ShouldBeEquivalentTo(hashCode);
 
         [Theory]
         [InlineData(1)]
         [InlineData(default(int))]
-        public void EqualsShouldReturnWhetherObjectsAreEquivalentFromLambda(bool areEqual)
-            =>
-                GetGenericEqualityComparer<object>((o, o1) => areEqual)
-                    .Equals(default(object), default(object))
-                    .ShouldBeEquivalentTo(areEqual);
+        public void EqualsShouldReturnWhetherObjectsAreEquivalentFromLambda(
+            bool areEqual) => GetGenericEqualityComparer<object>((o, o1) => areEqual)
+            .Equals(default(object), default(object))
+            .ShouldBeEquivalentTo(areEqual);
 
         [Theory]
-        [MemberData("ConstructorShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory",
+        [MemberData(
+            "ConstructorShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory",
             MemberType = typeof(GenericEqualityComparerTestsTheories))]
         public void ConstructorShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalid(
             string message,
@@ -58,8 +57,8 @@
         private GenericEqualityComparer<TSource> GetGenericEqualityComparer<TSource>(
             Func<TSource, TSource, bool> areEqual) => GetGenericEqualityComparer(areEqual, source => default(int));
 
-        private GenericEqualityComparer<TSource> GetGenericEqualityComparer<TSource>(Func<TSource, int> hashCode)
-            => GetGenericEqualityComparer((source, source1) => default(bool), hashCode);
+        private GenericEqualityComparer<TSource> GetGenericEqualityComparer<TSource>(
+            Func<TSource, int> hashCode) => GetGenericEqualityComparer((source, source1) => default(bool), hashCode);
 
         public class GenericEqualityComparerTestsTheories
         {

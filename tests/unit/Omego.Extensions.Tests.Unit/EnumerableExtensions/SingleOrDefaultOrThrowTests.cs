@@ -31,7 +31,7 @@
         public void SingleOrDefaultOrThrowByQueryShouldThrowArgumentNullExceptionWhenEnumerableArgumentIsNull()
         {
             Action singleOrDefaultOrThrow =
-                () => ((IEnumerable<string>)null).SingleOrDefaultOrThrow(null, (string)null, null);
+                () => ((IEnumerable<string>)null).SingleOrDefaultOrThrow(s => true, (string)null, null);
 
             singleOrDefaultOrThrow.ShouldThrowExactly<ArgumentNullException>()
                 .Which.ParamName.ShouldBeEquivalentTo("enumerable");

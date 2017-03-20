@@ -26,9 +26,11 @@
             if (queryable == null) throw new ArgumentNullException(nameof(queryable));
             if (predicate == null) throw new ArgumentNullException(nameof(predicate));
 
-            var results = queryable.Where(predicate).Take(1);
-
-            return results.Any() ? new Element<T>(results.First()) : default(Element<T>);
+            return queryable.Where(predicate)
+                .Take(1)
+                .AsEnumerable()
+                .Select(arg => new Element<T>(arg))
+                .FirstOrDefault();
         }
     }
 }

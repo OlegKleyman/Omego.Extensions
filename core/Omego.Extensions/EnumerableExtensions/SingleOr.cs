@@ -21,8 +21,10 @@
         /// <exception cref="ArgumentNullException">
         ///     Thrown when the <paramref name="predicate" /> argument is null.
         /// </exception>
-        public static T SingleOr<T>(this IEnumerable<T> enumerable, Expression<Func<T, bool>> predicate, T @default)
-            => enumerable.SingleOr(predicate, () => @default);
+        public static T SingleOr<T>(
+            this IEnumerable<T> enumerable,
+            Expression<Func<T, bool>> predicate,
+            T @default) => enumerable.SingleOr(predicate, () => @default);
 
         /// <summary>
         ///     Returns a single element of an <see cref="IEnumerable{T}" /> or returns
@@ -32,8 +34,9 @@
         /// <param name="default">The object to return if no elements are found.</param>
         /// <typeparam name="T">The type of the object to return.</typeparam>
         /// <returns>An instance of <typeparamref name="T" />.</returns>
-        public static T SingleOr<T>(this IEnumerable<T> enumerable, T @default)
-            => enumerable.SingleOr(arg => true, @default);
+        public static T SingleOr<T>(this IEnumerable<T> enumerable, T @default) => enumerable.SingleOr(
+            arg => true,
+            @default);
 
         /// <summary>
         ///     Returns a single element of an <see cref="IEnumerable{T}" /> matching the given predicate or returns
@@ -53,15 +56,10 @@
         public static T SingleOr<T>(
             this IEnumerable<T> enumerable,
             Expression<Func<T, bool>> predicate,
-            Func<T> @default)
-        {
-            if (predicate == null) throw new ArgumentNullException(nameof(predicate));
-
-            return enumerable.SingleOrDefaultOrThrow(
-                predicate.Compile(),
-                @default,
-                new InvalidOperationException($"More than one match found for {predicate.Body}."));
-        }
+            Func<T> @default) => enumerable.SingleOrDefaultOrThrow(
+            predicate?.Compile(),
+            @default,
+            new InvalidOperationException($"More than one match found for {predicate?.Body}."));
 
         /// <summary>
         ///     Returns a single element of an <see cref="IEnumerable{T}" /> matching the given predicate or returns
@@ -74,7 +72,8 @@
         /// </param>
         /// <typeparam name="T">The type of the object to return.</typeparam>
         /// <returns>An instance of <typeparamref name="T" />.</returns>
-        public static T SingleOr<T>(this IEnumerable<T> enumerable, Func<T> @default)
-            => enumerable.SingleElement(arg => true).ValueOr(@default);
+        public static T SingleOr<T>(this IEnumerable<T> enumerable, Func<T> @default) => enumerable
+            .SingleElement(arg => true)
+            .ValueOr(@default);
     }
 }

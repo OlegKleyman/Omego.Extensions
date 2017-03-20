@@ -30,13 +30,10 @@
         {
             var element = enumerable.SingleElement(predicate);
 
-            if (element == SingleElementResult<T>.MultipleElements)
-            {
-                if (multipleMatchesFoundException == null) throw new ArgumentNullException(nameof(multipleMatchesFoundException));
-                throw multipleMatchesFoundException;
-            }
-
-            return element;
+            return element != SingleElementResult<T>.MultipleElements
+                       ? element
+                       : throw (multipleMatchesFoundException
+                                ?? new ArgumentNullException(nameof(multipleMatchesFoundException)));
         }
     }
 }

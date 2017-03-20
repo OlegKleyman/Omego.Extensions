@@ -11,8 +11,8 @@
     /// <threadsafety static="true" instance="false" />
     public class SmartGetVisitor : ExpressionVisitor
     {
-        private static readonly NotSupportedException NotSupportedNodeException =
-            new NotSupportedException("Only non-default properties and fields fields are supported.");
+        private static readonly NotSupportedException NotSupportedNodeException = new NotSupportedException(
+            "Only non-default properties and fields fields are supported.");
 
         private readonly Queue<string> nameQueue;
 
@@ -25,9 +25,8 @@
         /// </exception>
         public SmartGetVisitor(object target)
         {
-            if (target == null) throw new ArgumentNullException(nameof(target));
+            Current = target ?? throw new ArgumentNullException(nameof(target));
 
-            Current = target;
             nameQueue = new Queue<string>();
         }
 
@@ -38,82 +37,43 @@
         public object Current { get; private set; }
 
         /// <inheritdoc />
-        protected override Expression VisitBinary(BinaryExpression node)
-        {
-            throw NotSupportedNodeException;
-        }
+        protected override Expression VisitBinary(BinaryExpression node) => throw NotSupportedNodeException;
 
         /// <inheritdoc />
-        protected override Expression VisitBlock(BlockExpression node)
-        {
-            throw NotSupportedNodeException;
-        }
+        protected override Expression VisitBlock(BlockExpression node) => throw NotSupportedNodeException;
 
         /// <inheritdoc />
-        protected override Expression VisitConditional(ConditionalExpression node)
-        {
-            throw NotSupportedNodeException;
-        }
+        protected override Expression VisitConditional(ConditionalExpression node) => throw NotSupportedNodeException;
 
         /// <inheritdoc />
-        protected override Expression VisitConstant(ConstantExpression node)
-        {
-            throw NotSupportedNodeException;
-        }
+        protected override Expression VisitConstant(ConstantExpression node) => throw NotSupportedNodeException;
 
         /// <inheritdoc />
-        protected override Expression VisitDebugInfo(DebugInfoExpression node)
-        {
-            throw NotSupportedNodeException;
-        }
+        protected override Expression VisitDebugInfo(DebugInfoExpression node) => throw NotSupportedNodeException;
 
         /// <inheritdoc />
-        protected override Expression VisitDynamic(DynamicExpression node)
-        {
-            throw NotSupportedNodeException;
-        }
+        protected override Expression VisitDynamic(DynamicExpression node) => throw NotSupportedNodeException;
 
         /// <inheritdoc />
-        protected override Expression VisitDefault(DefaultExpression node)
-        {
-            throw NotSupportedNodeException;
-        }
+        protected override Expression VisitDefault(DefaultExpression node) => throw NotSupportedNodeException;
 
         /// <inheritdoc />
-        protected override Expression VisitExtension(Expression node)
-        {
-            throw NotSupportedNodeException;
-        }
+        protected override Expression VisitExtension(Expression node) => throw NotSupportedNodeException;
 
         /// <inheritdoc />
-        protected override Expression VisitGoto(GotoExpression node)
-        {
-            throw NotSupportedNodeException;
-        }
+        protected override Expression VisitGoto(GotoExpression node) => throw NotSupportedNodeException;
 
         /// <inheritdoc />
-        protected override Expression VisitInvocation(InvocationExpression node)
-        {
-            throw NotSupportedNodeException;
-        }
+        protected override Expression VisitInvocation(InvocationExpression node) => throw NotSupportedNodeException;
 
         /// <inheritdoc />
-        protected override LabelTarget VisitLabelTarget(LabelTarget node)
-        {
-            throw NotSupportedNodeException;
-        }
+        protected override LabelTarget VisitLabelTarget(LabelTarget node) => throw NotSupportedNodeException;
 
         /// <inheritdoc />
-        protected override Expression VisitLabel(LabelExpression node)
-        {
-            throw NotSupportedNodeException;
-        }
+        protected override Expression VisitLabel(LabelExpression node) => throw NotSupportedNodeException;
 
         /// <inheritdoc />
-        protected override Expression VisitLoop(LoopExpression node)
-        {
-            throw NotSupportedNodeException;
-        }
+        protected override Expression VisitLoop(LoopExpression node) => throw NotSupportedNodeException;
 
         /// <inheritdoc />
         protected override Expression VisitMember(MemberExpression node)
@@ -147,112 +107,62 @@
         }
 
         /// <inheritdoc />
-        protected override Expression VisitIndex(IndexExpression node)
-        {
-            throw NotSupportedNodeException;
-        }
+        protected override Expression VisitIndex(IndexExpression node) => throw NotSupportedNodeException;
 
         /// <inheritdoc />
-        protected override Expression VisitMethodCall(MethodCallExpression node)
-        {
-            throw NotSupportedNodeException;
-        }
+        protected override Expression VisitMethodCall(MethodCallExpression node) => throw NotSupportedNodeException;
 
         /// <inheritdoc />
-        protected override Expression VisitNewArray(NewArrayExpression node)
-        {
-            throw NotSupportedNodeException;
-        }
+        protected override Expression VisitNewArray(NewArrayExpression node) => throw NotSupportedNodeException;
 
         /// <inheritdoc />
-        protected override Expression VisitNew(NewExpression node)
-        {
-            throw NotSupportedNodeException;
-        }
+        protected override Expression VisitNew(NewExpression node) => throw NotSupportedNodeException;
 
         /// <inheritdoc />
-        protected override Expression VisitRuntimeVariables(RuntimeVariablesExpression node)
-        {
-            throw NotSupportedNodeException;
-        }
+        protected override Expression VisitRuntimeVariables(
+            RuntimeVariablesExpression node) => throw NotSupportedNodeException;
 
         /// <inheritdoc />
-        protected override SwitchCase VisitSwitchCase(SwitchCase node)
-        {
-            throw NotSupportedNodeException;
-        }
+        protected override SwitchCase VisitSwitchCase(SwitchCase node) => throw NotSupportedNodeException;
 
         /// <inheritdoc />
-        protected override Expression VisitSwitch(SwitchExpression node)
-        {
-            throw NotSupportedNodeException;
-        }
+        protected override Expression VisitSwitch(SwitchExpression node) => throw NotSupportedNodeException;
 
         /// <inheritdoc />
-        protected override CatchBlock VisitCatchBlock(CatchBlock node)
-        {
-            throw NotSupportedNodeException;
-        }
+        protected override CatchBlock VisitCatchBlock(CatchBlock node) => throw NotSupportedNodeException;
 
         /// <inheritdoc />
-        protected override Expression VisitTry(TryExpression node)
-        {
-            throw NotSupportedNodeException;
-        }
+        protected override Expression VisitTry(TryExpression node) => throw NotSupportedNodeException;
 
         /// <inheritdoc />
-        protected override Expression VisitTypeBinary(TypeBinaryExpression node)
-        {
-            throw NotSupportedNodeException;
-        }
+        protected override Expression VisitTypeBinary(TypeBinaryExpression node) => throw NotSupportedNodeException;
 
         /// <inheritdoc />
-        protected override Expression VisitUnary(UnaryExpression node)
-        {
-            throw NotSupportedNodeException;
-        }
+        protected override Expression VisitUnary(UnaryExpression node) => throw NotSupportedNodeException;
 
         /// <inheritdoc />
-        protected override Expression VisitMemberInit(MemberInitExpression node)
-        {
-            throw NotSupportedNodeException;
-        }
+        protected override Expression VisitMemberInit(MemberInitExpression node) => throw NotSupportedNodeException;
 
         /// <inheritdoc />
-        protected override Expression VisitListInit(ListInitExpression node)
-        {
-            throw NotSupportedNodeException;
-        }
+        protected override Expression VisitListInit(ListInitExpression node) => throw NotSupportedNodeException;
 
         /// <inheritdoc />
-        protected override ElementInit VisitElementInit(ElementInit node)
-        {
-            throw NotSupportedNodeException;
-        }
+        protected override ElementInit VisitElementInit(ElementInit node) => throw NotSupportedNodeException;
 
         /// <inheritdoc />
-        protected override MemberBinding VisitMemberBinding(MemberBinding node)
-        {
-            throw NotSupportedNodeException;
-        }
+        protected override MemberBinding VisitMemberBinding(MemberBinding node) => throw NotSupportedNodeException;
 
         /// <inheritdoc />
-        protected override MemberAssignment VisitMemberAssignment(MemberAssignment node)
-        {
-            throw NotSupportedNodeException;
-        }
+        protected override MemberAssignment VisitMemberAssignment(
+            MemberAssignment node) => throw NotSupportedNodeException;
 
         /// <inheritdoc />
-        protected override MemberMemberBinding VisitMemberMemberBinding(MemberMemberBinding node)
-        {
-            throw NotSupportedNodeException;
-        }
+        protected override MemberMemberBinding VisitMemberMemberBinding(
+            MemberMemberBinding node) => throw NotSupportedNodeException;
 
         /// <inheritdoc />
-        protected override MemberListBinding VisitMemberListBinding(MemberListBinding node)
-        {
-            throw NotSupportedNodeException;
-        }
+        protected override MemberListBinding VisitMemberListBinding(
+            MemberListBinding node) => throw NotSupportedNodeException;
 
         /// <summary>
         ///     Checks if an expression contains null members.
@@ -284,9 +194,7 @@
         /// </exception>
         public void ResetWith(object target)
         {
-            if (target == null) throw new ArgumentNullException(nameof(target));
-
-            Current = target;
+            Current = target ?? throw new ArgumentNullException(nameof(target));
             nameQueue.Clear();
         }
     }

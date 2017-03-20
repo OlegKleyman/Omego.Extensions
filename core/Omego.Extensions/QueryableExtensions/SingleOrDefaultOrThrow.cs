@@ -24,8 +24,10 @@
             this IQueryable<T> queryable,
             Expression<Func<T, bool>> predicate,
             T @default,
-            Exception multipleMatchesFoundException)
-            => queryable.SingleOrDefaultOrThrow(predicate, () => @default, multipleMatchesFoundException);
+            Exception multipleMatchesFoundException) => queryable.SingleOrDefaultOrThrow(
+            predicate,
+            () => @default,
+            multipleMatchesFoundException);
 
         /// <summary>
         ///     Returns a single element of an <see cref="IQueryable{T}" /> matching the given predicate or returns
@@ -45,7 +47,8 @@
             this IQueryable<T> queryable,
             Expression<Func<T, bool>> predicate,
             Func<T> @default,
-            Exception multipleMatchesFoundException)
-            => queryable.SingleElementOrThrowOnMultiple(predicate, multipleMatchesFoundException).ValueOr(@default);
+            Exception multipleMatchesFoundException) => queryable
+            .SingleElementOrThrowOnMultiple(predicate, multipleMatchesFoundException)
+            .ValueOr(@default);
     }
 }

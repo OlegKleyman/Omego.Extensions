@@ -34,15 +34,7 @@
         /// <exception cref="InvalidOperationException">
         ///     Thrown when the element is not present.
         /// </exception>
-        public T Value
-        {
-            get
-            {
-                if (!Present) throw new InvalidOperationException("Element does not exist.");
-
-                return value;
-            }
-        }
+        public T Value => Present ? value : throw new InvalidOperationException("Element does not exist.");
 
         /// <summary>
         ///     Checks whether this instance of the value is equal to another
@@ -63,30 +55,30 @@
         ///     The instance of <typeparamref name="T" /> to compare to.
         /// </param>
         /// <returns>Whether the instance is equal.</returns>
-        public bool Equals(T other) => Present && (Value != null ? Value.Equals(other) : other == null);
+        public bool Equals(T other) => Present && (Value?.Equals(other) ?? other == null);
 
         /// <inheritdoc />
-        public override bool Equals(object obj)
-            => obj is Element<T> && Equals((Element<T>)obj) || obj is T && Equals((T)obj);
+        public override bool Equals(object obj) => obj is Element<T> && Equals((Element<T>)obj)
+                                                   || obj is T && Equals((T)obj);
 
         /// <inheritdoc />
         public override int GetHashCode()
         {
-            unchecked
+            const int nullHashCode = 1;
+            const int notPresentHashCode = 0;
+            const int salt = 193;
+
+            int PresentHash(int hash)
             {
-                const int nullHashCode = 1;
-                const int notPresentHashCode = 0;
-                const int salt = 193;
+                unchecked
+                {
+                    while (hash == notPresentHashCode || hash == nullHashCode) hash += salt;
 
-                Func<int, int> presentHash = hash =>
-                    {
-                        while (hash == notPresentHashCode || hash == nullHashCode) hash += salt;
-
-                        return hash;
-                    };
-
-                return Present ? (value == null ? nullHashCode : presentHash(value.GetHashCode())) : notPresentHashCode;
+                    return hash;
+                }
             }
+
+            return Present ? (value == null ? nullHashCode : PresentHash(value.GetHashCode())) : notPresentHashCode;
         }
 
         /// <summary>
@@ -101,8 +93,10 @@
         ///     to compare.
         /// </param>
         /// <returns>A <see cref="bool" /> indicating whether values are equal.</returns>
-        public static bool operator ==(Element<T> first, Element<T> second)
-            => first.Present ? second.Present && first.Equals(second.Value) : !second.Present;
+        public static bool operator ==(Element<T> first, Element<T> second) => first.Present
+                                                                                   ? second.Present && first.Equals(
+                                                                                         second.Value)
+                                                                                   : !second.Present;
 
         /// <summary>
         ///     The not equal operator for two <see cref="Element{T}" /> of <typeparamref name="T" />.
@@ -137,17 +131,13 @@
         /// <exception cref="InvalidCastException">
         ///     Thrown when the element is not present.
         /// </exception>
-        public static explicit operator T(Element<T> target)
-        {
-            if (!target.Present)
-                throw new InvalidCastException(
-                    string.Format(
-                        CultureInfo.InvariantCulture,
-                        "No element present to cast to {0}.",
-                        typeof(T).FullName));
-
-            return target.Value;
-        }
+        public static explicit operator T(Element<T> target) => target.Present
+                                                                    ? target.Value
+                                                                    : throw new InvalidCastException(
+                                                                          string.Format(
+                                                                              CultureInfo.InvariantCulture,
+                                                                              "No element present to cast to {0}.",
+                                                                              typeof(T).FullName));
 
         /// <summary>
         ///     Gets the value of this element or <paramref name="default" /> if no value exists.
@@ -157,14 +147,9 @@
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="default" /> is null.</exception>
         public T ValueOr(Func<T> @default)
         {
-            Func<T> defaultSelector = () =>
-                {
-                    if (@default == null) throw new ArgumentNullException(nameof(@default));
+            T DefaultSelector() => @default != null ? @default() : throw new ArgumentNullException(nameof(@default));
 
-                    return @default();
-                };
-
-            return Present ? Value : defaultSelector();
+            return Present ? Value : DefaultSelector();
         }
 
         /// <inheritdoc />

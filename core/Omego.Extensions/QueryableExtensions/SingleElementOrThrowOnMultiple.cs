@@ -33,22 +33,15 @@
 
             if (predicate == null) throw new ArgumentNullException(nameof(predicate));
 
-            var results =
-                queryable.Where(predicate)
-                    .Take(2)
-                    .Select(arg => new SingleElementResult<T>(arg))
-                    .DefaultIfEmpty(SingleElementResult<T>.NoElements);
+            var results = queryable.Where(predicate)
+                .Take(2).AsEnumerable()
+                .Select(arg => new SingleElementResult<T>(arg))
+                .DefaultIfEmpty(SingleElementResult<T>.NoElements).ToArray();
 
-            var count = results.Count();
-
-            if (count > 1)
-            {
-                if (multipleMatchesFoundException == null) throw new ArgumentNullException(nameof(multipleMatchesFoundException));
-
-                throw multipleMatchesFoundException;
-            }
-
-            return results.First();
+            return results.Length == 1
+                       ? results.First()
+                       : throw multipleMatchesFoundException
+                               ?? new ArgumentNullException(nameof(multipleMatchesFoundException));
         }
     }
 }

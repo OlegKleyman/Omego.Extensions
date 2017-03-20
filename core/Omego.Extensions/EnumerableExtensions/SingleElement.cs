@@ -23,13 +23,11 @@
         /// </exception>
         public static SingleElementResult<T> SingleElement<T>(this IEnumerable<T> enumerable, Func<T, bool> predicate)
         {
-            if (enumerable == null) throw new ArgumentNullException(nameof(enumerable));
-
             if (predicate == null) throw new ArgumentNullException(nameof(predicate));
 
             var result = default(SingleElementResult<T>);
 
-            using (var e = enumerable.GetEnumerator())
+            using (var e = enumerable?.GetEnumerator() ?? throw new ArgumentNullException(nameof(enumerable)))
             {
                 while (e.MoveNext())
                     if (predicate(e.Current))

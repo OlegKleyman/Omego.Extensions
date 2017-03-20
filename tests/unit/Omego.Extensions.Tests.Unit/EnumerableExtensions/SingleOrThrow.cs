@@ -34,7 +34,8 @@
         {
             Action singleOrThrow = () => ((IEnumerable<int>)null).SingleOrThrow(null, null);
 
-            singleOrThrow.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("enumerable");
+            singleOrThrow.ShouldThrowExactly<ArgumentNullException>()
+                .Which.ParamName.ShouldBeEquivalentTo("enumerable");
         }
 
         [Fact]
@@ -42,7 +43,8 @@
         {
             Action singleOrThrow = () => ((IEnumerable<int>)null).SingleOrThrow(x => false);
 
-            singleOrThrow.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("enumerable");
+            singleOrThrow.ShouldThrowExactly<ArgumentNullException>()
+                .Which.ParamName.ShouldBeEquivalentTo("enumerable");
         }
 
         [Fact]
@@ -138,19 +140,16 @@
         }
 
         [Fact]
-        public void
-            SingleOrThrowWithGenericExceptionShouldThrowArgumentNullExceptionWhenEnumerableArgumentIsNullWhenSearchingByQuery
-            ()
+        public void SingleOrThrowWithGenericExceptionShouldThrowArgumentNullExceptionWhenEnumerableArgumentIsNullWhenSearchingByQuery()
         {
             Action singleOrThrow = () => ((IEnumerable<int>)null).SingleOrThrow(x => false);
 
-            singleOrThrow.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("enumerable");
+            singleOrThrow.ShouldThrowExactly<ArgumentNullException>()
+                .Which.ParamName.ShouldBeEquivalentTo("enumerable");
         }
 
         [Fact]
-        public void
-            SingleOrThrowWithGenericExceptionShouldThrowArgumentNullExceptionWhenPredicateArgumentIsNullWhenSearchingByQuery
-            ()
+        public void SingleOrThrowWithGenericExceptionShouldThrowArgumentNullExceptionWhenPredicateArgumentIsNullWhenSearchingByQuery()
         {
             Action singleOrThrow = () => new int[0].SingleOrThrow(null);
 

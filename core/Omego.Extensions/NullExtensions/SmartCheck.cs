@@ -27,24 +27,15 @@
             Func<string, Exception> exception,
             params Expression<Func<TTarget, object>>[] qualifierPath)
         {
-            if (qualifierPath == null) throw new ArgumentNullException(nameof(qualifierPath));
-
             var visitor = new SmartGetVisitor(target);
 
-            foreach (var expression in qualifierPath)
+            foreach (var expression in qualifierPath ?? throw new ArgumentNullException(nameof(qualifierPath)))
             {
                 visitor.OnNull(
                     expression,
-                    s =>
-                        {
-                            if (exception == null) throw new ArgumentNullException(nameof(exception));
-
-                            var toThrow = exception(s);
-
-                            if (toThrow == null) throw new InvalidOperationException("Exception to throw returned null.");
-
-                            throw toThrow;
-                        });
+                    s => throw (exception != null
+                                    ? exception(s) ?? new InvalidOperationException("Exception to throw returned null.")
+                                    : throw new ArgumentNullException(nameof(exception))));
 
                 visitor.ResetWith(target);
             }

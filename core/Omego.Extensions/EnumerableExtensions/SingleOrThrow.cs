@@ -23,8 +23,10 @@
         public static T SingleOrThrow<T>(
             this IEnumerable<T> enumerable,
             Exception noMatchFoundException,
-            Exception multipleMatchesFoundException)
-            => enumerable.SingleOrThrow(element => true, noMatchFoundException, multipleMatchesFoundException);
+            Exception multipleMatchesFoundException) => enumerable.SingleOrThrow(
+            element => true,
+            noMatchFoundException,
+            multipleMatchesFoundException);
 
         /// <summary>
         ///     Returns a single match from an <see cref="IEnumerable{T}" /> of <typeparamref name="T" /> or throws an
@@ -37,16 +39,13 @@
         /// <exception cref="ArgumentNullException">
         ///     Thrown when the <paramref name="predicate" /> argument is null.
         /// </exception>
-        public static T SingleOrThrow<T>(this IEnumerable<T> enumerable, Expression<Func<T, bool>> predicate)
-        {
-            if (predicate == null) throw new ArgumentNullException(nameof(predicate));
-
-            return SingleOrThrow(
-                enumerable,
-                predicate.Compile(),
-                new InvalidOperationException($"No match found for {predicate.Body}."),
-                new InvalidOperationException($"More than one match found for {predicate.Body}."));
-        }
+        public static T SingleOrThrow<T>(
+            this IEnumerable<T> enumerable,
+            Expression<Func<T, bool>> predicate) => SingleOrThrow(
+            enumerable,
+            predicate?.Compile(),
+            new InvalidOperationException($"No match found for {predicate?.Body}."),
+            new InvalidOperationException($"More than one match found for {predicate?.Body}."));
 
         /// <summary>
         ///     Returns a single match from an <see cref="IEnumerable{T}" /> of <typeparamref name="T" /> or throws an
@@ -65,18 +64,9 @@
             this IEnumerable<T> enumerable,
             Func<T, bool> predicate,
             Exception noMatchFoundException,
-            Exception multipleMatchesFoundException)
-        {
-            var result = enumerable.SingleElementOrThrowOnMultiple(predicate, multipleMatchesFoundException);
-
-            if (result == SingleElementResult<T>.NoElements)
-            {
-                if (noMatchFoundException == null) throw new ArgumentNullException(nameof(noMatchFoundException));
-
-                throw noMatchFoundException;
-            }
-
-            return result.Value;
-        }
+            Exception multipleMatchesFoundException) => enumerable
+            .SingleElementOrThrowOnMultiple(predicate, multipleMatchesFoundException)
+            .ValueOr(
+                () => throw noMatchFoundException ?? throw new ArgumentNullException(nameof(noMatchFoundException)));
     }
 }

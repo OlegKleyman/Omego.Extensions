@@ -27,10 +27,8 @@ namespace Omego.Extensions.Poco
         /// </param>
         public GenericEqualityComparer(Func<TSource, TSource, bool> areEqual, Func<TSource, int> hashCode)
         {
-            this.areEqual = areEqual ??
-            throw new ArgumentNullException(nameof(areEqual));
-            this.hashCode = hashCode ??
-            throw new ArgumentNullException(nameof(hashCode));
+            this.areEqual = areEqual ?? throw new ArgumentNullException(nameof(areEqual));
+            this.hashCode = hashCode ?? throw new ArgumentNullException(nameof(hashCode));
         }
 
         /// <inheritdoc />

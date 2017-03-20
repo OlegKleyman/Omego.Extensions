@@ -40,20 +40,12 @@
 
             visitor.OnNull(
                 qualifierPath,
-                nullQualifier =>
-                    {
-                        if (exception == null) throw new ArgumentNullException(nameof(exception));
+                nullQualifier => throw (exception != null
+                                            ? exception(nullQualifier)
+                                              ?? throw new InvalidOperationException("Exception to throw returned null.")
+                                            : throw new ArgumentNullException(nameof(exception))));
 
-                        var toThrow = exception(nullQualifier);
-
-                        if (toThrow == null) throw new InvalidOperationException("Exception to throw returned null.");
-
-                        throw toThrow;
-                    });
-
-            if (result == null) throw new ArgumentNullException(nameof(result));
-
-            return result((TObject)visitor.Current);
+            return result != null ? result((TObject)visitor.Current) : throw new ArgumentNullException(nameof(result));
         }
     }
 }
