@@ -32,10 +32,12 @@
 
             var results = queryable.Where(predicate)
                 .Take(2)
+                .AsEnumerable()
                 .Select(arg => new SingleElementResult<T>(arg))
-                .DefaultIfEmpty(SingleElementResult<T>.NoElements);
+                .DefaultIfEmpty(SingleElementResult<T>.NoElements)
+                .ToArray();
 
-            return results.Count() > 1 ? SingleElementResult<T>.MultipleElements : results.First();
+            return results.Length > 1 ? SingleElementResult<T>.MultipleElements : results.First();
         }
     }
 }

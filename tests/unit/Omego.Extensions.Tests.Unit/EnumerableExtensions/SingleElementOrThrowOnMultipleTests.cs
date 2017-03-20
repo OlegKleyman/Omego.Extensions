@@ -49,7 +49,7 @@
         public void SingleElementOrThrowOnMultipleByQueryWhenFoundShouldThrowArgumentNullExceptionWhenEnumerableArgumentIsNull()
         {
             Action singleElementOrThrowOnMultiple =
-                () => ((IEnumerable<int>)null).SingleElementOrThrowOnMultiple(null, null);
+                () => ((IEnumerable<int>)null).SingleElementOrThrowOnMultiple(i => true, null);
 
             singleElementOrThrowOnMultiple.ShouldThrowExactly<ArgumentNullException>()
                 .Which.ParamName.ShouldBeEquivalentTo("enumerable");

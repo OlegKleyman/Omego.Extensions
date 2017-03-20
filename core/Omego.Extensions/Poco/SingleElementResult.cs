@@ -164,20 +164,19 @@
         /// <returns>A 32-bit signed integer that is the hash code for this instance.</returns>
         public override int GetHashCode()
         {
-            unchecked
+            const int salt = 193;
+
+            int HashCode(int hash)
             {
-                const int salt = 193;
+                unchecked
+                {
+                    while (hash >= ElementsMinValue && hash <= ElementsMaxValue && hash != (int)ElementCategory.One) hash += salt;
 
-                Func<int, int> getHashCode = hash =>
-                    {
-                        while (hash >= ElementsMinValue && hash <= ElementsMaxValue && hash != (int)ElementCategory.One)
-                            hash += salt;
-
-                        return hash;
-                    };
-
-                return Elements == ElementCategory.One ? getHashCode(value.GetHashCode()) : Elements.GetHashCode();
+                    return hash;
+                }
             }
+
+            return Elements == ElementCategory.One ? HashCode(value.GetHashCode()) : Elements.GetHashCode();
         }
 
         private enum ElementCategory
@@ -198,12 +197,9 @@
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="default" /> is null.</exception>
         public T ValueOr(Func<T> @default)
         {
-            Func<T> defaultSelector = () =>
-                {
-                    return @default != null ? @default() : throw new ArgumentNullException(nameof(@default));
-                };
+            T DefaultSelector() => @default != null ? @default() : throw new ArgumentNullException(nameof(@default));
 
-            return Elements == ElementCategory.None ? defaultSelector() : Value;
+            return Elements == ElementCategory.None ? DefaultSelector() : Value;
         }
 
         /// <inheritdoc />

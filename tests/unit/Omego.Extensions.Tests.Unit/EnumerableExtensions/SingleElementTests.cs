@@ -39,7 +39,7 @@
         [Fact]
         public void SingleElementByQueryWhenFoundShouldThrowArgumentNullExceptionWhenEnumerableArgumentIsNull()
         {
-            Action singleElement = () => ((IEnumerable<int>)null).SingleElement(null);
+            Action singleElement = () => ((IEnumerable<int>)null).SingleElement(i => true);
 
             singleElement.ShouldThrowExactly<ArgumentNullException>()
                 .Which.ParamName.ShouldBeEquivalentTo("enumerable");

@@ -55,7 +55,7 @@
         ///     The instance of <typeparamref name="T" /> to compare to.
         /// </param>
         /// <returns>Whether the instance is equal.</returns>
-        public bool Equals(T other) => Present && (Value != null ? Value.Equals(other) : other == null);
+        public bool Equals(T other) => Present && (Value?.Equals(other) ?? other == null);
 
         /// <inheritdoc />
         public override bool Equals(object obj) => obj is Element<T> && Equals((Element<T>)obj)
@@ -64,21 +64,21 @@
         /// <inheritdoc />
         public override int GetHashCode()
         {
-            unchecked
+            const int nullHashCode = 1;
+            const int notPresentHashCode = 0;
+            const int salt = 193;
+
+            int PresentHash(int hash)
             {
-                const int nullHashCode = 1;
-                const int notPresentHashCode = 0;
-                const int salt = 193;
+                unchecked
+                {
+                    while (hash == notPresentHashCode || hash == nullHashCode) hash += salt;
 
-                Func<int, int> presentHash = hash =>
-                    {
-                        while (hash == notPresentHashCode || hash == nullHashCode) hash += salt;
-
-                        return hash;
-                    };
-
-                return Present ? (value == null ? nullHashCode : presentHash(value.GetHashCode())) : notPresentHashCode;
+                    return hash;
+                }
             }
+
+            return Present ? (value == null ? nullHashCode : PresentHash(value.GetHashCode())) : notPresentHashCode;
         }
 
         /// <summary>
@@ -147,12 +147,9 @@
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="default" /> is null.</exception>
         public T ValueOr(Func<T> @default)
         {
-            Func<T> defaultSelector = () =>
-                {
-                    return @default != null ? @default() : throw new ArgumentNullException(nameof(@default));
-                };
+            T DefaultSelector() => @default != null ? @default() : throw new ArgumentNullException(nameof(@default));
 
-            return Present ? Value : defaultSelector();
+            return Present ? Value : DefaultSelector();
         }
 
         /// <inheritdoc />

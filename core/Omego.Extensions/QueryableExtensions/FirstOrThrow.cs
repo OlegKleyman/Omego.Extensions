@@ -24,19 +24,8 @@
         public static T FirstOrThrow<T>(
             this IQueryable<T> queryable,
             Expression<Func<T, bool>> predicate,
-            Exception exception)
-        {
-            var element = queryable.FirstElement(predicate);
-
-            if (!element.Present)
-            {
-                if (exception == null) throw new ArgumentNullException(nameof(exception));
-
-                throw exception;
-            }
-
-            return element.Value;
-        }
+            Exception exception) => queryable.FirstElement(predicate)
+            .ValueOr(() => throw exception ?? throw new ArgumentNullException(nameof(exception)));
 
         /// <summary>
         ///     Returns the first element of an <see cref="IQueryable{T}" /> of <typeparamref name="T" /> or throws an exception.
@@ -60,13 +49,10 @@
         /// <exception cref="ArgumentNullException">
         ///     Thrown when the <paramref name="predicate" /> argument is null.
         /// </exception>
-        public static T FirstOrThrow<T>(this IQueryable<T> queryable, Expression<Func<T, bool>> predicate)
-        {
-            if (predicate == null) throw new ArgumentNullException(nameof(predicate));
-
-            return queryable.FirstOrThrow(
-                predicate,
-                new InvalidOperationException($"No matches found for: {predicate.Body}"));
-        }
+        public static T FirstOrThrow<T>(
+            this IQueryable<T> queryable,
+            Expression<Func<T, bool>> predicate) => queryable.FirstOrThrow(
+            predicate ?? throw new ArgumentNullException(nameof(predicate)),
+            new InvalidOperationException($"No matches found for: {predicate.Body}"));
     }
 }

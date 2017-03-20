@@ -56,15 +56,10 @@
         public static T SingleOr<T>(
             this IEnumerable<T> enumerable,
             Expression<Func<T, bool>> predicate,
-            Func<T> @default)
-        {
-            if (predicate == null) throw new ArgumentNullException(nameof(predicate));
-
-            return enumerable.SingleOrDefaultOrThrow(
-                predicate.Compile(),
-                @default,
-                new InvalidOperationException($"More than one match found for {predicate.Body}."));
-        }
+            Func<T> @default) => enumerable.SingleOrDefaultOrThrow(
+            predicate?.Compile(),
+            @default,
+            new InvalidOperationException($"More than one match found for {predicate?.Body}."));
 
         /// <summary>
         ///     Returns a single element of an <see cref="IEnumerable{T}" /> matching the given predicate or returns

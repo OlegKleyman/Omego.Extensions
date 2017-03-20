@@ -28,19 +28,10 @@
             this IQueryable<T> queryable,
             Expression<Func<T, bool>> predicate,
             Exception noMatchFoundException,
-            Exception multipleMatchesFoundException)
-        {
-            var element = queryable.SingleElementOrThrowOnMultiple(predicate, multipleMatchesFoundException);
-
-            if (element == SingleElementResult<T>.NoElements)
-            {
-                if (noMatchFoundException == null) throw new ArgumentNullException(nameof(noMatchFoundException));
-
-                throw noMatchFoundException;
-            }
-
-            return queryable.SingleOrDefault(predicate);
-        }
+            Exception multipleMatchesFoundException) => queryable
+            .SingleElementOrThrowOnMultiple(predicate, multipleMatchesFoundException)
+            .ValueOr(
+                () => throw noMatchFoundException ?? throw new ArgumentNullException(nameof(noMatchFoundException)));
 
         /// <summary>
         ///     Returns a single match from an <see cref="IQueryable{T}" /> of <typeparamref name="T" /> or throws an

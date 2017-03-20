@@ -23,15 +23,20 @@
         public static Element<T> FirstElement<T>(this IEnumerable<T> enumerable, Func<T, bool> predicate)
         {
             if (enumerable == null) throw new ArgumentNullException(nameof(enumerable));
+            if (predicate == null) throw new ArgumentNullException(nameof(predicate));
+
+            var foundElement = default(Element<T>);
 
             foreach (var element in enumerable)
             {
-                if (predicate == null) throw new ArgumentNullException(nameof(predicate));
-
-                if (predicate(element)) return new Element<T>(element);
+                if (predicate(element))
+                {
+                    foundElement = element;
+                    break;
+                }
             }
 
-            return default(Element<T>);
+            return foundElement;
         }
     }
 }

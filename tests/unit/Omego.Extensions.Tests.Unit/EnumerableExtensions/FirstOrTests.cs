@@ -102,22 +102,6 @@
         }
 
         [Fact]
-        public void FirstOrShouldThrowArgumentNullExceptionWhenEnumerableArgumentIsNull()
-        {
-            Action firstOrThrow = () => ((IEnumerable<string>)null).FirstOr((string)null);
-
-            firstOrThrow.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("enumerable");
-        }
-
-        [Fact]
-        public void FirstOrShouldThrowArgumentNullExceptionWhenEnumerableArgumentIsNullWhenSearchingByQuery()
-        {
-            Action firstOrThrow = () => ((IEnumerable<string>)null).FirstOr(x => false, (string)null);
-
-            firstOrThrow.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("enumerable");
-        }
-
-        [Fact]
         public void FirstOrShouldThrowArgumentNullExceptionWhenPredicateArgumentIsNullWhenSearchingByQuery()
         {
             Action firstOr = () => new string[] { null }.FirstOr(null, (string)null);

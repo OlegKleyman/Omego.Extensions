@@ -28,14 +28,6 @@
         }
 
         [Fact]
-        public void FirstElementShouldThrowArgumentNullExceptionWhenEnumerableArgumentIsNullWhenSearchingByQuery()
-        {
-            Action firstElement = () => ((IEnumerable<string>)null).FirstElement(x => false);
-
-            firstElement.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("enumerable");
-        }
-
-        [Fact]
         public void FirstElementShouldThrowArgumentNullExceptionWhenPredicateArgumentIsNullWhenSearchingByQuery()
         {
             Action firstElement = () => new string[] { null }.FirstElement(null);
