@@ -184,13 +184,30 @@
         /// <returns>An instance or value of <typeparamref name="T" />.</returns>
         /// <exception cref="InvalidOperationException">Thrown when multiple elements exist.</exception>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="default" /> is null.</exception>
-        public T ValueOr(Func<T> @default)
+        public T ValueOr(Func<T> @default) => ValueOr(@default, @default);
+
+        /// <summary>
+        ///     Gets the value of this element, the <paramref name="defaultNoElement" /> if no value exists,
+        ///     or <paramref name="defaultMultipleElements" />.
+        /// </summary>
+        /// <param name="defaultNoElement">The default value to return if one does not exist.</param>
+        /// <param name="defaultMultipleElements">
+        /// The default value to return if multiple elements exist.
+        /// </param>
+        /// <returns>An instance or value of <typeparamref name="T" />.</returns>
+        /// <exception cref="InvalidOperationException">Thrown when multiple elements exist.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="defaultNoElement" /> or
+        /// <paramref name="defaultMultipleElements"/> is null.</exception>
+        public T ValueOr(Func<T> defaultNoElement, Func<T> defaultMultipleElements)
         {
-            T DefaultSelector() => @default != null ? @default() : throw new ArgumentNullException(nameof(@default));
+            T DefaultMultipleElementSelector() => defaultMultipleElements != null
+                                                      ? defaultMultipleElements()
+                                                      : throw new ArgumentNullException(
+                                                            nameof(defaultMultipleElements));
 
             return Elements != ElementCategory.Multiple
-                       ? value.ValueOr(DefaultSelector)
-                       : throw new InvalidOperationException("Multiple elements found.");
+                       ? value.ValueOr(defaultNoElement)
+                       : DefaultMultipleElementSelector();
         }
 
         /// <inheritdoc />

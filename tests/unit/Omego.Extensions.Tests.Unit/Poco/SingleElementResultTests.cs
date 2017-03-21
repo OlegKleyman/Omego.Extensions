@@ -344,7 +344,7 @@
             .ShouldBeEquivalentTo("Multiple");
 
         [Fact]
-        public void ValueConstructorShouldSetProperties()
+        public void ConstructorShouldSetProperties()
         {
             var result = new SingleElementResult<int>(2);
 
@@ -368,31 +368,27 @@
         }
 
         [Fact]
-        public void ValueOrShouldThrowInvalidOperationExceptionWhenMultipleElementsExist()
+        public void ValueOrShouldReturnDefaultValueWhenMultipleExists() => new SingleElementResult<int>(7).ValueOr(() => 3, () => 7)
+            .ShouldBeEquivalentTo(7);
+
+        [Fact]
+        public void ValueOrShouldThrowArgumentNullExceptionWhenDefaultMultipleElementsIsNull()
         {
-            var result = SingleElementResult<int>.MultipleElements;
+            Action valueOr = () => SingleElementResult<int>.MultipleElements.ValueOr(null, null);
 
-            Action value = () => result.ValueOr(null);
-
-            value.ShouldThrow<InvalidOperationException>().WithMessage("Multiple elements found.");
+            valueOr.ShouldThrow<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("defaultMultipleElements");
         }
 
         [Fact]
-        public void ValueShouldReturnValueWhenExists()
-        {
-            var result = new SingleElementResult<string>("test");
-
-            result.ValueOr(null).ShouldBeEquivalentTo("test");
-        }
+        public void DefaultValueOrShouldReturnDefaultValueWhenNoneExists() => new SingleElementResult<int>().ValueOr(() => 3)
+            .ShouldBeEquivalentTo(3);
 
         [Fact]
-        public void ValueShouldThrowInvalidOperationExceptionWhenMultipleElementsExist()
-        {
-            var result = SingleElementResult<int>.MultipleElements;
+        public void DefaultValueOrShouldReturnDefaultValueWhenMultipleExists() => SingleElementResult<int>.MultipleElements.ValueOr(() => 3)
+            .ShouldBeEquivalentTo(3);
 
-            Action value = () => result.ValueOr(null).ToString();
-
-            value.ShouldThrow<InvalidOperationException>().WithMessage("Multiple elements found.");
-        }
+        [Fact]
+        public void DefaultValueOrShouldReturnDefaultValueWhenOneExists() => new SingleElementResult<int>(3).ValueOr(null)
+            .ShouldBeEquivalentTo(3);
     }
 }
