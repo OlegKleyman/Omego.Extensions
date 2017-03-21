@@ -301,6 +301,29 @@
             .ShouldBeEquivalentTo(expectedString);
 
         [Fact]
+        public void ConstructorShouldSetProperties()
+        {
+            var result = new SingleElementResult<int>(2);
+
+            result.ValueOr(null).ShouldBeEquivalentTo(2);
+        }
+
+        [Fact]
+        public void DefaultValueOrShouldReturnDefaultValueWhenMultipleExists() => SingleElementResult<int>
+            .MultipleElements.ValueOr(() => 3)
+            .ShouldBeEquivalentTo(3);
+
+        [Fact]
+        public void DefaultValueOrShouldReturnDefaultValueWhenNoneExists() => new SingleElementResult<int>()
+            .ValueOr(() => 3)
+            .ShouldBeEquivalentTo(3);
+
+        [Fact]
+        public void DefaultValueOrShouldReturnDefaultValueWhenOneExists() => new SingleElementResult<int>(3)
+            .ValueOr(null)
+            .ShouldBeEquivalentTo(3);
+
+        [Fact]
         public void ExplicitOperatorFromSingleElementToGenericTypeShouldReturnGenericTypeObjectFact()
         {
             var element = new SingleElementResult<string>("test");
@@ -344,12 +367,9 @@
             .ShouldBeEquivalentTo("Multiple");
 
         [Fact]
-        public void ValueConstructorShouldSetProperties()
-        {
-            var result = new SingleElementResult<int>(2);
-
-            result.ValueOr(null).ShouldBeEquivalentTo(2);
-        }
+        public void ValueOrShouldReturnDefaultValueWhenMultipleExists() => new SingleElementResult<int>(7)
+            .ValueOr(() => 3, () => 7)
+            .ShouldBeEquivalentTo(7);
 
         [Fact]
         public void ValueOrShouldReturnDefaultValueWhenNoneExists() => new SingleElementResult<int>().ValueOr(() => 3)
@@ -360,39 +380,20 @@
             .ShouldBeEquivalentTo(3);
 
         [Fact]
+        public void ValueOrShouldThrowArgumentNullExceptionWhenDefaultMultipleElementsIsNull()
+        {
+            Action valueOr = () => SingleElementResult<int>.MultipleElements.ValueOr(null, null);
+
+            valueOr.ShouldThrow<ArgumentNullException>()
+                .Which.ParamName.ShouldBeEquivalentTo("defaultMultipleElements");
+        }
+
+        [Fact]
         public void ValueOrShouldThrowArgumentNullExceptionWhenDefaultSelectorIsNull()
         {
             Action valueOr = () => new SingleElementResult<int>().ValueOr(null);
 
             valueOr.ShouldThrow<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("default");
-        }
-
-        [Fact]
-        public void ValueOrShouldThrowInvalidOperationExceptionWhenMultipleElementsExist()
-        {
-            var result = SingleElementResult<int>.MultipleElements;
-
-            Action value = () => result.ValueOr(null);
-
-            value.ShouldThrow<InvalidOperationException>().WithMessage("Multiple elements found.");
-        }
-
-        [Fact]
-        public void ValueShouldReturnValueWhenExists()
-        {
-            var result = new SingleElementResult<string>("test");
-
-            result.ValueOr(null).ShouldBeEquivalentTo("test");
-        }
-
-        [Fact]
-        public void ValueShouldThrowInvalidOperationExceptionWhenMultipleElementsExist()
-        {
-            var result = SingleElementResult<int>.MultipleElements;
-
-            Action value = () => result.ValueOr(null).ToString();
-
-            value.ShouldThrow<InvalidOperationException>().WithMessage("Multiple elements found.");
         }
     }
 }
