@@ -53,7 +53,10 @@
         /// <exception cref="ArgumentNullException">
         ///     Thrown when the <paramref name="predicate" /> argument is null.
         /// </exception>
-        public static T SingleOr<T>(this IQueryable<T> queryable, Expression<Func<T, bool>> predicate, Func<T> @default) => queryable.SingleOrDefaultOrThrow(
+        public static T SingleOr<T>(
+            this IQueryable<T> queryable,
+            Expression<Func<T, bool>> predicate,
+            Func<T> @default) => queryable.SingleOrDefaultOrThrow(
             predicate,
             @default,
             new InvalidOperationException($"More than one match found for {predicate?.Body}."));

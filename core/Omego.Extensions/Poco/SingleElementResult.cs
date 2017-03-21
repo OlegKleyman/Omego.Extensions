@@ -158,7 +158,8 @@
             {
                 unchecked
                 {
-                    while (hash >= ElementsMinValue && hash <= ElementsMaxValue && hash != (int)ElementCategory.One) hash += salt;
+                    while (hash >= ElementsMinValue && hash <= ElementsMaxValue && hash != (int)ElementCategory.One)
+                        hash += salt;
 
                     return hash;
                 }

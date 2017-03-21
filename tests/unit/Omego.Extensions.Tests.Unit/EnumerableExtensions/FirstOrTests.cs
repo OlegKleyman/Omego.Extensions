@@ -1,7 +1,6 @@
 ﻿namespace Omego.Extensions.Tests.Unit.EnumerableExtensions
 {
     using System;
-    using System.Collections.Generic;
 
     using FluentAssertions;
 

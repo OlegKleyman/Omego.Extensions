@@ -122,11 +122,12 @@
         /// <exception cref="InvalidCastException">
         ///     Thrown when the element is not present.
         /// </exception>
-        public static explicit operator T(Element<T> target) => target.ValueOr( () => throw new InvalidCastException(
-                                                                          string.Format(
-                                                                              CultureInfo.InvariantCulture,
-                                                                              "No element present to cast to {0}.",
-                                                                              typeof(T).FullName)));
+        public static explicit operator T(Element<T> target) => target.ValueOr(
+            () => throw new InvalidCastException(
+                      string.Format(
+                          CultureInfo.InvariantCulture,
+                          "No element present to cast to {0}.",
+                          typeof(T).FullName)));
 
         /// <summary>
         ///     Gets the value of this element or <paramref name="default" /> if no value exists.

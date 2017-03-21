@@ -42,7 +42,8 @@
                 qualifierPath,
                 nullQualifier => throw (exception != null
                                             ? exception(nullQualifier)
-                                              ?? throw new InvalidOperationException("Exception to throw returned null.")
+                                              ?? throw new InvalidOperationException(
+                                                  "Exception to throw returned null.")
                                             : throw new ArgumentNullException(nameof(exception))));
 
             return result != null ? result((TObject)visitor.Current) : throw new ArgumentNullException(nameof(result));

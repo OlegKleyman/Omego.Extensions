@@ -34,9 +34,11 @@
             if (predicate == null) throw new ArgumentNullException(nameof(predicate));
 
             var results = queryable.Where(predicate)
-                .Take(2).AsEnumerable()
+                .Take(2)
+                .AsEnumerable()
                 .Select(arg => new SingleElementResult<T>(arg))
-                .DefaultIfEmpty(SingleElementResult<T>.NoElements).ToArray();
+                .DefaultIfEmpty(SingleElementResult<T>.NoElements)
+                .ToArray();
 
             return results.Length == 1
                        ? results.First()
