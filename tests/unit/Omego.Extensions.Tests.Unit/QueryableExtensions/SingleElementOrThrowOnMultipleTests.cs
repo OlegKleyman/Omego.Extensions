@@ -17,7 +17,7 @@
         {
             var queryable = new[] { 1 }.AsQueryable();
 
-            queryable.SingleElementOrThrowOnMultiple(x => x == 1, null).Value.Should().Be(1);
+            queryable.SingleElementOrThrowOnMultiple(x => x == 1, null).ValueOr(null).Should().Be(1);
         }
 
         [Fact]

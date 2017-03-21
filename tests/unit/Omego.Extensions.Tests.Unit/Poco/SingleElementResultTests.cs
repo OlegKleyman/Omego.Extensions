@@ -348,7 +348,7 @@
         {
             var result = new SingleElementResult<int>(2);
 
-            result.Value.ShouldBeEquivalentTo(2);
+            result.ValueOr(null).ShouldBeEquivalentTo(2);
         }
 
         [Fact]
@@ -382,7 +382,7 @@
         {
             var result = new SingleElementResult<string>("test");
 
-            result.Value.ShouldBeEquivalentTo("test");
+            result.ValueOr(null).ShouldBeEquivalentTo("test");
         }
 
         [Fact]
@@ -390,19 +390,9 @@
         {
             var result = SingleElementResult<int>.MultipleElements;
 
-            Action value = () => result.Value.ToString();
+            Action value = () => result.ValueOr(null).ToString();
 
             value.ShouldThrow<InvalidOperationException>().WithMessage("Multiple elements found.");
-        }
-
-        [Fact]
-        public void ValueShouldThrowInvalidOperationExceptionWhenNoElementsExist()
-        {
-            var result = SingleElementResult<int>.MultipleElements;
-
-            Action value = () => SingleElementResult<int>.NoElements.Value.ToString();
-
-            value.ShouldThrow<InvalidOperationException>().WithMessage("Element does not exist.");
         }
     }
 }
