@@ -1,7 +1,6 @@
 ﻿namespace Omego.Extensions.Tests.Unit.EnumerableExtensions
 {
     using System;
-    using System.Collections.Generic;
 
     using FluentAssertions;
 
@@ -40,7 +39,7 @@
         {
             var enumerable = new[] { "1" };
 
-            enumerable.FirstElement(x => x == "1").Value.ShouldBeEquivalentTo("1");
+            enumerable.FirstElement(x => x == "1").ValueOr(null).ShouldBeEquivalentTo("1");
         }
     }
 }

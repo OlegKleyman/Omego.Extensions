@@ -28,13 +28,11 @@
             var foundElement = default(Element<T>);
 
             foreach (var element in enumerable)
-            {
                 if (predicate(element))
                 {
                     foundElement = element;
                     break;
                 }
-            }
 
             return foundElement;
         }

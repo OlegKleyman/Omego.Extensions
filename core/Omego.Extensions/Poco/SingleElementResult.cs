@@ -30,17 +30,6 @@
 
         private ElementCategory Elements { get; }
 
-        /// <summary>
-        ///     Gets <see cref="Value" />.
-        /// </summary>
-        /// <value>The <typeparamref name="T" /> that this element represents.</value>
-        /// <exception cref="InvalidOperationException">
-        ///     Thrown when there are multiple elements of the value.
-        /// </exception>
-        public T Value => Elements != ElementCategory.Multiple
-                              ? value.Value
-                              : throw new InvalidOperationException("Multiple elements found.");
-
         private static readonly Lazy<SingleElementResult<T>> MultipleElementResult = new Lazy<SingleElementResult<T>>(
             () => new SingleElementResult<T>(ElementCategory.Multiple));
 
@@ -117,14 +106,13 @@
         /// <exception cref="InvalidCastException">
         ///     Thrown when the element does not represent one element.
         /// </exception>
-        public static explicit operator T(SingleElementResult<T> target) => target.Elements == ElementCategory.One
-                                                                                ? target.Value
-                                                                                : throw new InvalidCastException(
-                                                                                      string.Format(
-                                                                                          CultureInfo.InvariantCulture,
-                                                                                          "{0} element(s) cannot be cast to {1}.",
-                                                                                          target.Elements,
-                                                                                          typeof(T).FullName));
+        public static explicit operator T(SingleElementResult<T> target) => target.value.ValueOr(
+            () => throw new InvalidCastException(
+                      string.Format(
+                          CultureInfo.InvariantCulture,
+                          "{0} element(s) cannot be cast to {1}.",
+                          target.Elements,
+                          typeof(T).FullName)));
 
         /// <summary>
         ///     Checks whether this instance of the value is equal to another
@@ -170,7 +158,8 @@
             {
                 unchecked
                 {
-                    while (hash >= ElementsMinValue && hash <= ElementsMaxValue && hash != (int)ElementCategory.One) hash += salt;
+                    while (hash >= ElementsMinValue && hash <= ElementsMaxValue && hash != (int)ElementCategory.One)
+                        hash += salt;
 
                     return hash;
                 }
@@ -199,7 +188,9 @@
         {
             T DefaultSelector() => @default != null ? @default() : throw new ArgumentNullException(nameof(@default));
 
-            return Elements == ElementCategory.None ? DefaultSelector() : Value;
+            return Elements != ElementCategory.Multiple
+                       ? value.ValueOr(DefaultSelector)
+                       : throw new InvalidOperationException("Multiple elements found.");
         }
 
         /// <inheritdoc />

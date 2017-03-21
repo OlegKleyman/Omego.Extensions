@@ -17,7 +17,7 @@
         {
             var enumerable = new[] { 1 };
 
-            enumerable.SingleElement(x => x == 1).Value.Should().Be(1);
+            enumerable.SingleElement(x => x == 1).ValueOr(null).Should().Be(1);
         }
 
         [Fact]
@@ -58,7 +58,7 @@
         {
             var enumerable = new[] { 1 };
 
-            enumerable.SingleElementOrThrowOnMultiple(x => x == 1, null).Value.Should().Be(1);
+            enumerable.SingleElementOrThrowOnMultiple(x => x == 1, null).ValueOr(null).Should().Be(1);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿namespace Omego.Extensions.Poco
 {
     using System;
+    using System.Diagnostics.Contracts;
     using System.Globalization;
 
     /// <summary>
@@ -28,15 +29,6 @@
         public bool Present { get; }
 
         /// <summary>
-        ///     Gets <see cref="Value" />.
-        /// </summary>
-        /// <value>The <typeparamref name="T" /> that this element represents.</value>
-        /// <exception cref="InvalidOperationException">
-        ///     Thrown when the element is not present.
-        /// </exception>
-        public T Value => Present ? value : throw new InvalidOperationException("Element does not exist.");
-
-        /// <summary>
         ///     Checks whether this instance of the value is equal to another
         ///     <see cref="Element{T}" /> of <typeparamref name="T" />.
         /// </summary>
@@ -55,7 +47,7 @@
         ///     The instance of <typeparamref name="T" /> to compare to.
         /// </param>
         /// <returns>Whether the instance is equal.</returns>
-        public bool Equals(T other) => Present && (Value?.Equals(other) ?? other == null);
+        public bool Equals(T other) => Present && (value?.Equals(other) ?? other == null);
 
         /// <inheritdoc />
         public override bool Equals(object obj) => obj is Element<T> && Equals((Element<T>)obj)
@@ -93,10 +85,9 @@
         ///     to compare.
         /// </param>
         /// <returns>A <see cref="bool" /> indicating whether values are equal.</returns>
-        public static bool operator ==(Element<T> first, Element<T> second) => first.Present
-                                                                                   ? second.Present && first.Equals(
-                                                                                         second.Value)
-                                                                                   : !second.Present;
+        public static bool operator ==(Element<T> first, Element<T> second) => first.Present && second.Present
+                                                                               && first.Equals(second.value)
+                                                                               || !first.Present && !second.Present;
 
         /// <summary>
         ///     The not equal operator for two <see cref="Element{T}" /> of <typeparamref name="T" />.
@@ -131,13 +122,12 @@
         /// <exception cref="InvalidCastException">
         ///     Thrown when the element is not present.
         /// </exception>
-        public static explicit operator T(Element<T> target) => target.Present
-                                                                    ? target.Value
-                                                                    : throw new InvalidCastException(
-                                                                          string.Format(
-                                                                              CultureInfo.InvariantCulture,
-                                                                              "No element present to cast to {0}.",
-                                                                              typeof(T).FullName));
+        public static explicit operator T(Element<T> target) => target.ValueOr(
+            () => throw new InvalidCastException(
+                      string.Format(
+                          CultureInfo.InvariantCulture,
+                          "No element present to cast to {0}.",
+                          typeof(T).FullName)));
 
         /// <summary>
         ///     Gets the value of this element or <paramref name="default" /> if no value exists.
@@ -145,11 +135,12 @@
         /// <param name="default">The default value to return if one does not exist.</param>
         /// <returns>An instance or value of <typeparamref name="T" />.</returns>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="default" /> is null.</exception>
+        [Pure]
         public T ValueOr(Func<T> @default)
         {
             T DefaultSelector() => @default != null ? @default() : throw new ArgumentNullException(nameof(@default));
 
-            return Present ? Value : DefaultSelector();
+            return Present ? value : DefaultSelector();
         }
 
         /// <inheritdoc />

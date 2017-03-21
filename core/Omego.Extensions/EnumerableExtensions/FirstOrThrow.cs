@@ -36,7 +36,7 @@
         {
             var element = enumerable.FirstElement(predicate);
 
-            return element.Present ? element.Value : throw exception ?? new ArgumentNullException(nameof(exception));
+            return element.ValueOr(() => throw exception ?? new ArgumentNullException(nameof(exception)));
         }
 
         /// <summary>
