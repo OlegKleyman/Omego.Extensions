@@ -192,12 +192,14 @@
         /// </summary>
         /// <param name="defaultNoElement">The default value to return if one does not exist.</param>
         /// <param name="defaultMultipleElements">
-        /// The default value to return if multiple elements exist.
+        ///     The default value to return if multiple elements exist.
         /// </param>
         /// <returns>An instance or value of <typeparamref name="T" />.</returns>
         /// <exception cref="InvalidOperationException">Thrown when multiple elements exist.</exception>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="defaultNoElement" /> or
-        /// <paramref name="defaultMultipleElements"/> is null.</exception>
+        /// <exception cref="ArgumentNullException">
+        ///     Thrown when <paramref name="defaultNoElement" /> or
+        ///     <paramref name="defaultMultipleElements" /> is null.
+        /// </exception>
         public T ValueOr(Func<T> defaultNoElement, Func<T> defaultMultipleElements)
         {
             T DefaultMultipleElementSelector() => defaultMultipleElements != null
