@@ -394,5 +394,15 @@
 
             value.ShouldThrow<InvalidOperationException>().WithMessage("Multiple elements found.");
         }
+
+        [Fact]
+        public void ValueShouldThrowInvalidOperationExceptionWhenNoElementsExist()
+        {
+            var result = SingleElementResult<int>.MultipleElements;
+
+            Action value = () => SingleElementResult<int>.NoElements.Value.ToString();
+
+            value.ShouldThrow<InvalidOperationException>().WithMessage("Element does not exist.");
+        }
     }
 }

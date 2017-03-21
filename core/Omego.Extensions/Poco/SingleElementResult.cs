@@ -38,7 +38,7 @@
         ///     Thrown when there are multiple elements of the value.
         /// </exception>
         public T Value => Elements != ElementCategory.Multiple
-                              ? value.Value
+                              ? value.ValueOr(() => throw new InvalidOperationException("Element does not exist."))
                               : throw new InvalidOperationException("Multiple elements found.");
 
         private static readonly Lazy<SingleElementResult<T>> MultipleElementResult = new Lazy<SingleElementResult<T>>(

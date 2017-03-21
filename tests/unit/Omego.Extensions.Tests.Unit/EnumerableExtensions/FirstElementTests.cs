@@ -40,7 +40,7 @@
         {
             var enumerable = new[] { "1" };
 
-            enumerable.FirstElement(x => x == "1").Value.ShouldBeEquivalentTo("1");
+            enumerable.FirstElement(x => x == "1").ValueOr(null).ShouldBeEquivalentTo("1");
         }
     }
 }

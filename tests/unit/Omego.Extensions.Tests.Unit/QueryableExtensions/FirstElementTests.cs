@@ -16,7 +16,7 @@
         {
             var queryable = new[] { 1 }.AsQueryable();
 
-            queryable.FirstElement(x => x == 1).Value.Should().Be(1);
+            queryable.FirstElement(x => x == 1).ValueOr(null).Should().Be(1);
         }
 
         [Fact]

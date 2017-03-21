@@ -199,7 +199,7 @@
             var element = new Element<string>("test");
 
             element.Present.Should().BeTrue();
-            element.Value.ShouldBeEquivalentTo("test");
+            element.ValueOr(null).ShouldBeEquivalentTo("test");
         }
 
         [Fact]
@@ -246,24 +246,6 @@
             Action value = () => new Element<int>().ValueOr(null);
 
             value.ShouldThrow<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("default");
-        }
-
-        [Fact]
-        public void ValueShouldReturnValueWhenExists()
-        {
-            var element = new Element<string>("test");
-
-            element.Value.ShouldBeEquivalentTo("test");
-        }
-
-        [Fact]
-        public void ValueShouldThrowInvalidOperationExceptionWhenElementDoesNotExist()
-        {
-            var element = new Element<int>();
-
-            Action value = () => element.Value.ToString();
-
-            value.ShouldThrow<InvalidOperationException>().WithMessage("Element does not exist.");
         }
     }
 }
