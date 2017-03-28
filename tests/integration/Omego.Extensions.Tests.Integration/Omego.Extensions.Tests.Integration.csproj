@@ -8,6 +8,9 @@
     <PackageReference Include="Xbehave">
       <Version>2.1.4</Version>
     </PackageReference>
+    <PackageReference Include="xunit.runner.visualstudio">
+      <Version>2.2.0</Version>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
