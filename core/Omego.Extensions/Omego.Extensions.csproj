@@ -2,6 +2,20 @@
 
   <PropertyGroup>
     <TargetFrameworks>netcoreapp1.1;net462</TargetFrameworks>
+    <Version></Version>
+    <PackageLicenseUrl>https://github.com/OlegKleyman/Omego.Extensions/blob/master/LICENSE</PackageLicenseUrl>
+    <Authors>Oleg Kleyman</Authors>
+    <Company />
+    <Description>Extension methods galore</Description>
+    <PackageTags>IEnumerable,Extensions</PackageTags>
+    <RepositoryUrl>https://github.com/OlegKleyman/Omego.Extensions</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageProjectUrl>https://github.com/OlegKleyman/Omego.Extensions</PackageProjectUrl>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netcoreapp1.1|AnyCPU'">
+    <DocumentationFile>bin\Debug\netcoreapp1.1\Omego.Extensions.xml</DocumentationFile>
   </PropertyGroup>
 
 </Project>
