@@ -10,7 +10,6 @@
 
     using Xunit;
 
-    [CLSCompliant(false)]
     public class SmartGetTests
     {
         public class Test
@@ -54,31 +53,21 @@
 
         public class SmartGetTestsTheories
         {
-            public static IEnumerable SmartGetShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory = new[]
-                                                                                                                      {
-                                                                                                                          new object[]
-                                                                                                                              {
-                                                                                                                                  "Value cannot be null.\r\nParameter name: result",
-                                                                                                                                  "result",
-                                                                                                                                  typeof(ArgumentNullException),
-                                                                                                                                  new Test(),
-                                                                                                                                  null,
-                                                                                                                                  null,
-                                                                                                                                  null
-                                                                                                                              },
-                                                                                                                          new object[]
-                                                                                                                              {
-                                                                                                                                  "Value cannot be null.\r\nParameter name: exception",
-                                                                                                                                  "exception",
-                                                                                                                                  typeof(ArgumentNullException),
-                                                                                                                                  new Test(),
-                                                                                                                                  (Expression<Func<Test, Test3>>)(test => test
-                                                                                                                                                                         .Test2
-                                                                                                                                                                         .Test3),
-                                                                                                                                  null,
-                                                                                                                                  null
-                                                                                                                              }
-                                                                                                                      };
+            public static IEnumerable SmartGetShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory =
+                new[]
+                    {
+                        new object[]
+                            {
+                                "Value cannot be null.\r\nParameter name: result", "result",
+                                typeof(ArgumentNullException), new Test(), null, null, null
+                            },
+                        new object[]
+                            {
+                                "Value cannot be null.\r\nParameter name: exception", "exception",
+                                typeof(ArgumentNullException), new Test(),
+                                (Expression<Func<Test, Test3>>)(test => test.Test2.Test3), null, null
+                            }
+                    };
         }
 
         [Fact]

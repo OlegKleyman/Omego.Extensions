@@ -12,7 +12,6 @@
 
     using Xunit;
 
-    [CLSCompliant(false)]
     public class SmartGetVisitorTests
     {
         public class SmartGetVisitorTestsTheories
@@ -122,16 +121,15 @@
                             }
                     };
 
-            public static IEnumerable ResetWithShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory = new[]
-                                                                                                                       {
-                                                                                                                           new object[]
-                                                                                                                               {
-                                                                                                                                   "Value cannot be null.\r\nParameter name: target",
-                                                                                                                                   "target",
-                                                                                                                                   typeof(ArgumentNullException),
-                                                                                                                                   null
-                                                                                                                               }
-                                                                                                                       };
+            public static IEnumerable ResetWithShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory =
+                new[]
+                    {
+                        new object[]
+                            {
+                                "Value cannot be null.\r\nParameter name: target", "target",
+                                typeof(ArgumentNullException), null
+                            }
+                    };
 
             public static IEnumerable ConstructorShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory =
                 new[]

@@ -51,8 +51,10 @@
         /// <inheritdoc />
         protected override Expression VisitDebugInfo(DebugInfoExpression node) => throw NotSupportedNodeException;
 
+#if NET462
         /// <inheritdoc />
         protected override Expression VisitDynamic(DynamicExpression node) => throw NotSupportedNodeException;
+#endif
 
         /// <inheritdoc />
         protected override Expression VisitDefault(DefaultExpression node) => throw NotSupportedNodeException;

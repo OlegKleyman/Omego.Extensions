@@ -10,7 +10,6 @@
 
     using Xunit;
 
-    [CLSCompliant(false)]
     public class ElementTests
     {
         [Theory]
@@ -154,32 +153,12 @@
                                                                                 }
                                                                         };
 
-            public static IEnumerable ObjectGetHashCodeShouldReturnElementHashCodeTheory = new[]
-                                                                                               {
-                                                                                                   new object[]
-                                                                                                       {
-                                                                                                           new Element<object>(),
-                                                                                                           0
-                                                                                                       },
-                                                                                                   new object[]
-                                                                                                       {
-                                                                                                           new Element<object>(
-                                                                                                               1),
-                                                                                                           194
-                                                                                                       },
-                                                                                                   new object[]
-                                                                                                       {
-                                                                                                           new Element<object>(
-                                                                                                               0),
-                                                                                                           193
-                                                                                                       },
-                                                                                                   new object[]
-                                                                                                       {
-                                                                                                           new Element<object>(
-                                                                                                               null),
-                                                                                                           1
-                                                                                                       }
-                                                                                               };
+            public static IEnumerable ObjectGetHashCodeShouldReturnElementHashCodeTheory =
+                new[]
+                    {
+                        new object[] { new Element<object>(), 0 }, new object[] { new Element<object>(1), 194 },
+                        new object[] { new Element<object>(0), 193 }, new object[] { new Element<object>(null), 1 }
+                    };
 
             public static IEnumerable ToStringShouldReturnStringRepresentationOfTheValueTheory =
                 new[] { new object[] { 1, "1" }, new object[] { null, "Exists" } };
