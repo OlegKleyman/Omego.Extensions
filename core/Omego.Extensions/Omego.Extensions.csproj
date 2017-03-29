@@ -14,12 +14,8 @@
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netcoreapp1.1|AnyCPU'">
-    <DocumentationFile>bin\Debug\netcoreapp1.1\Omego.Extensions.xml</DocumentationFile>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netcoreapp1.1|AnyCPU'">
-    <DocumentationFile>bin\Release\netcoreapp1.1\Omego.Extensions.xml</DocumentationFile>
+  <PropertyGroup>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Omego.Extensions.xml</DocumentationFile>
   </PropertyGroup>
 
 </Project>
