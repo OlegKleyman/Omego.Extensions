@@ -9,7 +9,6 @@
 
     using Xunit;
 
-    [CLSCompliant(false)]
     public class GenericEqualityComparerTests
     {
         [Theory]

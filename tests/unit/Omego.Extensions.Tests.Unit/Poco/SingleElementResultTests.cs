@@ -10,7 +10,6 @@
 
     using Xunit;
 
-    [CLSCompliant(false)]
     public class SingleElementResultTests
     {
         [Theory]

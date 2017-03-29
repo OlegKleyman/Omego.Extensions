@@ -11,7 +11,6 @@
 
     using Xunit;
 
-    [CLSCompliant(false)]
     public class AttemptCatchIteratorTests
     {
         [Theory]
