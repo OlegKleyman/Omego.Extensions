@@ -109,7 +109,9 @@
                                                                         { new Element<object>(null), 2, false },
                                                                     new object[]
                                                                         { new Element<object>(null), null, true },
-                                                                    new object[] { new Element<object>(), 2, false }
+                                                                    new object[] { new Element<object>(), 2, false },
+                                                                    new object[]
+                                                                        { new Element<object>(), null, false }
                                                                 };
 
             public static IEnumerable ObjectElementEqualityTheory = new object[]

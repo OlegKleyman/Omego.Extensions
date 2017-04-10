@@ -51,7 +51,7 @@
         ///     The instance of <typeparamref name="T" /> to compare to.
         /// </param>
         /// <returns>Whether the instance is equal.</returns>
-        public bool Equals(T other) => value?.Equals(other) ?? other == null;
+        public bool Equals(T other) => Present && (value?.Equals(other) ?? other == null);
 
         /// <inheritdoc />
         public override bool Equals(object obj) => obj is Element<T> && Equals((Element<T>)obj)
