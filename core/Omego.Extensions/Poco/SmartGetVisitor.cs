@@ -84,25 +84,19 @@
 
             base.VisitMember(node);
 
-            if (Current == null) return node;
-
-            var propertyInfo = node.Member as PropertyInfo;
-            var fieldInfo = node.Member as FieldInfo;
-
-            if (propertyInfo != null || fieldInfo != null)
+            if (Current != null)
             {
-                if (propertyInfo != null)
+                switch (node.Member)
                 {
-                    var member = propertyInfo;
-                    Current = member.GetValue(Current);
+                    case PropertyInfo property:
+                        Current = property.GetValue(Current);
+                        nameQueue.Enqueue(property.Name);
+                        break;
+                    case FieldInfo field:
+                        Current = field.GetValue(Current);
+                        nameQueue.Enqueue(field.Name);
+                        break;
                 }
-                else
-                {
-                    var member = (FieldInfo)node.Member;
-                    Current = member.GetValue(Current);
-                }
-
-                nameQueue.Enqueue(node.Member.Name);
             }
 
             return node;
