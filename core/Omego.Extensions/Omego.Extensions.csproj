@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp1.1;net462</TargetFrameworks>
+    <TargetFrameworks>netstandard1.5;net462</TargetFrameworks>
     <Version></Version>
     <PackageLicenseUrl>https://github.com/OlegKleyman/Omego.Extensions/blob/master/LICENSE</PackageLicenseUrl>
     <Authors>Oleg Kleyman</Authors>
@@ -17,5 +17,10 @@
   <PropertyGroup>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Omego.Extensions.xml</DocumentationFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Linq.Expressions" Version="4.3.0" />
+    <PackageReference Include="System.Linq.Queryable" Version="4.3.0" />
+  </ItemGroup>
 
 </Project>
