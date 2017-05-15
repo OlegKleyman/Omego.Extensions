@@ -159,5 +159,14 @@
 
             return stringValue;
         }
+
+        /// <summary>
+        ///     Executes <see cref="Action{T}" /> of <typeparamref name="T" />.
+        /// </summary>
+        /// <param name="action">The action to execute.</param>
+        public void WhenPresent(Action<T> action)
+        {
+            if (Present) (action ?? throw new ArgumentNullException(nameof(action)))(value);
+        }
     }
 }
