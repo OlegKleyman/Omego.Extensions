@@ -1,4 +1,6 @@
-﻿namespace Omego.Extensions.Tests.Unit.Poco
+﻿using System.Collections.Generic;
+
+namespace Omego.Extensions.Tests.Unit.Poco
 {
     using System;
     using System.Collections;
@@ -69,7 +71,7 @@
 
         public class SingleElementResultTestsTheories
         {
-            public static IEnumerable ElementEqualityTheory = new object[]
+            public static IEnumerable<object[]> ElementEqualityTheory = new []
                                                                   {
                                                                       new object[]
                                                                           {
@@ -125,7 +127,7 @@
                                                                           }
                                                                   };
 
-            public static IEnumerable ValueEqualityTheory = new object[]
+            public static IEnumerable<object[]> ValueEqualityTheory = new []
                                                                 {
                                                                     new object[]
                                                                         { new SingleElementResult<object>(1), 1, true },
@@ -159,7 +161,7 @@
                                                                         }
                                                                 };
 
-            public static IEnumerable ObjectSingleElementEqualityTheory = new object[]
+            public static IEnumerable<object[]> ObjectSingleElementEqualityTheory = new []
                                                                               {
                                                                                   new object[]
                                                                                       {
@@ -219,7 +221,7 @@
                                                                                       }
                                                                               };
 
-            public static IEnumerable ObjectGetHashCodeShouldReturnSingleElementHashCodeTheory = new[]
+            public static IEnumerable<object[]> ObjectGetHashCodeShouldReturnSingleElementHashCodeTheory = new[]
                                                                                                      {
                                                                                                          new object[]
                                                                                                              {
@@ -258,7 +260,7 @@
                                                                                                              }
                                                                                                      };
 
-            public static IEnumerable ExplicitOperatorFromSingleElementToGenericTypeShouldThrowInvalidCastExceptionWhenConversionCantBeDoneTheory =
+            public static IEnumerable<object[]> ExplicitOperatorFromSingleElementToGenericTypeShouldThrowInvalidCastExceptionWhenConversionCantBeDoneTheory =
                 new[]
                     {
                         new object[]
@@ -273,7 +275,7 @@
                             }
                     };
 
-            public static IEnumerable ToStringShouldReturnStringRepresentationOfTheValueTheory =
+            public static IEnumerable<object[]> ToStringShouldReturnStringRepresentationOfTheValueTheory =
                 new[] { new object[] { 1, "1" }, new object[] { null, "Exists" } };
         }
 

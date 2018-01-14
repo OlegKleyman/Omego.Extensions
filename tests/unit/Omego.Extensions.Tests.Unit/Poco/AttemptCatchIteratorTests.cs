@@ -67,8 +67,8 @@
 
         public class AttemptCatchIteratorTestTheories
         {
-            public static IEnumerable ConstructorShouldThrowExceptionWhenRequiredArgumentsAreNullTheory = new object[]
-                                                                                                              {
+            public static IEnumerable<object[]> ConstructorShouldThrowExceptionWhenRequiredArgumentsAreNullTheory = new[]
+            {
                                                                                                                   new object[]
                                                                                                                       {
                                                                                                                           null,
@@ -83,14 +83,14 @@
                                                                                                                       }
                                                                                                               };
 
-            public static IEnumerable MoveNextShouldReturnWhetherMovingToTheNextIterationWasSuccessfulTheory =
-                new object[]
+            public static IEnumerable<object[]> MoveNextShouldReturnWhetherMovingToTheNextIterationWasSuccessfulTheory =
+                new []
                     {
                         new object[] { 1, new[] { 1 }, true }, new object[] { 2, new[] { 1 }, false },
                         new object[] { 1, new[] { 0, 1 }, true }, new object[] { 1, new int[0], false }
                     };
 
-            public static IEnumerable MoveNextShouldUseHandlerIfAnExceptionOccursTheory = new object[]
+            public static IEnumerable<object[]> MoveNextShouldUseHandlerIfAnExceptionOccursTheory = new []
                                                                                               {
                                                                                                   new object[]
                                                                                                       {

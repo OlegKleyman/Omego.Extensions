@@ -1,4 +1,6 @@
-﻿namespace Omego.Extensions.Tests.Unit.Poco
+﻿using System.Collections.Generic;
+
+namespace Omego.Extensions.Tests.Unit.Poco
 {
     using System;
     using System.Collections;
@@ -16,7 +18,7 @@
     {
         public class SmartGetVisitorTestsTheories
         {
-            public static IEnumerable OnNullShouldSetNullQualifiedNameToNullForPropertiesTheory = new object[]
+            public static IEnumerable<object[]> OnNullShouldSetNullQualifiedNameToNullForPropertiesTheory = new []
                                                                                                       {
                                                                                                           new object[]
                                                                                                               {
@@ -62,7 +64,7 @@
                                                                                                               }
                                                                                                       };
 
-            public static IEnumerable OnNullShouldSetCurrentObjectTheory = new object[]
+            public static IEnumerable<object[]> OnNullShouldSetCurrentObjectTheory = new []
                                                                                {
                                                                                    new object[]
                                                                                        {
@@ -87,7 +89,7 @@
                                                                                        }
                                                                                };
 
-            public static IEnumerable OnNullShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory = new[]
+            public static IEnumerable<object[]> OnNullShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory = new[]
                                                                                                                     {
                                                                                                                         new object[]
                                                                                                                             {
@@ -111,7 +113,7 @@
                                                                                                                             }
                                                                                                                     };
 
-            public static IEnumerable VisitMemberShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory =
+            public static IEnumerable<object[]> VisitMemberShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory =
                 new[]
                     {
                         new object[]
@@ -121,7 +123,7 @@
                             }
                     };
 
-            public static IEnumerable ResetWithShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory =
+            public static IEnumerable<object[]> ResetWithShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory =
                 new[]
                     {
                         new object[]
@@ -131,7 +133,7 @@
                             }
                     };
 
-            public static IEnumerable ConstructorShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory =
+            public static IEnumerable<object[]> ConstructorShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory =
                 new[]
                     {
                         new object[]
@@ -221,7 +223,7 @@
 
         [Theory]
         [MemberData(
-            "ResetWithShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory",
+            nameof(SmartGetVisitorTestsTheories.ResetWithShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory),
             MemberType = typeof(SmartGetVisitorTestsTheories))]
         public void ResetWithShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalid(
             string message,

@@ -1,4 +1,6 @@
-﻿namespace Omego.Extensions.Tests.Unit.Poco
+﻿using System.Collections.Generic;
+
+namespace Omego.Extensions.Tests.Unit.Poco
 {
     using System;
     using System.Collections;
@@ -20,8 +22,8 @@
             .ShouldBeEquivalentTo(hashCode);
 
         [Theory]
-        [InlineData(1)]
-        [InlineData(default(int))]
+        [InlineData(true)]
+        [InlineData(false)]
         public void EqualsShouldReturnWhetherObjectsAreEquivalentFromLambda(
             bool areEqual) => GetGenericEqualityComparer<object>((o, o1) => areEqual)
             .Equals(default(object), default(object))
@@ -61,7 +63,7 @@
 
         public class GenericEqualityComparerTestsTheories
         {
-            public static IEnumerable ConstructorShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory =
+            public static IEnumerable<object[]> ConstructorShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory =
                 new[]
                     {
                         new object[]

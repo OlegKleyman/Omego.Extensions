@@ -1,4 +1,6 @@
-﻿namespace Omego.Extensions.Tests.Unit.NullExtensions
+﻿using System.Collections.Generic;
+
+namespace Omego.Extensions.Tests.Unit.NullExtensions
 {
     using System;
     using System.Collections;
@@ -29,7 +31,7 @@
 
         [Theory]
         [MemberData(
-            "SmartGetShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory",
+            nameof(SmartGetTestsTheories.SmartGetShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory),
             MemberType = typeof(SmartGetTestsTheories))]
         public void SmartGetShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalid(
             string message,
@@ -53,7 +55,7 @@
 
         public class SmartGetTestsTheories
         {
-            public static IEnumerable SmartGetShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory =
+            public static IEnumerable<object[]> SmartGetShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory =
                 new[]
                     {
                         new object[]
