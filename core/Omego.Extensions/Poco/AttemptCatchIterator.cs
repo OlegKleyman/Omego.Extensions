@@ -1,9 +1,9 @@
-﻿namespace Omego.Extensions.Poco
-{
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 
+namespace Omego.Extensions.Poco
+{
     /// <summary>
     ///     Represents an enumerator that attempts to catch exceptions.
     /// </summary>
@@ -29,8 +29,8 @@
         public AttemptCatchIterator(IEnumerable<T> enumerable, Action<TE> handler)
         {
             enumerator = enumerable != null
-                             ? enumerable.GetEnumerator()
-                             : throw new ArgumentNullException(nameof(enumerable));
+                ? enumerable.GetEnumerator()
+                : throw new ArgumentNullException(nameof(enumerable));
 
             this.handler = handler ?? throw new ArgumentNullException(nameof(handler));
         }
@@ -70,8 +70,7 @@
                     exceptionOccured = true;
                     handler(ex);
                 }
-            }
-            while (exceptionOccured);
+            } while (exceptionOccured);
 
             return success;
         }

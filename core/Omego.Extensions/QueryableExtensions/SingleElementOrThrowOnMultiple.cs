@@ -1,11 +1,10 @@
-﻿namespace Omego.Extensions.QueryableExtensions
+﻿using System;
+using System.Linq;
+using System.Linq.Expressions;
+using Omego.Extensions.Poco;
+
+namespace Omego.Extensions.QueryableExtensions
 {
-    using System;
-    using System.Linq;
-    using System.Linq.Expressions;
-
-    using Omego.Extensions.Poco;
-
     /// <summary>
     ///     Contains extension methods for <see cref="IQueryable{T}" />.
     /// </summary>
@@ -41,9 +40,9 @@
                 .ToArray();
 
             return results.Length == 1
-                       ? results.First()
-                       : throw multipleMatchesFoundException
-                               ?? new ArgumentNullException(nameof(multipleMatchesFoundException));
+                ? results.First()
+                : throw multipleMatchesFoundException
+                        ?? new ArgumentNullException(nameof(multipleMatchesFoundException));
         }
     }
 }

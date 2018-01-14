@@ -1,10 +1,9 @@
-﻿namespace Omego.Extensions.EnumerableExtensions
+﻿using System;
+using System.Collections.Generic;
+using Omego.Extensions.Poco;
+
+namespace Omego.Extensions.EnumerableExtensions
 {
-    using System;
-    using System.Collections.Generic;
-
-    using Omego.Extensions.Poco;
-
     /// <summary>
     ///     Contains extension methods for <see cref="IEnumerable{T}" />.
     /// </summary>

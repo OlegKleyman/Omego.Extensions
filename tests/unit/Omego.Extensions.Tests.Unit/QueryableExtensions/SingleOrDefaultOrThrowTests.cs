@@ -1,14 +1,11 @@
-﻿namespace Omego.Extensions.Tests.Unit.QueryableExtensions
+﻿using System;
+using System.Linq;
+using FluentAssertions;
+using Omego.Extensions.QueryableExtensions;
+using Xunit;
+
+namespace Omego.Extensions.Tests.Unit.QueryableExtensions
 {
-    using System;
-    using System.Linq;
-
-    using FluentAssertions;
-
-    using Omego.Extensions.QueryableExtensions;
-
-    using Xunit;
-
     public class SingleOrDefaultOrThrowTests
     {
         [Fact]
@@ -18,7 +15,7 @@
 
             var queryable = new object[2].AsQueryable();
 
-            Action singleOrDefaultOrThrow = () => queryable.SingleOrDefaultOrThrow(o => o == null, (object)null, ex);
+            Action singleOrDefaultOrThrow = () => queryable.SingleOrDefaultOrThrow(o => o == null, (object) null, ex);
 
             singleOrDefaultOrThrow.ShouldThrow<InvalidOperationException>().Which.Should().Be(ex);
         }
@@ -26,9 +23,9 @@
         [Fact]
         public void SingleOrDefaultOrThrowLazyByQueryShouldReturnElementIfOneExists()
         {
-            var queryable = new[] { "1" }.AsQueryable();
+            var queryable = new[] {"1"}.AsQueryable();
 
-            queryable.SingleOrDefaultOrThrow(s => s == "1", (Func<string>)null, null).Should().Be("1");
+            queryable.SingleOrDefaultOrThrow(s => s == "1", (Func<string>) null, null).Should().Be("1");
         }
 
         [Fact]
@@ -54,9 +51,9 @@
         [Fact]
         public void SingleOrDefaultOrThrowShouldReturnElementIfOneExists()
         {
-            var queryable = new[] { "1" }.AsQueryable();
+            var queryable = new[] {"1"}.AsQueryable();
 
-            queryable.SingleOrDefaultOrThrow(s => s == "1", (string)null, null).Should().Be("1");
+            queryable.SingleOrDefaultOrThrow(s => s == "1", (string) null, null).Should().Be("1");
         }
 
         [Fact]
@@ -71,7 +68,7 @@
         public void SingleOrDefaultOrThrowShouldThrowArgumentNullExceptionWhenEnumerableArgumentIsNull()
         {
             Action singleOrDefaultOrThrow =
-                () => ((IQueryable<string>)null).SingleOrDefaultOrThrow(null, (string)null, null);
+                () => ((IQueryable<string>) null).SingleOrDefaultOrThrow(null, (string) null, null);
 
             singleOrDefaultOrThrow.ShouldThrowExactly<ArgumentNullException>()
                 .Which.ParamName.ShouldBeEquivalentTo("queryable");

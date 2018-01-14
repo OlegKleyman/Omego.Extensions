@@ -1,8 +1,8 @@
-﻿namespace Omego.Extensions.EnumerableExtensions
-{
-    using System;
-    using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
+namespace Omego.Extensions.EnumerableExtensions
+{
     /// <summary>
     ///     Contains extension methods for <see cref="IEnumerable{T}" />.
     /// </summary>
@@ -23,10 +23,13 @@
             this IEnumerable<T> enumerable,
             Func<T, bool> predicate,
             T @default,
-            Exception multipleMatchesFoundException) => enumerable.SingleOrDefaultOrThrow(
-            predicate,
-            () => @default,
-            multipleMatchesFoundException);
+            Exception multipleMatchesFoundException)
+        {
+            return enumerable.SingleOrDefaultOrThrow(
+                predicate,
+                () => @default,
+                multipleMatchesFoundException);
+        }
 
         /// <summary>
         ///     Returns a single element of an <see cref="IEnumerable{T}" /> matching the given predicate or returns
@@ -46,8 +49,11 @@
             this IEnumerable<T> enumerable,
             Func<T, bool> predicate,
             Func<T> @default,
-            Exception multipleMatchesFoundException) => enumerable
-            .SingleElementOrThrowOnMultiple(predicate, multipleMatchesFoundException)
-            .ValueOr(@default);
+            Exception multipleMatchesFoundException)
+        {
+            return enumerable
+                .SingleElementOrThrowOnMultiple(predicate, multipleMatchesFoundException)
+                .ValueOr(@default);
+        }
     }
 }

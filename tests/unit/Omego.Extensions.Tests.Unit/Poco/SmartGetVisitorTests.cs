@@ -1,152 +1,150 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+using FluentAssertions;
+using NSubstitute;
+using Omego.Extensions.Poco;
+using Xunit;
 
 namespace Omego.Extensions.Tests.Unit.Poco
 {
-    using System;
-    using System.Collections;
-    using System.Linq.Expressions;
-
-    using FluentAssertions;
-
-    using NSubstitute;
-
-    using Omego.Extensions.Poco;
-
-    using Xunit;
-
     public class SmartGetVisitorTests
     {
         public class SmartGetVisitorTestsTheories
         {
-            public static IEnumerable<object[]> OnNullShouldSetNullQualifiedNameToNullForPropertiesTheory = new []
-                                                                                                      {
-                                                                                                          new object[]
-                                                                                                              {
-                                                                                                                  new Test
-                                                                                                                      {
-                                                                                                                          Test1 =
-                                                                                                                              new Test1
-                                                                                                                                  {
-                                                                                                                                      Test2 =
-                                                                                                                                          new Test2()
-                                                                                                                                  }
-                                                                                                                      },
-                                                                                                                  (Expression<Func<Test, object>>)(test => test
-                                                                                                                                                          .Test1
-                                                                                                                                                          .Test2
-                                                                                                                                                          .TestString),
-                                                                                                                  "Test1.Test2.TestString"
-                                                                                                              },
-                                                                                                          new object[]
-                                                                                                              {
-                                                                                                                  new Test
-                                                                                                                      {
-                                                                                                                          Test1 =
-                                                                                                                              new Test1()
-                                                                                                                      },
-                                                                                                                  (Expression<Func<Test, object>>)(test => test
-                                                                                                                                                          .Test1
-                                                                                                                                                          .Test2
-                                                                                                                                                          .TestString),
-                                                                                                                  "Test1.Test2"
-                                                                                                              },
-                                                                                                          new object[]
-                                                                                                              {
-                                                                                                                  new Test
-                                                                                                                      {
-                                                                                                                          Test1 =
-                                                                                                                              new Test1()
-                                                                                                                      },
-                                                                                                                  (Expression<Func<Test, object>>)(test => test
-                                                                                                                                                          .Test1
-                                                                                                                                                          .Test2Field),
-                                                                                                                  "Test1.Test2Field"
-                                                                                                              }
-                                                                                                      };
+            public static IEnumerable<object[]> OnNullShouldSetNullQualifiedNameToNullForPropertiesTheory = new[]
+            {
+                new object[]
+                {
+                    new Test
+                    {
+                        Test1 =
+                            new Test1
+                            {
+                                Test2 =
+                                    new Test2()
+                            }
+                    },
+                    (Expression<Func<Test, object>>) (test => test
+                        .Test1
+                        .Test2
+                        .TestString),
+                    "Test1.Test2.TestString"
+                },
+                new object[]
+                {
+                    new Test
+                    {
+                        Test1 =
+                            new Test1()
+                    },
+                    (Expression<Func<Test, object>>) (test => test
+                        .Test1
+                        .Test2
+                        .TestString),
+                    "Test1.Test2"
+                },
+                new object[]
+                {
+                    new Test
+                    {
+                        Test1 =
+                            new Test1()
+                    },
+                    (Expression<Func<Test, object>>) (test => test
+                        .Test1
+                        .Test2Field),
+                    "Test1.Test2Field"
+                }
+            };
 
-            public static IEnumerable<object[]> OnNullShouldSetCurrentObjectTheory = new []
-                                                                               {
-                                                                                   new object[]
-                                                                                       {
-                                                                                           new Test
-                                                                                               {
-                                                                                                   Test1 =
-                                                                                                       new Test1
-                                                                                                           {
-                                                                                                               Test2 =
-                                                                                                                   new Test2
-                                                                                                                       {
-                                                                                                                           TestString =
-                                                                                                                               "testing2"
-                                                                                                                       }
-                                                                                                           }
-                                                                                               },
-                                                                                           (Expression<Func<Test, object>>)(test => test
-                                                                                                                                   .Test1
-                                                                                                                                   .Test2
-                                                                                                                                   .TestString),
-                                                                                           "testing2"
-                                                                                       }
-                                                                               };
+            public static IEnumerable<object[]> OnNullShouldSetCurrentObjectTheory = new[]
+            {
+                new object[]
+                {
+                    new Test
+                    {
+                        Test1 =
+                            new Test1
+                            {
+                                Test2 =
+                                    new Test2
+                                    {
+                                        TestString =
+                                            "testing2"
+                                    }
+                            }
+                    },
+                    (Expression<Func<Test, object>>) (test => test
+                        .Test1
+                        .Test2
+                        .TestString),
+                    "testing2"
+                }
+            };
 
-            public static IEnumerable<object[]> OnNullShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory = new[]
-                                                                                                                    {
-                                                                                                                        new object[]
-                                                                                                                            {
-                                                                                                                                "Value cannot be null.\r\nParameter name: onNullCallBack",
-                                                                                                                                "onNullCallBack",
-                                                                                                                                typeof(ArgumentNullException),
-                                                                                                                                new Test
-                                                                                                                                    {
-                                                                                                                                        Test1 =
-                                                                                                                                            new Test1
-                                                                                                                                                {
-                                                                                                                                                    Test2 =
-                                                                                                                                                        new Test2()
-                                                                                                                                                }
-                                                                                                                                    },
-                                                                                                                                (Expression<Func<Test, object>>)(test => test
-                                                                                                                                                                        .Test1
-                                                                                                                                                                        .Test2
-                                                                                                                                                                        .TestString),
-                                                                                                                                null
-                                                                                                                            }
-                                                                                                                    };
+            public static IEnumerable<object[]> OnNullShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory
+                = new[]
+                {
+                    new object[]
+                    {
+                        "Value cannot be null.\r\nParameter name: onNullCallBack",
+                        "onNullCallBack",
+                        typeof(ArgumentNullException),
+                        new Test
+                        {
+                            Test1 =
+                                new Test1
+                                {
+                                    Test2 =
+                                        new Test2()
+                                }
+                        },
+                        (Expression<Func<Test, object>>) (test => test
+                            .Test1
+                            .Test2
+                            .TestString),
+                        null
+                    }
+                };
 
-            public static IEnumerable<object[]> VisitMemberShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory =
-                new[]
+            public static IEnumerable<object[]>
+                VisitMemberShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory =
+                    new[]
                     {
                         new object[]
-                            {
-                                "Value cannot be null.\r\nParameter name: node", "node", typeof(ArgumentNullException),
-                                null
-                            }
+                        {
+                            "Value cannot be null.\r\nParameter name: node", "node", typeof(ArgumentNullException),
+                            null
+                        }
                     };
 
-            public static IEnumerable<object[]> ResetWithShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory =
-                new[]
+            public static IEnumerable<object[]>
+                ResetWithShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory =
+                    new[]
                     {
                         new object[]
-                            {
-                                "Value cannot be null.\r\nParameter name: target", "target",
-                                typeof(ArgumentNullException), null
-                            }
+                        {
+                            "Value cannot be null.\r\nParameter name: target", "target",
+                            typeof(ArgumentNullException), null
+                        }
                     };
 
-            public static IEnumerable<object[]> ConstructorShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory =
-                new[]
+            public static IEnumerable<object[]>
+                ConstructorShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory =
+                    new[]
                     {
                         new object[]
-                            {
-                                "Value cannot be null.\r\nParameter name: target", "target",
-                                typeof(ArgumentNullException), null
-                            }
+                        {
+                            "Value cannot be null.\r\nParameter name: target", "target",
+                            typeof(ArgumentNullException), null
+                        }
                     };
         }
 
         [Theory]
         [MemberData(
-            "OnNullShouldSetNullQualifiedNameToNullForPropertiesTheory",
+            nameof(SmartGetVisitorTestsTheories.OnNullShouldSetNullQualifiedNameToNullForPropertiesTheory),
             MemberType = typeof(SmartGetVisitorTestsTheories))]
         public void OnNullShouldSetNullQualifiedNameToNullForProperties(
             Test target,
@@ -163,7 +161,7 @@ namespace Omego.Extensions.Tests.Unit.Poco
         }
 
         [Theory]
-        [MemberData("OnNullShouldSetCurrentObjectTheory", MemberType = typeof(SmartGetVisitorTestsTheories))]
+        [MemberData(nameof(SmartGetVisitorTestsTheories.OnNullShouldSetCurrentObjectTheory), MemberType = typeof(SmartGetVisitorTestsTheories))]
         public void OnNullShouldSetCurrentObject(Test target, Expression expression, string expected)
         {
             var visitor = GetVisitor(target);
@@ -175,7 +173,7 @@ namespace Omego.Extensions.Tests.Unit.Poco
 
         [Theory]
         [MemberData(
-            "OnNullShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory",
+            nameof(SmartGetVisitorTestsTheories.OnNullShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory),
             MemberType = typeof(SmartGetVisitorTestsTheories))]
         public void OnNullShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalid(
             string message,
@@ -200,7 +198,7 @@ namespace Omego.Extensions.Tests.Unit.Poco
 
         [Theory]
         [MemberData(
-            "VisitMemberShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory",
+            nameof(SmartGetVisitorTestsTheories.VisitMemberShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory),
             MemberType = typeof(SmartGetVisitorTestsTheories))]
         public void VisitMemberShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalid(
             string message,
@@ -223,7 +221,8 @@ namespace Omego.Extensions.Tests.Unit.Poco
 
         [Theory]
         [MemberData(
-            nameof(SmartGetVisitorTestsTheories.ResetWithShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory),
+            nameof(SmartGetVisitorTestsTheories
+                .ResetWithShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory),
             MemberType = typeof(SmartGetVisitorTestsTheories))]
         public void ResetWithShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalid(
             string message,
@@ -246,7 +245,7 @@ namespace Omego.Extensions.Tests.Unit.Poco
 
         [Theory]
         [MemberData(
-            "ConstructorShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory",
+            nameof(SmartGetVisitorTestsTheories.ConstructorShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory),
             MemberType = typeof(SmartGetVisitorTestsTheories))]
         public void ConstructorShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalid(
             string message,
@@ -265,7 +264,10 @@ namespace Omego.Extensions.Tests.Unit.Poco
                 .BeOfType(exceptionType);
         }
 
-        private SmartGetVisitor GetVisitor(object target) => new SmartGetVisitor(target);
+        private SmartGetVisitor GetVisitor(object target)
+        {
+            return new SmartGetVisitor(target);
+        }
 
         public class Test
         {
@@ -293,19 +295,22 @@ namespace Omego.Extensions.Tests.Unit.Poco
             {
             }
 
-            public new Expression VisitMember(MemberExpression node) => base.VisitMember(node);
+            public new Expression VisitMember(MemberExpression node)
+            {
+                return base.VisitMember(node);
+            }
         }
 
         [Fact]
         public void ResetWithShouldClearQualifyingPath()
         {
-            var visitor = new MockVisitor(new Test2 { TestString = "testing" });
+            var visitor = new MockVisitor(new Test2 {TestString = "testing"});
 
             Expression<Func<Test2, string>> expression = test2 => test2.TestString;
 
-            visitor.VisitMember((MemberExpression)expression.Body);
+            visitor.VisitMember((MemberExpression) expression.Body);
 
-            var secondTarget = new Test { Test1 = new Test1 { Test2 = new Test2() } };
+            var secondTarget = new Test {Test1 = new Test1 {Test2 = new Test2()}};
 
             visitor.ResetWith(secondTarget);
 
@@ -333,11 +338,11 @@ namespace Omego.Extensions.Tests.Unit.Poco
         [Fact]
         public void VisitMemberShouldReturnNodeWhenCurrentIsNotNull()
         {
-            var visitor = new MockVisitor(new Test2 { TestString = "testing" });
+            var visitor = new MockVisitor(new Test2 {TestString = "testing"});
 
             Expression<Func<Test2, string>> expression = test2 => test2.TestString;
 
-            visitor.VisitMember((MemberExpression)expression.Body).ShouldBeEquivalentTo(expression.Body);
+            visitor.VisitMember((MemberExpression) expression.Body).ShouldBeEquivalentTo(expression.Body);
         }
 
         [Fact]
@@ -346,7 +351,7 @@ namespace Omego.Extensions.Tests.Unit.Poco
             var visitor = new MockVisitor(new Test2());
             Expression<Func<Test2, string>> expression = test2 => test2.TestString;
 
-            var memberExpression = (MemberExpression)visitor.VisitMember((MemberExpression)expression.Body);
+            var memberExpression = (MemberExpression) visitor.VisitMember((MemberExpression) expression.Body);
 
             visitor.Current.Should().BeNull();
             visitor.VisitMember(memberExpression).ShouldBeEquivalentTo(expression.Body);
@@ -355,22 +360,22 @@ namespace Omego.Extensions.Tests.Unit.Poco
         [Fact]
         public void VisitMemberShouldSetCurrentToFieldValue()
         {
-            var visitor = new MockVisitor(new Test2 { Test2Field = 20 });
+            var visitor = new MockVisitor(new Test2 {Test2Field = 20});
 
             Expression<Func<Test2, int>> expression = test2 => test2.Test2Field;
 
-            visitor.VisitMember((MemberExpression)expression.Body);
+            visitor.VisitMember((MemberExpression) expression.Body);
             visitor.Current.ShouldBeEquivalentTo(20);
         }
 
         [Fact]
         public void VisitMemberShouldSetCurrentToPropertyValue()
         {
-            var visitor = new MockVisitor(new Test2 { TestString = "testing" });
+            var visitor = new MockVisitor(new Test2 {TestString = "testing"});
 
             Expression<Func<Test2, string>> expression = test2 => test2.TestString;
 
-            visitor.VisitMember((MemberExpression)expression.Body);
+            visitor.VisitMember((MemberExpression) expression.Body);
             visitor.Current.ShouldBeEquivalentTo("testing");
         }
     }

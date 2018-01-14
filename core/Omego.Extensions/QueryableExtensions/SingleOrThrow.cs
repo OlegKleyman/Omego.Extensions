@@ -1,9 +1,9 @@
-﻿namespace Omego.Extensions.QueryableExtensions
-{
-    using System;
-    using System.Linq;
-    using System.Linq.Expressions;
+﻿using System;
+using System.Linq;
+using System.Linq.Expressions;
 
+namespace Omego.Extensions.QueryableExtensions
+{
     /// <summary>
     ///     Contains extension methods for <see cref="IQueryable{T}" />.
     /// </summary>
@@ -26,10 +26,14 @@
             this IQueryable<T> queryable,
             Expression<Func<T, bool>> predicate,
             Exception noMatchFoundException,
-            Exception multipleMatchesFoundException) => queryable
-            .SingleElementOrThrowOnMultiple(predicate, multipleMatchesFoundException)
-            .ValueOr(
-                () => throw noMatchFoundException ?? throw new ArgumentNullException(nameof(noMatchFoundException)));
+            Exception multipleMatchesFoundException)
+        {
+            return queryable
+                .SingleElementOrThrowOnMultiple(predicate, multipleMatchesFoundException)
+                .ValueOr(
+                    () => throw noMatchFoundException ??
+                                throw new ArgumentNullException(nameof(noMatchFoundException)));
+        }
 
         /// <summary>
         ///     Returns a single match from an <see cref="IQueryable{T}" /> of <typeparamref name="T" /> or throws an
@@ -43,10 +47,13 @@
         public static T SingleOrThrow<T>(
             this IQueryable<T> queryable,
             Exception noMatchFoundException,
-            Exception multipleMatchesFoundException) => queryable.SingleOrThrow(
-            element => true,
-            noMatchFoundException,
-            multipleMatchesFoundException);
+            Exception multipleMatchesFoundException)
+        {
+            return queryable.SingleOrThrow(
+                element => true,
+                noMatchFoundException,
+                multipleMatchesFoundException);
+        }
 
         /// <summary>
         ///     Returns a single match from an <see cref="IQueryable{T}" /> of <typeparamref name="T" /> or throws an

@@ -1,10 +1,9 @@
-﻿namespace Omego.Extensions.NullExtensions
+﻿using System;
+using System.Linq.Expressions;
+using Omego.Extensions.Poco;
+
+namespace Omego.Extensions.NullExtensions
 {
-    using System;
-    using System.Linq.Expressions;
-
-    using Omego.Extensions.Poco;
-
     /// <summary>
     ///     Contains extension methods for <see cref="object" />.
     /// </summary>
@@ -41,12 +40,12 @@
             visitor.OnNull(
                 qualifierPath,
                 nullQualifier => throw (exception != null
-                                            ? exception(nullQualifier)
-                                              ?? throw new InvalidOperationException(
-                                                  "Exception to throw returned null.")
-                                            : throw new ArgumentNullException(nameof(exception))));
+                    ? exception(nullQualifier)
+                      ?? throw new InvalidOperationException(
+                          "Exception to throw returned null.")
+                    : throw new ArgumentNullException(nameof(exception))));
 
-            return result != null ? result((TObject)visitor.Current) : throw new ArgumentNullException(nameof(result));
+            return result != null ? result((TObject) visitor.Current) : throw new ArgumentNullException(nameof(result));
         }
     }
 }

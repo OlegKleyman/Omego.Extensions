@@ -1,21 +1,18 @@
-﻿namespace Omego.Extensions.Tests.Unit.QueryableExtensions
+﻿using System;
+using System.Linq;
+using FluentAssertions;
+using Omego.Extensions.Poco;
+using Omego.Extensions.QueryableExtensions;
+using Xunit;
+
+namespace Omego.Extensions.Tests.Unit.QueryableExtensions
 {
-    using System;
-    using System.Linq;
-
-    using FluentAssertions;
-
-    using Omego.Extensions.Poco;
-    using Omego.Extensions.QueryableExtensions;
-
-    using Xunit;
-
     public class SingleElementOrThrowOnMultipleTests
     {
         [Fact]
         public void SingleElementOrThrowOnMultipleByQueryShouldReturnElementWhenFound()
         {
-            var queryable = new[] { 1 }.AsQueryable();
+            var queryable = new[] {1}.AsQueryable();
 
             queryable.SingleElementOrThrowOnMultiple(x => x == 1, null).ValueOr(null).Should().Be(1);
         }
@@ -31,7 +28,7 @@
         [Fact]
         public void SingleElementOrThrowOnMultipleByQueryShouldThrowExceptionWhenMultipleElementsAreFound()
         {
-            var queryable = new[] { 1, 2 }.AsQueryable();
+            var queryable = new[] {1, 2}.AsQueryable();
 
             var ex = new InvalidOperationException();
 
@@ -43,7 +40,7 @@
         [Fact]
         public void SingleElementOrThrowOnMultipleByQueryShouldThrowExceptionWhenMultipleElementsExceptionIsNull()
         {
-            var queryable = new[] { 1, 2 }.AsQueryable();
+            var queryable = new[] {1, 2}.AsQueryable();
 
             Action singleElementOrThrowOnMultiple = () => queryable.SingleElementOrThrowOnMultiple(i => true, null);
 
@@ -52,17 +49,19 @@
         }
 
         [Fact]
-        public void SingleElementOrThrowOnMultipleByQueryWhenFoundShouldThrowArgumentNullExceptionWhenEnumerableArgumentIsNull()
+        public void
+            SingleElementOrThrowOnMultipleByQueryWhenFoundShouldThrowArgumentNullExceptionWhenEnumerableArgumentIsNull()
         {
             Action singleElementOrThrowOnMultiple =
-                () => ((IQueryable<int>)null).SingleElementOrThrowOnMultiple(null, null);
+                () => ((IQueryable<int>) null).SingleElementOrThrowOnMultiple(null, null);
 
             singleElementOrThrowOnMultiple.ShouldThrowExactly<ArgumentNullException>()
                 .Which.ParamName.ShouldBeEquivalentTo("queryable");
         }
 
         [Fact]
-        public void SingleElementOrThrowOnMultipleByQueryWhenFoundShouldThrowArgumentNullExceptionWhenPredicateArgumentIsNull()
+        public void
+            SingleElementOrThrowOnMultipleByQueryWhenFoundShouldThrowArgumentNullExceptionWhenPredicateArgumentIsNull()
         {
             Action singleElementOrThrowOnMultiple = () => new int[0].AsQueryable()
                 .SingleElementOrThrowOnMultiple(null, null);

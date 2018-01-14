@@ -1,17 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+using FluentAssertions;
+using Omego.Extensions.NullExtensions;
+using Xunit;
 
 namespace Omego.Extensions.Tests.Unit.NullExtensions
 {
-    using System;
-    using System.Collections;
-    using System.Linq.Expressions;
-
-    using FluentAssertions;
-
-    using Omego.Extensions.NullExtensions;
-
-    using Xunit;
-
     public class SmartGetTests
     {
         public class Test
@@ -55,27 +50,28 @@ namespace Omego.Extensions.Tests.Unit.NullExtensions
 
         public class SmartGetTestsTheories
         {
-            public static IEnumerable<object[]> SmartGetShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory =
-                new[]
+            public static IEnumerable<object[]>
+                SmartGetShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory =
+                    new[]
                     {
                         new object[]
-                            {
-                                "Value cannot be null.\r\nParameter name: result", "result",
-                                typeof(ArgumentNullException), new Test(), null, null, null
-                            },
+                        {
+                            "Value cannot be null.\r\nParameter name: result", "result",
+                            typeof(ArgumentNullException), new Test(), null, null, null
+                        },
                         new object[]
-                            {
-                                "Value cannot be null.\r\nParameter name: exception", "exception",
-                                typeof(ArgumentNullException), new Test(),
-                                (Expression<Func<Test, Test3>>)(test => test.Test2.Test3), null, null
-                            }
+                        {
+                            "Value cannot be null.\r\nParameter name: exception", "exception",
+                            typeof(ArgumentNullException), new Test(),
+                            (Expression<Func<Test, Test3>>) (test => test.Test2.Test3), null, null
+                        }
                     };
         }
 
         [Fact]
         public void SmartGetShouldReturnResultIfNothingIsNull()
         {
-            var target = new Test { Test2 = new Test2 { Test3 = new Test3 { Something = "something" } } };
+            var target = new Test {Test2 = new Test2 {Test3 = new Test3 {Something = "something"}}};
 
             target.SmartGet(test => test.Test2.Test3, test3 => test3.Something, null).ShouldBeEquivalentTo("something");
         }
@@ -83,7 +79,7 @@ namespace Omego.Extensions.Tests.Unit.NullExtensions
         [Fact]
         public void SmartGetShouldThrowExceptionFromCallBackWhenSomethingIsNull()
         {
-            var target = new Test { Test2 = new Test2() };
+            var target = new Test {Test2 = new Test2()};
 
             Action smartGet = () => target.SmartGet(
                 test => test.Test2.Test3,
@@ -96,7 +92,7 @@ namespace Omego.Extensions.Tests.Unit.NullExtensions
         [Fact]
         public void SmartGetShouldThrowInvalidOperationExceptionWhenExceptionRetrieverFunctionReturnsNull()
         {
-            var target = new Test { Test2 = new Test2() };
+            var target = new Test {Test2 = new Test2()};
 
             Action smartGet = () => target.SmartGet(test => test.Test2.Test3, test3 => test3.Something, s => null);
 
