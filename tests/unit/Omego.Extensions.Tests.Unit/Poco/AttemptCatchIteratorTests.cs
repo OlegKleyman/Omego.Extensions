@@ -1,22 +1,19 @@
-﻿namespace Omego.Extensions.Tests.Unit.Poco
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using FluentAssertions;
+using Omego.Extensions.Poco;
+using Xunit;
+
+namespace Omego.Extensions.Tests.Unit.Poco
 {
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Linq;
-
-    using FluentAssertions;
-
-    using Omego.Extensions.Poco;
-
-    using Xunit;
-
     public class AttemptCatchIteratorTests
     {
         [Theory]
         [MemberData(
-            "MoveNextShouldReturnWhetherMovingToTheNextIterationWasSuccessfulTheory",
-            null,
+            nameof(AttemptCatchIteratorTestTheories
+                .MoveNextShouldReturnWhetherMovingToTheNextIterationWasSuccessfulTheory),
             MemberType = typeof(AttemptCatchIteratorTestTheories))]
         public void MoveNextShouldReturnWhetherMovingToTheNextIterationWasSuccessful(
             int times,
@@ -34,8 +31,7 @@
 
         [Theory]
         [MemberData(
-            "MoveNextShouldUseHandlerIfAnExceptionOccursTheory",
-            null,
+            nameof(AttemptCatchIteratorTestTheories.MoveNextShouldUseHandlerIfAnExceptionOccursTheory),
             MemberType = typeof(AttemptCatchIteratorTestTheories))]
         public void MoveNextShouldUseHandlerIfAnExceptionOccurs(int times, IEnumerable<int> enumerable, bool expected)
         {
@@ -52,8 +48,7 @@
 
         [Theory]
         [MemberData(
-            "ConstructorShouldThrowExceptionWhenRequiredArgumentsAreNullTheory",
-            null,
+            nameof(AttemptCatchIteratorTestTheories.ConstructorShouldThrowExceptionWhenRequiredArgumentsAreNullTheory),
             MemberType = typeof(AttemptCatchIteratorTestTheories))]
         public void ConstructorShouldThrowExceptionWhenRequiredArgumentsAreNull(
             IEnumerable<int> enumerable,
@@ -67,55 +62,56 @@
 
         public class AttemptCatchIteratorTestTheories
         {
-            public static IEnumerable ConstructorShouldThrowExceptionWhenRequiredArgumentsAreNullTheory = new object[]
-                                                                                                              {
-                                                                                                                  new object[]
-                                                                                                                      {
-                                                                                                                          null,
-                                                                                                                          null,
-                                                                                                                          "enumerable"
-                                                                                                                      },
-                                                                                                                  new object[]
-                                                                                                                      {
-                                                                                                                          new int [0],
-                                                                                                                          null,
-                                                                                                                          "handler"
-                                                                                                                      }
-                                                                                                              };
-
-            public static IEnumerable MoveNextShouldReturnWhetherMovingToTheNextIterationWasSuccessfulTheory =
-                new object[]
+            public static IEnumerable<object[]> ConstructorShouldThrowExceptionWhenRequiredArgumentsAreNullTheory =
+                new[]
+                {
+                    new object[]
                     {
-                        new object[] { 1, new[] { 1 }, true }, new object[] { 2, new[] { 1 }, false },
-                        new object[] { 1, new[] { 0, 1 }, true }, new object[] { 1, new int[0], false }
-                    };
+                        null,
+                        null,
+                        "enumerable"
+                    },
+                    new object[]
+                    {
+                        new int [0],
+                        null,
+                        "handler"
+                    }
+                };
 
-            public static IEnumerable MoveNextShouldUseHandlerIfAnExceptionOccursTheory = new object[]
-                                                                                              {
-                                                                                                  new object[]
-                                                                                                      {
-                                                                                                          1,
-                                                                                                          new[] { 1 },
-                                                                                                          false
-                                                                                                      },
-                                                                                                  new object[]
-                                                                                                      {
-                                                                                                          1,
-                                                                                                          new[] { 0 },
-                                                                                                          true
-                                                                                                      }
-                                                                                              };
+            public static IEnumerable<object[]> MoveNextShouldReturnWhetherMovingToTheNextIterationWasSuccessfulTheory =
+                new[]
+                {
+                    new object[] {1, new[] {1}, true}, new object[] {2, new[] {1}, false},
+                    new object[] {1, new[] {0, 1}, true}, new object[] {1, new int[0], false}
+                };
+
+            public static IEnumerable<object[]> MoveNextShouldUseHandlerIfAnExceptionOccursTheory = new[]
+            {
+                new object[]
+                {
+                    1,
+                    new[] {1},
+                    false
+                },
+                new object[]
+                {
+                    1,
+                    new[] {0},
+                    true
+                }
+            };
         }
 
         [Fact]
         public void DisposeShouldSetCurrentToDefault()
         {
             var iterator =
-                (IEnumerator)new AttemptCatchIterator<string, DivideByZeroException>(new[] { string.Empty }, t => { });
+                (IEnumerator) new AttemptCatchIterator<string, DivideByZeroException>(new[] {string.Empty}, t => { });
 
             iterator.MoveNext();
 
-            ((IDisposable)iterator).Dispose();
+            ((IDisposable) iterator).Dispose();
 
             iterator.Current.ShouldBeEquivalentTo(default(string));
         }
@@ -124,7 +120,7 @@
         public void MoveNextShouldNotUseHandlerIfAnUnspecifiedExceptionOccurs()
         {
             var iterator = new AttemptCatchIterator<int, InvalidOperationException>(
-                new[] { 0 }.Select(i => 1 / i),
+                new[] {0}.Select(i => 1 / i),
                 t => { });
 
             Action moveNext = () => iterator.MoveNext();
@@ -135,7 +131,7 @@
         [Fact]
         public void MoveNextShouldSetCurrent()
         {
-            var iterator = (IEnumerator)new AttemptCatchIterator<int, DivideByZeroException>(new[] { 1 }, t => { });
+            var iterator = (IEnumerator) new AttemptCatchIterator<int, DivideByZeroException>(new[] {1}, t => { });
 
             iterator.MoveNext();
             iterator.Current.ShouldBeEquivalentTo(1);
@@ -145,7 +141,7 @@
         public void MoveNextShouldSetCurrentToDefaultWhenEnumerableDoesntMove()
         {
             var iterator =
-                (IEnumerator)new AttemptCatchIterator<string, DivideByZeroException>(new string[0], exception => { });
+                (IEnumerator) new AttemptCatchIterator<string, DivideByZeroException>(new string[0], exception => { });
 
             iterator.MoveNext();
             iterator.Current.ShouldBeEquivalentTo(default(string));
@@ -169,7 +165,7 @@
         [Fact]
         public void ResetShouldResetEnumeratorIfNotDisposed()
         {
-            var iterator = (IEnumerator)new AttemptCatchIterator<int, DivideByZeroException>(new[] { 1, 2 }, t => { });
+            var iterator = (IEnumerator) new AttemptCatchIterator<int, DivideByZeroException>(new[] {1, 2}, t => { });
 
             iterator.MoveNext();
             iterator.MoveNext();

@@ -1,20 +1,17 @@
-﻿namespace Omego.Extensions.Tests.Unit.EnumerableExtensions
+﻿using System;
+using System.Linq;
+using FluentAssertions;
+using Omego.Extensions.EnumerableExtensions;
+using Xunit;
+
+namespace Omego.Extensions.Tests.Unit.EnumerableExtensions
 {
-    using System;
-    using System.Linq;
-
-    using FluentAssertions;
-
-    using Omego.Extensions.EnumerableExtensions;
-
-    using Xunit;
-
     public class AttemptCatchTests
     {
         [Fact]
         public void AttemptCatchShouldCatchException()
         {
-            var enumerable = new[] { 0 }.Select(i => 1 / i);
+            var enumerable = new[] {0}.Select(i => 1 / i);
 
             var handled = false;
 
@@ -25,13 +22,13 @@
         [Fact]
         public void AttemptCatchShouldHandleAllRequestedExceptionsWhenCalledOnAnotherCatch()
         {
-            var enumerable = new[] { -1, 0, 1 }.Select(
+            var enumerable = new[] {-1, 0, 1}.Select(
                 i =>
-                    {
-                        if (i == 1) throw new InvalidOperationException();
+                {
+                    if (i == 1) throw new InvalidOperationException();
 
-                        return 1 / i;
-                    });
+                    return 1 / i;
+                });
 
             var dividedByZeroExceptionHandled = false;
             var invalidOperationExceptionHandled = false;
@@ -47,8 +44,8 @@
         [Fact]
         public void AttemptCatchShouldReturnElementsWhereTheCaughtExceptionHasNotOccurred()
         {
-            var enumerable = new[] { -1, 0, 1 }.Select(i => 1 / i);
-            enumerable.AttemptCatch<int, DivideByZeroException>(e => { }).ShouldAllBeEquivalentTo(new[] { -1, 1 });
+            var enumerable = new[] {-1, 0, 1}.Select(i => 1 / i);
+            enumerable.AttemptCatch<int, DivideByZeroException>(e => { }).ShouldAllBeEquivalentTo(new[] {-1, 1});
         }
     }
 }

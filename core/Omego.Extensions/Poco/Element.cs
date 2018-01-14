@@ -1,12 +1,11 @@
-﻿namespace Omego.Extensions.Poco
-{
-    using System;
+﻿using System;
+using System.Globalization;
 
+namespace Omego.Extensions.Poco
+{
 #if NET462
     using System.Diagnostics.Contracts;
 #endif
-
-    using System.Globalization;
 
     /// <summary>
     ///     Represents an element.
@@ -41,7 +40,10 @@
         ///     to compare to.
         /// </param>
         /// <returns>Whether the value is equal.</returns>
-        public bool Equals(Element<T> other) => this == other;
+        public bool Equals(Element<T> other)
+        {
+            return this == other;
+        }
 
         /// <summary>
         ///     Checks whether this instance of the value is equal to an
@@ -51,11 +53,17 @@
         ///     The instance of <typeparamref name="T" /> to compare to.
         /// </param>
         /// <returns>Whether the instance is equal.</returns>
-        public bool Equals(T other) => Present && (value?.Equals(other) ?? other == null);
+        public bool Equals(T other)
+        {
+            return Present && (value?.Equals(other) ?? other == null);
+        }
 
         /// <inheritdoc />
-        public override bool Equals(object obj) => obj is Element<T> && Equals((Element<T>)obj)
-                                                   || obj is T && Equals((T)obj);
+        public override bool Equals(object obj)
+        {
+            return obj is Element<T> && Equals((Element<T>) obj)
+                   || obj is T && Equals((T) obj);
+        }
 
         /// <inheritdoc />
         public override int GetHashCode()
@@ -89,9 +97,12 @@
         ///     to compare.
         /// </param>
         /// <returns>A <see cref="bool" /> indicating whether values are equal.</returns>
-        public static bool operator ==(Element<T> first, Element<T> second) => first.Present && second.Present
-                                                                               && first.Equals(second.value)
-                                                                               || !first.Present && !second.Present;
+        public static bool operator ==(Element<T> first, Element<T> second)
+        {
+            return first.Present && second.Present
+                                 && first.Equals(second.value)
+                   || !first.Present && !second.Present;
+        }
 
         /// <summary>
         ///     The not equal operator for two <see cref="Element{T}" /> of <typeparamref name="T" />.
@@ -105,7 +116,10 @@
         ///     to compare.
         /// </param>
         /// <returns>A <see cref="bool" /> indicating whether values are not equal.</returns>
-        public static bool operator !=(Element<T> first, Element<T> second) => !(first == second);
+        public static bool operator !=(Element<T> first, Element<T> second)
+        {
+            return !(first == second);
+        }
 
         /// <summary>
         ///     The implicit cast operator for casting an object of <typeparamref name="T" />
@@ -113,7 +127,10 @@
         /// </summary>
         /// <param name="target">The instance of <typeparamref name="T" /> to cast.</param>
         /// <returns>A single value of <see cref="Element{T}" /> of <typeparamref name="T" />.</returns>
-        public static implicit operator Element<T>(T target) => new Element<T>(target);
+        public static implicit operator Element<T>(T target)
+        {
+            return new Element<T>(target);
+        }
 
         /// <summary>
         ///     The explicit cast operator for casting a value of <see cref="Element{T}" /> of <typeparamref name="T" />
@@ -126,12 +143,15 @@
         /// <exception cref="InvalidCastException">
         ///     Thrown when the element is not present.
         /// </exception>
-        public static explicit operator T(Element<T> target) => target.ValueOr(
-            () => throw new InvalidCastException(
-                      string.Format(
-                          CultureInfo.InvariantCulture,
-                          "No element present to cast to {0}.",
-                          typeof(T).FullName)));
+        public static explicit operator T(Element<T> target)
+        {
+            return target.ValueOr(
+                () => throw new InvalidCastException(
+                    string.Format(
+                        CultureInfo.InvariantCulture,
+                        "No element present to cast to {0}.",
+                        typeof(T).FullName)));
+        }
 
         /// <summary>
         ///     Gets the value of this element or <paramref name="default" /> if no value exists.
@@ -144,7 +164,10 @@
 #endif
         public T ValueOr(Func<T> @default)
         {
-            T DefaultSelector() => @default != null ? @default() : throw new ArgumentNullException(nameof(@default));
+            T DefaultSelector()
+            {
+                return @default != null ? @default() : throw new ArgumentNullException(nameof(@default));
+            }
 
             return Present ? value : DefaultSelector();
         }

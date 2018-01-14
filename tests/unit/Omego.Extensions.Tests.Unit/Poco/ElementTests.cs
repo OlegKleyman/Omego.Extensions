@@ -1,19 +1,16 @@
-﻿namespace Omego.Extensions.Tests.Unit.Poco
+﻿using System;
+using System.Collections.Generic;
+using FluentAssertions;
+using FluentAssertions.Common;
+using Omego.Extensions.Poco;
+using Xunit;
+
+namespace Omego.Extensions.Tests.Unit.Poco
 {
-    using System;
-    using System.Collections;
-
-    using FluentAssertions;
-    using FluentAssertions.Common;
-
-    using Omego.Extensions.Poco;
-
-    using Xunit;
-
     public class ElementTests
     {
         [Theory]
-        [MemberData("ElementEqualityTheory", MemberType = typeof(ElementTestsTheories))]
+        [MemberData(nameof(ElementTestsTheories.ElementEqualityTheory), MemberType = typeof(ElementTestsTheories))]
         public void EqualsShouldReturnWhetherElementsAreEqual(
             Element<object> firstElement,
             Element<object> secondElement,
@@ -24,24 +21,34 @@
         }
 
         [Theory]
-        [MemberData("ValueEqualityTheory", MemberType = typeof(ElementTestsTheories))]
+        [MemberData(nameof(ElementTestsTheories.ValueEqualityTheory), MemberType = typeof(ElementTestsTheories))]
         public void EqualsShouldReturnWhetherElementValuesAreEqual(Element<object> element, object value, bool expected)
-            => element.Equals(value).ShouldBeEquivalentTo(expected);
+        {
+            element.Equals(value).ShouldBeEquivalentTo(expected);
+        }
 
         [Theory]
-        [MemberData("ObjectElementEqualityTheory", MemberType = typeof(ElementTestsTheories))]
+        [MemberData(nameof(ElementTestsTheories.ObjectElementEqualityTheory), MemberType =
+            typeof(ElementTestsTheories))]
         public void ObjectEqualsShouldReturnWhetherElementsAreEqual(
             Element<object> element,
             object value,
-            bool expected) => ((object)element).Equals(value).ShouldBeEquivalentTo(expected);
+            bool expected)
+        {
+            ((object) element).Equals(value).ShouldBeEquivalentTo(expected);
+        }
 
         [Theory]
-        [MemberData("ObjectGetHashCodeShouldReturnElementHashCodeTheory", MemberType = typeof(ElementTestsTheories))]
-        public void ObjectGetHashCodeShouldReturnElementHashCode(Element<object> element, int expected) => element
-            .GetHashCode().ShouldBeEquivalentTo(expected);
+        [MemberData(nameof(ElementTestsTheories.ObjectGetHashCodeShouldReturnElementHashCodeTheory), MemberType =
+            typeof(ElementTestsTheories))]
+        public void ObjectGetHashCodeShouldReturnElementHashCode(Element<object> element, int expected)
+        {
+            element
+                .GetHashCode().ShouldBeEquivalentTo(expected);
+        }
 
         [Theory]
-        [MemberData("ElementEqualityTheory", MemberType = typeof(ElementTestsTheories))]
+        [MemberData(nameof(ElementTestsTheories.ElementEqualityTheory), MemberType = typeof(ElementTestsTheories))]
         public void EqualsOperatorForElementShouldReturnWhetherElementsAreEqual(
             Element<object> firstElement,
             Element<object> secondElement,
@@ -52,7 +59,7 @@
         }
 
         [Theory]
-        [MemberData("ElementEqualityTheory", MemberType = typeof(ElementTestsTheories))]
+        [MemberData(nameof(ElementTestsTheories.ElementEqualityTheory), MemberType = typeof(ElementTestsTheories))]
         public void NotEqualsOperatorForElementShouldReturnWhetherElementsAreEqual(
             Element<object> firstElement,
             Element<object> secondElement,
@@ -64,58 +71,60 @@
 
         public class ElementTestsTheories
         {
-            public static IEnumerable ElementEqualityTheory =
-                new object[]
-                    {
-                        new object[] { new Element<object>(1), new Element<object>(1), true },
-                        new object[] { new Element<object>(1), new Element<object>(2), false },
-                        new object[] { new Element<object>(null), new Element<object>(2), false },
-                        new object[] { new Element<object>(null), new Element<object>(null), true },
-                        new object[] { new Element<object>(), new Element<object>(2), false },
-                        new object[] { new Element<object>(), new Element<object>(), true }
-                    };
-
-            public static IEnumerable ValueEqualityTheory =
-                new object[]
-                    {
-                        new object[] { new Element<object>(1), 1, true },
-                        new object[] { new Element<object>(1), 2, false },
-                        new object[] { new Element<object>(null), 2, false },
-                        new object[] { new Element<object>(null), null, true },
-                        new object[] { new Element<object>(), 2, false },
-                        new object[] { new Element<object>(), null, false }
-                    };
-
-            public static IEnumerable ObjectElementEqualityTheory =
-                new object[]
-                    {
-                        new object[] { new Element<object>(1), new Element<object>(1), true },
-                        new object[] { new Element<object>(1), new Element<object>(2), false },
-                        new object[] { new Element<object>(null), new Element<object>(2), false },
-                        new object[] { new Element<object>(null), new Element<object>(null), true },
-                        new object[] { new Element<object>(), new Element<object>(2), false },
-                        new object[] { new Element<object>(), new Element<object>(), true },
-                        new object[] { new Element<object>(), 1, false },
-                        new object[] { new Element<object>("test"), "test", true }
-                    };
-
-            public static IEnumerable ObjectGetHashCodeShouldReturnElementHashCodeTheory =
+            public static IEnumerable<object[]> ElementEqualityTheory =
                 new[]
-                    {
-                        new object[] { new Element<object>(), 0 }, new object[] { new Element<object>(1), 194 },
-                        new object[] { new Element<object>(0), 193 }, new object[] { new Element<object>(null), 1 }
-                    };
+                {
+                    new object[] {new Element<object>(1), new Element<object>(1), true},
+                    new object[] {new Element<object>(1), new Element<object>(2), false},
+                    new object[] {new Element<object>(null), new Element<object>(2), false},
+                    new object[] {new Element<object>(null), new Element<object>(null), true},
+                    new object[] {new Element<object>(), new Element<object>(2), false},
+                    new object[] {new Element<object>(), new Element<object>(), true}
+                };
 
-            public static IEnumerable ToStringShouldReturnStringRepresentationOfTheValueTheory =
-                new[] { new object[] { 1, "1" }, new object[] { null, "Exists" } };
+            public static IEnumerable<object[]> ValueEqualityTheory =
+                new[]
+                {
+                    new object[] {new Element<object>(1), 1, true},
+                    new object[] {new Element<object>(1), 2, false},
+                    new object[] {new Element<object>(null), 2, false},
+                    new object[] {new Element<object>(null), null, true},
+                    new object[] {new Element<object>(), 2, false},
+                    new object[] {new Element<object>(), null, false}
+                };
+
+            public static IEnumerable<object[]> ObjectElementEqualityTheory =
+                new[]
+                {
+                    new object[] {new Element<object>(1), new Element<object>(1), true},
+                    new object[] {new Element<object>(1), new Element<object>(2), false},
+                    new object[] {new Element<object>(null), new Element<object>(2), false},
+                    new object[] {new Element<object>(null), new Element<object>(null), true},
+                    new object[] {new Element<object>(), new Element<object>(2), false},
+                    new object[] {new Element<object>(), new Element<object>(), true},
+                    new object[] {new Element<object>(), 1, false},
+                    new object[] {new Element<object>("test"), "test", true}
+                };
+
+            public static IEnumerable<object[]> ObjectGetHashCodeShouldReturnElementHashCodeTheory =
+                new[]
+                {
+                    new object[] {new Element<object>(), 0}, new object[] {new Element<object>(1), 194},
+                    new object[] {new Element<object>(0), 193}, new object[] {new Element<object>(null), 1}
+                };
+
+            public static IEnumerable<object[]> ToStringShouldReturnStringRepresentationOfTheValueTheory =
+                new[] {new object[] {1, "1"}, new object[] {null, "Exists"}};
         }
 
         [Theory]
         [MemberData(
-            "ToStringShouldReturnStringRepresentationOfTheValueTheory",
+            nameof(ElementTestsTheories.ToStringShouldReturnStringRepresentationOfTheValueTheory),
             MemberType = typeof(ElementTestsTheories))]
-        public void ToStringShouldReturnStringRepresentationOfTheValue(object value, string expectedString) =>
+        public void ToStringShouldReturnStringRepresentationOfTheValue(object value, string expectedString)
+        {
             new Element<object>(value).ToString().ShouldBeEquivalentTo(expectedString);
+        }
 
         [Theory]
         [InlineData(true, true)]
@@ -144,7 +153,7 @@
         public void ExplicitOperatorFromElementToGenericTypeShouldReturnGenericTypeObjectFact()
         {
             var element = new Element<string>("test");
-            var @string = (string)element;
+            var @string = (string) element;
 
             @string.Should().IsSameOrEqualTo(element);
         }
@@ -152,7 +161,7 @@
         [Fact]
         public void ExplicitOperatorFromElementToGenericTypeShouldThrowInvalidCastExceptionWhenConversionCantBeDone()
         {
-            Action explicitCast = () => ((string)new Element<string>()).GetType();
+            Action explicitCast = () => ((string) new Element<string>()).GetType();
 
             explicitCast.ShouldThrow<InvalidCastException>()
                 .WithMessage("No element present to cast to System.String.");
@@ -167,16 +176,24 @@
         }
 
         [Fact]
-        public void ToStringShouldReturnDoesNotExistWhenValueDoesNotExist() => new Element<object>().ToString()
-            .ShouldBeEquivalentTo("Does not exist");
+        public void ToStringShouldReturnDoesNotExistWhenValueDoesNotExist()
+        {
+            new Element<object>().ToString()
+                .ShouldBeEquivalentTo("Does not exist");
+        }
 
         [Fact]
-        public void ValueOrShouldReturnDefaultValueWhenNoneExists() => new Element<int>().ValueOr(() => 3)
-            .ShouldBeEquivalentTo(3);
+        public void ValueOrShouldReturnDefaultValueWhenNoneExists()
+        {
+            new Element<int>().ValueOr(() => 3)
+                .ShouldBeEquivalentTo(3);
+        }
 
         [Fact]
-        public void ValueOrShouldReturnValueWhenOneExists() =>
+        public void ValueOrShouldReturnValueWhenOneExists()
+        {
             new Element<int>(3).ValueOr(null).ShouldBeEquivalentTo(3);
+        }
 
         [Fact]
         public void ValueOrShouldThrowArgumentNullExceptionWhenDefaultSelectorIsNull()

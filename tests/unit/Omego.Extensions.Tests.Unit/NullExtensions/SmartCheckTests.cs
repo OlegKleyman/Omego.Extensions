@@ -1,13 +1,10 @@
-﻿namespace Omego.Extensions.Tests.Unit.NullExtensions
+﻿using System;
+using FluentAssertions;
+using Omego.Extensions.NullExtensions;
+using Xunit;
+
+namespace Omego.Extensions.Tests.Unit.NullExtensions
 {
-    using System;
-
-    using FluentAssertions;
-
-    using Omego.Extensions.NullExtensions;
-
-    using Xunit;
-
     public class SmartCheckTests
     {
         public class SmartCheckTestsTheory
@@ -17,7 +14,7 @@
         [Fact]
         public void SmartCheckShouldNotThrowIfNothingIsNull()
         {
-            var target = new { Test2 = new { Test3 = new { Something = "something" } } };
+            var target = new {Test2 = new {Test3 = new {Something = "something"}}};
 
             Action smartCheck = () => target.SmartCheck(null, test => test.Test2.Test3);
 
@@ -27,7 +24,7 @@
         [Fact]
         public void SmartCheckShouldThrowArgumentNullExceptionWhenExceptionArgumentIsNull()
         {
-            var target = new { Test2 = new { Test3 = (string)null } };
+            var target = new {Test2 = new {Test3 = (string) null}};
 
             Action smartCheck = () => target.SmartCheck(null, t => t.Test2.Test3);
 
@@ -49,7 +46,7 @@
         [Fact]
         public void SmartCheckShouldThrowExceptionFromCallBackWhenSecondQualifierExpressionIsNullIsNull()
         {
-            var target = new { Test2 = new { Test3 = string.Empty }, Test4 = (string)null };
+            var target = new {Test2 = new {Test3 = string.Empty}, Test4 = (string) null};
 
             Action smartCheck = () => target.SmartCheck(
                 s => new InvalidOperationException(s),
@@ -62,7 +59,7 @@
         [Fact]
         public void SmartCheckShouldThrowExceptionFromCallBackWhenSomethingIsNull()
         {
-            var target = new { Test2 = new { Test3 = (string)null } };
+            var target = new {Test2 = new {Test3 = (string) null}};
 
             Action smartCheck = () => target.SmartCheck(
                 s => new InvalidOperationException(s),
@@ -74,7 +71,7 @@
         [Fact]
         public void SmartCheckShouldThrowInvalidOperationExceptionWhenExceptionRetrieverFunctionReturnsNull()
         {
-            var target = new { Test2 = new { Test3 = (string)null } };
+            var target = new {Test2 = new {Test3 = (string) null}};
 
             Action smartCheck = () => target.SmartCheck(s => null, test => test.Test2.Test3);
 

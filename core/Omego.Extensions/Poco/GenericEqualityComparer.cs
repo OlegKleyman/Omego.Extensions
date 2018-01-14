@@ -1,8 +1,8 @@
+using System;
+using System.Collections.Generic;
+
 namespace Omego.Extensions.Poco
 {
-    using System;
-    using System.Collections.Generic;
-
     /// <summary>
     ///     Represents a generic equality comparer comparer.
     /// </summary>
@@ -32,9 +32,15 @@ namespace Omego.Extensions.Poco
         }
 
         /// <inheritdoc />
-        public bool Equals(TSource x, TSource y) => areEqual(x, y);
+        public bool Equals(TSource x, TSource y)
+        {
+            return areEqual(x, y);
+        }
 
         /// <inheritdoc />
-        public int GetHashCode(TSource obj) => hashCode(obj);
+        public int GetHashCode(TSource obj)
+        {
+            return hashCode(obj);
+        }
     }
 }

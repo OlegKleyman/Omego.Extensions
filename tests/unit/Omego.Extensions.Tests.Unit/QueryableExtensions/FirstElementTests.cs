@@ -1,20 +1,17 @@
-﻿namespace Omego.Extensions.Tests.Unit.QueryableExtensions
+﻿using System;
+using System.Linq;
+using FluentAssertions;
+using Omego.Extensions.QueryableExtensions;
+using Xunit;
+
+namespace Omego.Extensions.Tests.Unit.QueryableExtensions
 {
-    using System;
-    using System.Linq;
-
-    using FluentAssertions;
-
-    using Omego.Extensions.QueryableExtensions;
-
-    using Xunit;
-
     public class FirstElementTests
     {
         [Fact]
         public void FirstElementShouldReturnElementByQueryWhenFound()
         {
-            var queryable = new[] { 1 }.AsQueryable();
+            var queryable = new[] {1}.AsQueryable();
 
             queryable.FirstElement(x => x == 1).ValueOr(null).Should().Be(1);
         }
@@ -30,7 +27,7 @@
         [Fact]
         public void FirstElementShouldThrowArgumentNullExceptionWhenQueryableArgumentIsNullWhenSearchingByQuery()
         {
-            Action firstElement = () => ((IQueryable<int>)null).FirstElement(null);
+            Action firstElement = () => ((IQueryable<int>) null).FirstElement(null);
 
             firstElement.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("queryable");
         }

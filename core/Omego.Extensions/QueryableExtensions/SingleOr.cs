@@ -1,9 +1,9 @@
-﻿namespace Omego.Extensions.QueryableExtensions
-{
-    using System;
-    using System.Linq;
-    using System.Linq.Expressions;
+﻿using System;
+using System.Linq;
+using System.Linq.Expressions;
 
+namespace Omego.Extensions.QueryableExtensions
+{
     /// <summary>
     ///     Contains extension methods for <see cref="IQueryable{T}" />.
     /// </summary>
@@ -24,7 +24,10 @@
         public static T SingleOr<T>(
             this IQueryable<T> queryable,
             Expression<Func<T, bool>> predicate,
-            T @default) => queryable.SingleOr(predicate, () => @default);
+            T @default)
+        {
+            return queryable.SingleOr(predicate, () => @default);
+        }
 
         /// <summary>
         ///     Returns a single element of an <see cref="IQueryable{T}" /> or returns
@@ -34,9 +37,12 @@
         /// <param name="default">The object to return if no elements are found.</param>
         /// <typeparam name="T">The type of the object to return.</typeparam>
         /// <returns>An instance of <typeparamref name="T" />.</returns>
-        public static T SingleOr<T>(this IQueryable<T> queryable, T @default) => queryable.SingleOr(
-            arg => true,
-            @default);
+        public static T SingleOr<T>(this IQueryable<T> queryable, T @default)
+        {
+            return queryable.SingleOr(
+                arg => true,
+                @default);
+        }
 
         /// <summary>
         ///     Returns a single element of an <see cref="IQueryable{T}" /> matching the given predicate or returns
@@ -56,10 +62,13 @@
         public static T SingleOr<T>(
             this IQueryable<T> queryable,
             Expression<Func<T, bool>> predicate,
-            Func<T> @default) => queryable.SingleOrDefaultOrThrow(
-            predicate,
-            @default,
-            new InvalidOperationException($"More than one match found for {predicate?.Body}."));
+            Func<T> @default)
+        {
+            return queryable.SingleOrDefaultOrThrow(
+                predicate,
+                @default,
+                new InvalidOperationException($"More than one match found for {predicate?.Body}."));
+        }
 
         /// <summary>
         ///     Returns a single element of an <see cref="IQueryable{T}" /> or returns
@@ -72,8 +81,11 @@
         /// </param>
         /// <typeparam name="T">The type of the object to return.</typeparam>
         /// <returns>An instance of <typeparamref name="T" />.</returns>
-        public static T SingleOr<T>(this IQueryable<T> queryable, Func<T> @default) => queryable.SingleOr(
-            arg => true,
-            @default);
+        public static T SingleOr<T>(this IQueryable<T> queryable, Func<T> @default)
+        {
+            return queryable.SingleOr(
+                arg => true,
+                @default);
+        }
     }
 }

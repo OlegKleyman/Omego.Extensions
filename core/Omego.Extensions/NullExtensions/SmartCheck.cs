@@ -1,10 +1,9 @@
-﻿namespace Omego.Extensions.NullExtensions
+﻿using System;
+using System.Linq.Expressions;
+using Omego.Extensions.Poco;
+
+namespace Omego.Extensions.NullExtensions
 {
-    using System;
-    using System.Linq.Expressions;
-
-    using Omego.Extensions.Poco;
-
     public static partial class ObjectExtensions
     {
         /// <summary>
@@ -34,8 +33,8 @@
                 visitor.OnNull(
                     expression,
                     s => throw (exception != null
-                                    ? exception(s) ?? new InvalidOperationException("Exception to throw returned null.")
-                                    : throw new ArgumentNullException(nameof(exception))));
+                        ? exception(s) ?? new InvalidOperationException("Exception to throw returned null.")
+                        : throw new ArgumentNullException(nameof(exception))));
 
                 visitor.ResetWith(target);
             }

@@ -1,9 +1,9 @@
-﻿namespace Omego.Extensions.Poco
-{
-    using System;
-    using System.Globalization;
-    using System.Linq;
+﻿using System;
+using System.Globalization;
+using System.Linq;
 
+namespace Omego.Extensions.Poco
+{
     /// <summary>
     ///     Represents a single element.
     /// </summary>
@@ -68,7 +68,10 @@
         /// <returns>A <see cref="bool" /> indicating whether values are equal.</returns>
         public static bool operator ==(
             SingleElementResult<T> first,
-            SingleElementResult<T> second) => first.Elements == second.Elements && first.value.Equals(second.value);
+            SingleElementResult<T> second)
+        {
+            return first.Elements == second.Elements && first.value.Equals(second.value);
+        }
 
         /// <summary>
         ///     The not equal operator for two <see cref="SingleElementResult{T}" /> of <typeparamref name="T" />.
@@ -84,7 +87,10 @@
         /// <returns>A <see cref="bool" /> indicating whether values are not equal.</returns>
         public static bool operator !=(
             SingleElementResult<T> first,
-            SingleElementResult<T> second) => !(first == second);
+            SingleElementResult<T> second)
+        {
+            return !(first == second);
+        }
 
         /// <summary>
         ///     The implicit cast operator for casting an object of <typeparamref name="T" />
@@ -92,7 +98,10 @@
         /// </summary>
         /// <param name="target">The instance of <typeparamref name="T" /> to cast.</param>
         /// <returns>A single value of <see cref="SingleElementResult{T}" /> of <typeparamref name="T" />.</returns>
-        public static implicit operator SingleElementResult<T>(T target) => new SingleElementResult<T>(target);
+        public static implicit operator SingleElementResult<T>(T target)
+        {
+            return new SingleElementResult<T>(target);
+        }
 
         /// <summary>
         ///     The explicit cast operator for casting a value of <see cref="SingleElementResult{T}" /> of
@@ -106,13 +115,16 @@
         /// <exception cref="InvalidCastException">
         ///     Thrown when the element does not represent one element.
         /// </exception>
-        public static explicit operator T(SingleElementResult<T> target) => target.value.ValueOr(
-            () => throw new InvalidCastException(
-                      string.Format(
-                          CultureInfo.InvariantCulture,
-                          "{0} element(s) cannot be cast to {1}.",
-                          target.Elements,
-                          typeof(T).FullName)));
+        public static explicit operator T(SingleElementResult<T> target)
+        {
+            return target.value.ValueOr(
+                () => throw new InvalidCastException(
+                    string.Format(
+                        CultureInfo.InvariantCulture,
+                        "{0} element(s) cannot be cast to {1}.",
+                        target.Elements,
+                        typeof(T).FullName)));
+        }
 
         /// <summary>
         ///     Checks whether this instance of the value is equal to another
@@ -123,7 +135,10 @@
         ///     to compare to.
         /// </param>
         /// <returns>Whether the value is equal.</returns>
-        public bool Equals(SingleElementResult<T> other) => this == other;
+        public bool Equals(SingleElementResult<T> other)
+        {
+            return this == other;
+        }
 
         /// <summary>
         ///     Checks whether this instance of the value is equal to an
@@ -133,7 +148,10 @@
         ///     The instance of <typeparamref name="T" /> to compare to.
         /// </param>
         /// <returns>Whether the instance is equal.</returns>
-        public bool Equals(T other) => value == other;
+        public bool Equals(T other)
+        {
+            return value == other;
+        }
 
         /// <summary>Indicates whether this instance and a specified object are equal.</summary>
         /// <returns>
@@ -141,8 +159,11 @@
         ///     false.
         /// </returns>
         /// <param name="obj">The object to compare with the current instance. </param>
-        public override bool Equals(object obj) => obj is SingleElementResult<T> && Equals((SingleElementResult<T>)obj)
-                                                   || obj is T && Equals((T)obj);
+        public override bool Equals(object obj)
+        {
+            return obj is SingleElementResult<T> && Equals((SingleElementResult<T>) obj)
+                   || obj is T && Equals((T) obj);
+        }
 
         private static readonly int ElementsMaxValue = Enum.GetValues(typeof(ElementCategory)).Cast<int>().Max();
 
@@ -158,7 +179,7 @@
             {
                 unchecked
                 {
-                    while (hash >= ElementsMinValue && hash <= ElementsMaxValue && hash != (int)ElementCategory.One)
+                    while (hash >= ElementsMinValue && hash <= ElementsMaxValue && hash != (int) ElementCategory.One)
                         hash += salt;
 
                     return hash;
@@ -184,7 +205,10 @@
         /// <returns>An instance or value of <typeparamref name="T" />.</returns>
         /// <exception cref="InvalidOperationException">Thrown when multiple elements exist.</exception>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="default" /> is null.</exception>
-        public T ValueOr(Func<T> @default) => ValueOr(@default, @default);
+        public T ValueOr(Func<T> @default)
+        {
+            return ValueOr(@default, @default);
+        }
 
         /// <summary>
         ///     Gets the value of this element, the <paramref name="defaultNoElement" /> if no value exists,
@@ -202,19 +226,25 @@
         /// </exception>
         public T ValueOr(Func<T> defaultNoElement, Func<T> defaultMultipleElements)
         {
-            T DefaultMultipleElementSelector() => defaultMultipleElements != null
-                                                      ? defaultMultipleElements()
-                                                      : throw new ArgumentNullException(
-                                                            nameof(defaultMultipleElements));
+            T DefaultMultipleElementSelector()
+            {
+                return defaultMultipleElements != null
+                    ? defaultMultipleElements()
+                    : throw new ArgumentNullException(
+                        nameof(defaultMultipleElements));
+            }
 
             return Elements != ElementCategory.Multiple
-                       ? value.ValueOr(defaultNoElement)
-                       : DefaultMultipleElementSelector();
+                ? value.ValueOr(defaultNoElement)
+                : DefaultMultipleElementSelector();
         }
 
         /// <inheritdoc />
-        public override string ToString() => Elements == ElementCategory.One || Elements == ElementCategory.None
-                                                 ? value.ToString()
-                                                 : Elements.ToString();
+        public override string ToString()
+        {
+            return Elements == ElementCategory.One || Elements == ElementCategory.None
+                ? value.ToString()
+                : Elements.ToString();
+        }
     }
 }

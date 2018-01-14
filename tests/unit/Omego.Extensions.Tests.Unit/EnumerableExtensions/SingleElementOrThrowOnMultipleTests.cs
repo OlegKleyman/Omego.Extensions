@@ -1,15 +1,12 @@
-﻿namespace Omego.Extensions.Tests.Unit.EnumerableExtensions
+﻿using System;
+using System.Collections.Generic;
+using FluentAssertions;
+using Omego.Extensions.EnumerableExtensions;
+using Omego.Extensions.Poco;
+using Xunit;
+
+namespace Omego.Extensions.Tests.Unit.EnumerableExtensions
 {
-    using System;
-    using System.Collections.Generic;
-
-    using FluentAssertions;
-
-    using Omego.Extensions.EnumerableExtensions;
-    using Omego.Extensions.Poco;
-
-    using Xunit;
-
     public class SingleElementOrThrowOnMultipleTests
     {
         [Fact]
@@ -25,7 +22,7 @@
         [Fact]
         public void SingleElementOrThrowOnMultipleByQueryShouldThrowExceptionWhenMultipleElementsAreFound()
         {
-            var enumerable = new[] { 1, 2 };
+            var enumerable = new[] {1, 2};
 
             var ex = new InvalidOperationException();
 
@@ -37,7 +34,7 @@
         [Fact]
         public void SingleElementOrThrowOnMultipleByQueryShouldThrowExceptionWhenMultipleElementsExceptionIsNull()
         {
-            var enumerable = new[] { 1, 2 };
+            var enumerable = new[] {1, 2};
 
             Action singleElementOrThrowOnMultiple = () => enumerable.SingleElementOrThrowOnMultiple(i => true, null);
 
@@ -46,17 +43,19 @@
         }
 
         [Fact]
-        public void SingleElementOrThrowOnMultipleByQueryWhenFoundShouldThrowArgumentNullExceptionWhenEnumerableArgumentIsNull()
+        public void
+            SingleElementOrThrowOnMultipleByQueryWhenFoundShouldThrowArgumentNullExceptionWhenEnumerableArgumentIsNull()
         {
             Action singleElementOrThrowOnMultiple =
-                () => ((IEnumerable<int>)null).SingleElementOrThrowOnMultiple(i => true, null);
+                () => ((IEnumerable<int>) null).SingleElementOrThrowOnMultiple(i => true, null);
 
             singleElementOrThrowOnMultiple.ShouldThrowExactly<ArgumentNullException>()
                 .Which.ParamName.ShouldBeEquivalentTo("enumerable");
         }
 
         [Fact]
-        public void SingleElementOrThrowOnMultipleByQueryWhenFoundShouldThrowArgumentNullExceptionWhenPredicateArgumentIsNull()
+        public void
+            SingleElementOrThrowOnMultipleByQueryWhenFoundShouldThrowArgumentNullExceptionWhenPredicateArgumentIsNull()
         {
             Action singleElementOrThrowOnMultiple = () => new int[0].SingleElementOrThrowOnMultiple(null, null);
 

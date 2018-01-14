@@ -1,9 +1,9 @@
-﻿namespace Omego.Extensions.EnumerableExtensions
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq.Expressions;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 
+namespace Omego.Extensions.EnumerableExtensions
+{
     /// <summary>
     ///     Contains extension methods for <see cref="IEnumerable{T}" />.
     /// </summary>
@@ -16,9 +16,12 @@
         /// <param name="enumerable">The enumerable to find the first element in.</param>
         /// <param name="exception">The exception to throw when the element is not found.</param>
         /// <returns>An instance of <typeparamref name="T" />.</returns>
-        public static T FirstOrThrow<T>(this IEnumerable<T> enumerable, Exception exception) => enumerable.FirstOrThrow(
-            element => true,
-            exception);
+        public static T FirstOrThrow<T>(this IEnumerable<T> enumerable, Exception exception)
+        {
+            return enumerable.FirstOrThrow(
+                element => true,
+                exception);
+        }
 
         /// <summary>
         ///     Returns the first element of an <see cref="IEnumerable{T}" /> matching the given predicate or throws an
@@ -52,8 +55,11 @@
         /// </exception>
         public static T FirstOrThrow<T>(
             this IEnumerable<T> enumerable,
-            Expression<Func<T, bool>> predicate) => enumerable.FirstOrThrow(
-            predicate?.Compile(),
-            new InvalidOperationException($"No " + $"matches" + $" found for: {predicate?.Body}"));
+            Expression<Func<T, bool>> predicate)
+        {
+            return enumerable.FirstOrThrow(
+                predicate?.Compile(),
+                new InvalidOperationException($"No " + $"matches" + $" found for: {predicate?.Body}"));
+        }
     }
 }

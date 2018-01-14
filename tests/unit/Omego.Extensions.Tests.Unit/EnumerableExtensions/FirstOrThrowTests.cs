@@ -1,21 +1,18 @@
-﻿namespace Omego.Extensions.Tests.Unit.EnumerableExtensions
+﻿using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+using FluentAssertions;
+using Omego.Extensions.EnumerableExtensions;
+using Xunit;
+
+namespace Omego.Extensions.Tests.Unit.EnumerableExtensions
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq.Expressions;
-
-    using FluentAssertions;
-
-    using Omego.Extensions.EnumerableExtensions;
-
-    using Xunit;
-
     public class FirstOrThrowTests
     {
         [Fact]
         public void FirstOrThrowShouldReturnElementByQueryWhenFound()
         {
-            var enumerable = new[] { 1 };
+            var enumerable = new[] {1};
 
             enumerable.FirstOrThrow(x => x == 1, null).Should().Be(1);
         }
@@ -23,15 +20,15 @@
         [Fact]
         public void FirstOrThrowShouldReturnElementWhenFound()
         {
-            var enumerable = new[] { 1 };
+            var enumerable = new[] {1};
 
-            enumerable.FirstOrThrow((Exception)null).Should().Be(1);
+            enumerable.FirstOrThrow((Exception) null).Should().Be(1);
         }
 
         [Fact]
         public void FirstOrThrowShouldThrowArgumentNullExceptionWhenEnumerableArgumentIsNullWhenSearchingByQuery()
         {
-            Action firstOrThrow = () => ((IEnumerable<int>)null).FirstOrThrow(x => false, null);
+            Action firstOrThrow = () => ((IEnumerable<int>) null).FirstOrThrow(x => false, null);
 
             firstOrThrow.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("enumerable");
         }
@@ -41,7 +38,7 @@
         {
             var enumerable = new object[0];
 
-            Action firstOrThrow = () => enumerable.FirstOrThrow((Exception)null);
+            Action firstOrThrow = () => enumerable.FirstOrThrow((Exception) null);
 
             firstOrThrow.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("exception");
         }
@@ -57,7 +54,7 @@
         [Fact]
         public void FirstOrThrowShouldThrowArgumentNullExceptionWhenPredicateArgumentIsNullWhenSearchingByQuery()
         {
-            Action firstOrThrow = () => new[] { 1 }.FirstOrThrow(null, null);
+            Action firstOrThrow = () => new[] {1}.FirstOrThrow(null, null);
 
             firstOrThrow.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("predicate");
         }
@@ -65,7 +62,7 @@
         [Fact]
         public void FirstOrThrowShouldThrowExceptionWhenAnElementByQueryIsNotFound()
         {
-            var enumerable = new[] { 1 };
+            var enumerable = new[] {1};
 
             var ex = new InvalidOperationException();
 
@@ -89,23 +86,25 @@
         [Fact]
         public void FirstOrThrowWithGenericExceptionShouldReturnElementByQueryWhenFound()
         {
-            var enumerable = new[] { 1 };
+            var enumerable = new[] {1};
 
             enumerable.FirstOrThrow(x => x == 1).Should().Be(1);
         }
 
         [Fact]
-        public void FirstOrThrowWithGenericExceptionShouldThrowArgumentNullExceptionWhenEnumerableArgumentIsNullWhenSearchingByQuery()
+        public void
+            FirstOrThrowWithGenericExceptionShouldThrowArgumentNullExceptionWhenEnumerableArgumentIsNullWhenSearchingByQuery()
         {
-            Action firstOrThrow = () => ((IEnumerable<int>)null).FirstOrThrow(x => false);
+            Action firstOrThrow = () => ((IEnumerable<int>) null).FirstOrThrow(x => false);
 
             firstOrThrow.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("enumerable");
         }
 
         [Fact]
-        public void FirstOrThrowWithGenericExceptionShouldThrowArgumentNullExceptionWhenPredicateArgumentIsNullWhenSearchingByQuery()
+        public void
+            FirstOrThrowWithGenericExceptionShouldThrowArgumentNullExceptionWhenPredicateArgumentIsNullWhenSearchingByQuery()
         {
-            Action firstOrThrow = () => new int[0].FirstOrThrow((Expression<Func<int, bool>>)null);
+            Action firstOrThrow = () => new int[0].FirstOrThrow((Expression<Func<int, bool>>) null);
 
             firstOrThrow.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("predicate");
         }
@@ -113,7 +112,7 @@
         [Fact]
         public void FirstOrThrowWithGenericExceptionShouldThrowExceptionWhenAnElementByQueryIsNotFound()
         {
-            Action firstOrThrow = () => new[] { 1 }.FirstOrThrow(x => x == 0);
+            Action firstOrThrow = () => new[] {1}.FirstOrThrow(x => x == 0);
 
             firstOrThrow.ShouldThrowExactly<InvalidOperationException>()
                 .Which.Message.ShouldBeEquivalentTo("No matches found for: (x == 0)");
