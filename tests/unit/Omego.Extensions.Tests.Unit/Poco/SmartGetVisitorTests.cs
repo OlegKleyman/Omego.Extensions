@@ -161,7 +161,8 @@ namespace Omego.Extensions.Tests.Unit.Poco
         }
 
         [Theory]
-        [MemberData(nameof(SmartGetVisitorTestsTheories.OnNullShouldSetCurrentObjectTheory), MemberType = typeof(SmartGetVisitorTestsTheories))]
+        [MemberData(nameof(SmartGetVisitorTestsTheories.OnNullShouldSetCurrentObjectTheory), MemberType =
+            typeof(SmartGetVisitorTestsTheories))]
         public void OnNullShouldSetCurrentObject(Test target, Expression expression, string expected)
         {
             var visitor = GetVisitor(target);
@@ -173,7 +174,8 @@ namespace Omego.Extensions.Tests.Unit.Poco
 
         [Theory]
         [MemberData(
-            nameof(SmartGetVisitorTestsTheories.OnNullShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory),
+            nameof(SmartGetVisitorTestsTheories
+                .OnNullShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory),
             MemberType = typeof(SmartGetVisitorTestsTheories))]
         public void OnNullShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalid(
             string message,
@@ -198,7 +200,8 @@ namespace Omego.Extensions.Tests.Unit.Poco
 
         [Theory]
         [MemberData(
-            nameof(SmartGetVisitorTestsTheories.VisitMemberShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory),
+            nameof(SmartGetVisitorTestsTheories
+                .VisitMemberShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory),
             MemberType = typeof(SmartGetVisitorTestsTheories))]
         public void VisitMemberShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalid(
             string message,
@@ -245,7 +248,8 @@ namespace Omego.Extensions.Tests.Unit.Poco
 
         [Theory]
         [MemberData(
-            nameof(SmartGetVisitorTestsTheories.ConstructorShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory),
+            nameof(SmartGetVisitorTestsTheories
+                .ConstructorShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory),
             MemberType = typeof(SmartGetVisitorTestsTheories))]
         public void ConstructorShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalid(
             string message,

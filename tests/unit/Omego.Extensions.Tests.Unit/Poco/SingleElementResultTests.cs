@@ -10,7 +10,8 @@ namespace Omego.Extensions.Tests.Unit.Poco
     public class SingleElementResultTests
     {
         [Theory]
-        [MemberData(nameof(SingleElementResultTestsTheories.ElementEqualityTheory), MemberType = typeof(SingleElementResultTestsTheories))]
+        [MemberData(nameof(SingleElementResultTestsTheories.ElementEqualityTheory), MemberType =
+            typeof(SingleElementResultTestsTheories))]
         public void EqualsShouldReturnWhetherSingleElementsAreEqual(
             SingleElementResult<object> firstElement,
             SingleElementResult<object> secondElement,
@@ -21,7 +22,8 @@ namespace Omego.Extensions.Tests.Unit.Poco
         }
 
         [Theory]
-        [MemberData(nameof(SingleElementResultTestsTheories.ValueEqualityTheory), MemberType = typeof(SingleElementResultTestsTheories))]
+        [MemberData(nameof(SingleElementResultTestsTheories.ValueEqualityTheory), MemberType =
+            typeof(SingleElementResultTestsTheories))]
         public void EqualsShouldReturnWhetherSingleElementValuesAreEqual(
             SingleElementResult<object> element,
             object value,
@@ -31,7 +33,8 @@ namespace Omego.Extensions.Tests.Unit.Poco
         }
 
         [Theory]
-        [MemberData(nameof(SingleElementResultTestsTheories.ObjectSingleElementEqualityTheory), MemberType = typeof(SingleElementResultTestsTheories))]
+        [MemberData(nameof(SingleElementResultTestsTheories.ObjectSingleElementEqualityTheory), MemberType =
+            typeof(SingleElementResultTestsTheories))]
         public void ObjectEqualsShouldReturnWhetherSingleElementsAreEqual(
             SingleElementResult<object> element,
             object value,
@@ -52,7 +55,8 @@ namespace Omego.Extensions.Tests.Unit.Poco
         }
 
         [Theory]
-        [MemberData(nameof(SingleElementResultTestsTheories.ElementEqualityTheory), MemberType = typeof(SingleElementResultTestsTheories))]
+        [MemberData(nameof(SingleElementResultTestsTheories.ElementEqualityTheory), MemberType =
+            typeof(SingleElementResultTestsTheories))]
         public void EqualsOperatorShouldReturnWhetherSingleElementsAreEqual(
             SingleElementResult<object> firstElement,
             SingleElementResult<object> secondElement,
@@ -63,7 +67,8 @@ namespace Omego.Extensions.Tests.Unit.Poco
         }
 
         [Theory]
-        [MemberData(nameof(SingleElementResultTestsTheories.ElementEqualityTheory), MemberType = typeof(SingleElementResultTestsTheories))]
+        [MemberData(nameof(SingleElementResultTestsTheories.ElementEqualityTheory), MemberType =
+            typeof(SingleElementResultTestsTheories))]
         public void NotEqualsOperatorShouldReturnWhetherSingleElementsAreEqual(
             SingleElementResult<object> firstElement,
             SingleElementResult<object> secondElement,
@@ -287,7 +292,9 @@ namespace Omego.Extensions.Tests.Unit.Poco
 
         [Theory]
         [MemberData(
-            nameof(SingleElementResultTestsTheories.ExplicitOperatorFromSingleElementToGenericTypeShouldThrowInvalidCastExceptionWhenConversionCantBeDoneTheory),
+            nameof(SingleElementResultTestsTheories
+                .ExplicitOperatorFromSingleElementToGenericTypeShouldThrowInvalidCastExceptionWhenConversionCantBeDoneTheory
+            ),
             MemberType = typeof(SingleElementResultTestsTheories))]
         public void
             ExplicitOperatorFromSingleElementToGenericTypeShouldThrowInvalidCastExceptionWhenConversionCantBeDone(

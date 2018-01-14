@@ -12,7 +12,8 @@ namespace Omego.Extensions.Tests.Unit.Poco
     {
         [Theory]
         [MemberData(
-            nameof(AttemptCatchIteratorTestTheories.MoveNextShouldReturnWhetherMovingToTheNextIterationWasSuccessfulTheory),
+            nameof(AttemptCatchIteratorTestTheories
+                .MoveNextShouldReturnWhetherMovingToTheNextIterationWasSuccessfulTheory),
             MemberType = typeof(AttemptCatchIteratorTestTheories))]
         public void MoveNextShouldReturnWhetherMovingToTheNextIterationWasSuccessful(
             int times,

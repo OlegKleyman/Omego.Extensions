@@ -9,22 +9,6 @@ namespace Omego.Extensions.Tests.Unit.QueryableExtensions
     public class SingleOrTests
     {
         [Fact]
-        public void SingleOrShouldReturnElementIfOneExists()
-        {
-            var queryable = new[] {"1"}.AsQueryable();
-
-            queryable.SingleOr((string) null).Should().Be("1");
-        }
-
-        [Fact]
-        public void SingleOrLazyShouldReturnElementIfOneExists()
-        {
-            var queryable = new[] {"1"}.AsQueryable();
-
-            queryable.SingleOr((Func<string>) null).Should().Be("1");
-        }
-
-        [Fact]
         public void SingleOrByQueryShouldReturnElementWhenFound()
         {
             var queryable = new[] {"1"}.AsQueryable();
@@ -67,6 +51,14 @@ namespace Omego.Extensions.Tests.Unit.QueryableExtensions
         }
 
         [Fact]
+        public void SingleOrLazyShouldReturnElementIfOneExists()
+        {
+            var queryable = new[] {"1"}.AsQueryable();
+
+            queryable.SingleOr((Func<string>) null).Should().Be("1");
+        }
+
+        [Fact]
         public void SingleOrLazyShouldReturnRequestedDefaultObjectWhenNoElementsAreFound()
         {
             var queryable = new object[0].AsQueryable();
@@ -90,6 +82,14 @@ namespace Omego.Extensions.Tests.Unit.QueryableExtensions
             Action singleOr = () => queryable.SingleOr((string) null);
 
             singleOr.ShouldThrow<InvalidOperationException>().WithMessage("More than one match found for true.");
+        }
+
+        [Fact]
+        public void SingleOrShouldReturnElementIfOneExists()
+        {
+            var queryable = new[] {"1"}.AsQueryable();
+
+            queryable.SingleOr((string) null).Should().Be("1");
         }
 
         [Fact]

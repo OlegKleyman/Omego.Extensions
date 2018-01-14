@@ -32,7 +32,8 @@ namespace Omego.Extensions.Tests.Unit.Poco
 
         [Theory]
         [MemberData(
-            nameof(GenericEqualityComparerTestsTheories.ConstructorShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory),
+            nameof(GenericEqualityComparerTestsTheories
+                .ConstructorShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalidTheory),
             MemberType = typeof(GenericEqualityComparerTestsTheories))]
         public void ConstructorShouldThrowArgumentExceptionWhenRequiredArgumentsAreInvalid(
             string message,
