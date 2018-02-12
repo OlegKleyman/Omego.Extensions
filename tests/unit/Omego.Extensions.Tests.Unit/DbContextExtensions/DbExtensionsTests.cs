@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Linq;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
-using Context = Microsoft.EntityFrameworkCore.DbContext;
-using NSubstitute;
 using Omego.Extensions.DbContextExtensions;
 using Omego.Extensions.Tests.Unit.DbContextExtensions.Support;
 using Xunit;
+using Context = Microsoft.EntityFrameworkCore.DbContext;
 
 namespace Omego.Extensions.Tests.Unit.DbContextExtensions
 {
@@ -19,7 +17,7 @@ namespace Omego.Extensions.Tests.Unit.DbContextExtensions
 
             using (var context = new MockContext(options))
             {
-                context.AddRangeAndSave(new MockEntity{Test = "testing123"});
+                context.AddRangeAndSave(new MockEntity {Test = "testing123"});
             }
 
             using (var context = new MockContext(options))

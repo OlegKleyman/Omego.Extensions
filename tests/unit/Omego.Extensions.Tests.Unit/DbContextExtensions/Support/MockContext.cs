@@ -6,7 +6,6 @@ namespace Omego.Extensions.Tests.Unit.DbContextExtensions.Support
     {
         public MockContext(DbContextOptions options) : base(options)
         {
-            
         }
 
         public DbSet<MockEntity> MockEntities { get; set; }
