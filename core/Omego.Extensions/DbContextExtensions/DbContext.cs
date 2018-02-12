@@ -8,12 +8,14 @@ namespace Omego.Extensions.DbContextExtensions
     public static class DbContext
     {
         /// <summary>
-        /// Adds entities to context and saves.
+        ///     Adds entities to context and saves.
         /// </summary>
-        /// <param name="context">The <see cref="Microsoft.EntityFrameworkCore.DbContext"/> to add
-        /// entities to and use to save to the database.</param>
+        /// <param name="context">
+        ///     The <see cref="Microsoft.EntityFrameworkCore.DbContext" /> to add
+        ///     entities to and use to save to the database.
+        /// </param>
         /// <param name="entities">The entities to add and save.</param>
-        /// <returns>The number of objects written to the underlying database.s</returns>
+        /// <returns>The number of objects written to the underlying database.</returns>
         public static int AddRangeAndSave(this Microsoft.EntityFrameworkCore.DbContext context,
             params object[] entities)
         {
