@@ -15,7 +15,7 @@ namespace Omego.Extensions.Tests.Unit.Poco
         {
             GetGenericEqualityComparer<object>(
                     o => hashCode)
-                .GetHashCode(default(object))
+                .GetHashCode(default)
                 .ShouldBeEquivalentTo(hashCode);
         }
 
@@ -26,7 +26,7 @@ namespace Omego.Extensions.Tests.Unit.Poco
             bool areEqual)
         {
             GetGenericEqualityComparer<object>((o, o1) => areEqual)
-                .Equals(default(object), default(object))
+                .Equals(default, default)
                 .ShouldBeEquivalentTo(areEqual);
         }
 
@@ -63,13 +63,13 @@ namespace Omego.Extensions.Tests.Unit.Poco
         private GenericEqualityComparer<TSource> GetGenericEqualityComparer<TSource>(
             Func<TSource, TSource, bool> areEqual)
         {
-            return GetGenericEqualityComparer(areEqual, source => default(int));
+            return GetGenericEqualityComparer(areEqual, source => default);
         }
 
         private GenericEqualityComparer<TSource> GetGenericEqualityComparer<TSource>(
             Func<TSource, int> hashCode)
         {
-            return GetGenericEqualityComparer((source, source1) => default(bool), hashCode);
+            return GetGenericEqualityComparer((source, source1) => default, hashCode);
         }
 
         public class GenericEqualityComparerTestsTheories

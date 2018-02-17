@@ -25,7 +25,7 @@ namespace Omego.Extensions.Poco
         private SingleElementResult(ElementCategory elements)
         {
             Elements = elements;
-            value = default(Element<T>);
+            value = default;
         }
 
         private ElementCategory Elements { get; }

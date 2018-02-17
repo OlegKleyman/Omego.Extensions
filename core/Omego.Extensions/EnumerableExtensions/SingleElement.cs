@@ -24,7 +24,7 @@ namespace Omego.Extensions.EnumerableExtensions
         {
             if (predicate == null) throw new ArgumentNullException(nameof(predicate));
 
-            var result = default(SingleElementResult<T>);
+            SingleElementResult<T> result = default;
 
             using (var e = enumerable?.GetEnumerator() ?? throw new ArgumentNullException(nameof(enumerable)))
             {

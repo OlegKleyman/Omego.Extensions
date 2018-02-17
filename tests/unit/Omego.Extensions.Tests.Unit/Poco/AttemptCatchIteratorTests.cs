@@ -113,7 +113,7 @@ namespace Omego.Extensions.Tests.Unit.Poco
 
             ((IDisposable) iterator).Dispose();
 
-            iterator.Current.ShouldBeEquivalentTo(default(string));
+            iterator.Current.ShouldBeEquivalentTo(default);
         }
 
         [Fact]
@@ -144,7 +144,7 @@ namespace Omego.Extensions.Tests.Unit.Poco
                 (IEnumerator) new AttemptCatchIterator<string, DivideByZeroException>(new string[0], exception => { });
 
             iterator.MoveNext();
-            iterator.Current.ShouldBeEquivalentTo(default(string));
+            iterator.Current.ShouldBeEquivalentTo(default);
         }
 
         [Fact]
