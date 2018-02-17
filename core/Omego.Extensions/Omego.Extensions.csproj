@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net462</TargetFrameworks>
+    <LangVersion>7.2</LangVersion>
     <Version></Version>
     <PackageLicenseUrl>https://github.com/OlegKleyman/Omego.Extensions/blob/master/LICENSE</PackageLicenseUrl>
     <Authors>Oleg Kleyman</Authors>
