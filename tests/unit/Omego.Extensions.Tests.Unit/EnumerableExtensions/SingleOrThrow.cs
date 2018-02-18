@@ -84,7 +84,8 @@ namespace Omego.Extensions.Tests.Unit.EnumerableExtensions
         {
             Action singleOrThrow = () => new int[0].SingleOrThrow(null, null, null);
 
-            singleOrThrow.Should().ThrowExactly<ArgumentNullException>().Which.ParamName.Should().BeEquivalentTo("predicate");
+            singleOrThrow.Should().ThrowExactly<ArgumentNullException>().Which.ParamName.Should()
+                .BeEquivalentTo("predicate");
         }
 
         [Fact]
@@ -151,7 +152,8 @@ namespace Omego.Extensions.Tests.Unit.EnumerableExtensions
         {
             Action singleOrThrow = () => new int[0].SingleOrThrow(null);
 
-            singleOrThrow.Should().ThrowExactly<ArgumentNullException>().Which.ParamName.Should().BeEquivalentTo("predicate");
+            singleOrThrow.Should().ThrowExactly<ArgumentNullException>().Which.ParamName.Should()
+                .BeEquivalentTo("predicate");
         }
 
         [Fact]

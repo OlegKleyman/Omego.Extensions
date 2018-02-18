@@ -21,7 +21,8 @@ namespace Omego.Extensions.Tests.Unit.QueryableExtensions
         {
             Action singleOrThrow = () => ((IQueryable<int>) null).SingleOrThrow(x => false);
 
-            singleOrThrow.Should().ThrowExactly<ArgumentNullException>().Which.ParamName.Should().BeEquivalentTo("queryable");
+            singleOrThrow.Should().ThrowExactly<ArgumentNullException>().Which.ParamName.Should()
+                .BeEquivalentTo("queryable");
         }
 
         [Fact]
@@ -48,7 +49,8 @@ namespace Omego.Extensions.Tests.Unit.QueryableExtensions
         {
             Action singleOrThrow = () => new int[0].AsQueryable().SingleOrThrow(null, null, null);
 
-            singleOrThrow.Should().ThrowExactly<ArgumentNullException>().Which.ParamName.Should().BeEquivalentTo("predicate");
+            singleOrThrow.Should().ThrowExactly<ArgumentNullException>().Which.ParamName.Should()
+                .BeEquivalentTo("predicate");
         }
 
         [Fact]
@@ -92,7 +94,8 @@ namespace Omego.Extensions.Tests.Unit.QueryableExtensions
         {
             Action singleOrThrow = () => ((IQueryable<int>) null).SingleOrThrow(null, null);
 
-            singleOrThrow.Should().ThrowExactly<ArgumentNullException>().Which.ParamName.Should().BeEquivalentTo("queryable");
+            singleOrThrow.Should().ThrowExactly<ArgumentNullException>().Which.ParamName.Should()
+                .BeEquivalentTo("queryable");
         }
 
         [Fact]
@@ -139,7 +142,8 @@ namespace Omego.Extensions.Tests.Unit.QueryableExtensions
         {
             Action singleOrThrow = () => ((IQueryable<int>) null).SingleOrThrow(x => false);
 
-            singleOrThrow.Should().ThrowExactly<ArgumentNullException>().Which.ParamName.Should().BeEquivalentTo("queryable");
+            singleOrThrow.Should().ThrowExactly<ArgumentNullException>().Which.ParamName.Should()
+                .BeEquivalentTo("queryable");
         }
 
         [Fact]
@@ -148,7 +152,8 @@ namespace Omego.Extensions.Tests.Unit.QueryableExtensions
         {
             Action singleOrThrow = () => new int[0].AsQueryable().SingleOrThrow(null);
 
-            singleOrThrow.Should().ThrowExactly<ArgumentNullException>().Which.ParamName.Should().BeEquivalentTo("predicate");
+            singleOrThrow.Should().ThrowExactly<ArgumentNullException>().Which.ParamName.Should()
+                .BeEquivalentTo("predicate");
         }
 
         [Fact]

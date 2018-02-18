@@ -28,7 +28,8 @@ namespace Omego.Extensions.Tests.Unit.EnumerableExtensions
         {
             Action firstElement = () => new string[] {null}.FirstElement(null);
 
-            firstElement.Should().ThrowExactly<ArgumentNullException>().Which.ParamName.Should().BeEquivalentTo("predicate");
+            firstElement.Should().ThrowExactly<ArgumentNullException>().Which.ParamName.Should()
+                .BeEquivalentTo("predicate");
         }
 
         [Fact]

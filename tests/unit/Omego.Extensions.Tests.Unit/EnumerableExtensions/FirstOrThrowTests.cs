@@ -30,7 +30,8 @@ namespace Omego.Extensions.Tests.Unit.EnumerableExtensions
         {
             Action firstOrThrow = () => ((IEnumerable<int>) null).FirstOrThrow(x => false, null);
 
-            firstOrThrow.Should().ThrowExactly<ArgumentNullException>().Which.ParamName.Should().BeEquivalentTo("enumerable");
+            firstOrThrow.Should().ThrowExactly<ArgumentNullException>().Which.ParamName.Should()
+                .BeEquivalentTo("enumerable");
         }
 
         [Fact]
@@ -40,7 +41,8 @@ namespace Omego.Extensions.Tests.Unit.EnumerableExtensions
 
             Action firstOrThrow = () => enumerable.FirstOrThrow((Exception) null);
 
-            firstOrThrow.Should().ThrowExactly<ArgumentNullException>().Which.ParamName.Should().BeEquivalentTo("exception");
+            firstOrThrow.Should().ThrowExactly<ArgumentNullException>().Which.ParamName.Should()
+                .BeEquivalentTo("exception");
         }
 
         [Fact]
@@ -48,7 +50,8 @@ namespace Omego.Extensions.Tests.Unit.EnumerableExtensions
         {
             Action firstOrThrow = () => new object[0].FirstOrThrow(x => false, null);
 
-            firstOrThrow.Should().ThrowExactly<ArgumentNullException>().Which.ParamName.Should().BeEquivalentTo("exception");
+            firstOrThrow.Should().ThrowExactly<ArgumentNullException>().Which.ParamName.Should()
+                .BeEquivalentTo("exception");
         }
 
         [Fact]
@@ -56,7 +59,8 @@ namespace Omego.Extensions.Tests.Unit.EnumerableExtensions
         {
             Action firstOrThrow = () => new[] {1}.FirstOrThrow(null, null);
 
-            firstOrThrow.Should().ThrowExactly<ArgumentNullException>().Which.ParamName.Should().BeEquivalentTo("predicate");
+            firstOrThrow.Should().ThrowExactly<ArgumentNullException>().Which.ParamName.Should()
+                .BeEquivalentTo("predicate");
         }
 
         [Fact]
@@ -97,7 +101,8 @@ namespace Omego.Extensions.Tests.Unit.EnumerableExtensions
         {
             Action firstOrThrow = () => ((IEnumerable<int>) null).FirstOrThrow(x => false);
 
-            firstOrThrow.Should().ThrowExactly<ArgumentNullException>().Which.ParamName.Should().BeEquivalentTo("enumerable");
+            firstOrThrow.Should().ThrowExactly<ArgumentNullException>().Which.ParamName.Should()
+                .BeEquivalentTo("enumerable");
         }
 
         [Fact]
@@ -106,7 +111,8 @@ namespace Omego.Extensions.Tests.Unit.EnumerableExtensions
         {
             Action firstOrThrow = () => new int[0].FirstOrThrow((Expression<Func<int, bool>>) null);
 
-            firstOrThrow.Should().ThrowExactly<ArgumentNullException>().Which.ParamName.Should().BeEquivalentTo("predicate");
+            firstOrThrow.Should().ThrowExactly<ArgumentNullException>().Which.ParamName.Should()
+                .BeEquivalentTo("predicate");
         }
 
         [Fact]

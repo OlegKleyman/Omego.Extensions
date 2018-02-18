@@ -73,7 +73,8 @@ namespace Omego.Extensions.Tests.Unit.NullExtensions
         {
             var target = new Test {Test2 = new Test2 {Test3 = new Test3 {Something = "something"}}};
 
-            target.SmartGet(test => test.Test2.Test3, test3 => test3.Something, null).Should().BeEquivalentTo("something");
+            target.SmartGet(test => test.Test2.Test3, test3 => test3.Something, null).Should()
+                .BeEquivalentTo("something");
         }
 
         [Fact]

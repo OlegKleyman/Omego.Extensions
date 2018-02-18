@@ -103,7 +103,8 @@ namespace Omego.Extensions.Tests.Unit.QueryableExtensions
         {
             Action firstOrThrow = () => ((IQueryable<string>) null).FirstOr((string) null);
 
-            firstOrThrow.Should().ThrowExactly<ArgumentNullException>().Which.ParamName.Should().BeEquivalentTo("queryable");
+            firstOrThrow.Should().ThrowExactly<ArgumentNullException>().Which.ParamName.Should()
+                .BeEquivalentTo("queryable");
         }
 
         [Fact]
@@ -111,7 +112,8 @@ namespace Omego.Extensions.Tests.Unit.QueryableExtensions
         {
             Action firstOrThrow = () => ((IQueryable<string>) null).FirstOr(x => false, (string) null);
 
-            firstOrThrow.Should().ThrowExactly<ArgumentNullException>().Which.ParamName.Should().BeEquivalentTo("queryable");
+            firstOrThrow.Should().ThrowExactly<ArgumentNullException>().Which.ParamName.Should()
+                .BeEquivalentTo("queryable");
         }
 
         [Fact]

@@ -15,7 +15,8 @@ namespace Omego.Extensions.Tests.Unit.EnumerableExtensions
 
             Action singleOr = () => enumerable.SingleOr(o => o == null, (object) null);
 
-            singleOr.Should().Throw<InvalidOperationException>().WithMessage("More than one match found for (o == null).");
+            singleOr.Should().Throw<InvalidOperationException>()
+                .WithMessage("More than one match found for (o == null).");
         }
 
         [Fact]
@@ -39,7 +40,8 @@ namespace Omego.Extensions.Tests.Unit.EnumerableExtensions
         {
             Action singleOr = () => ((IEnumerable<string>) null).SingleOr(x => false, (string) null);
 
-            singleOr.Should().ThrowExactly<ArgumentNullException>().Which.ParamName.Should().BeEquivalentTo("enumerable");
+            singleOr.Should().ThrowExactly<ArgumentNullException>().Which.ParamName.Should()
+                .BeEquivalentTo("enumerable");
         }
 
         [Fact]
@@ -47,7 +49,8 @@ namespace Omego.Extensions.Tests.Unit.EnumerableExtensions
         {
             Action singleOr = () => new string[] {null}.SingleOr(null, (string) null);
 
-            singleOr.Should().ThrowExactly<ArgumentNullException>().Which.ParamName.Should().BeEquivalentTo("predicate");
+            singleOr.Should().ThrowExactly<ArgumentNullException>().Which.ParamName.Should()
+                .BeEquivalentTo("predicate");
         }
 
         [Fact]
@@ -139,7 +142,8 @@ namespace Omego.Extensions.Tests.Unit.EnumerableExtensions
         {
             Action singleOr = () => ((IEnumerable<string>) null).SingleOr((string) null);
 
-            singleOr.Should().ThrowExactly<ArgumentNullException>().Which.ParamName.Should().BeEquivalentTo("enumerable");
+            singleOr.Should().ThrowExactly<ArgumentNullException>().Which.ParamName.Should()
+                .BeEquivalentTo("enumerable");
         }
 
         [Fact]

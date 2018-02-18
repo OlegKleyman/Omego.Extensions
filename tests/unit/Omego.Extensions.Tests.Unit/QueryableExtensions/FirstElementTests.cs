@@ -21,7 +21,8 @@ namespace Omego.Extensions.Tests.Unit.QueryableExtensions
         {
             Action firstElement = () => new int[0].AsQueryable().FirstElement(null);
 
-            firstElement.Should().ThrowExactly<ArgumentNullException>().Which.ParamName.Should().BeEquivalentTo("predicate");
+            firstElement.Should().ThrowExactly<ArgumentNullException>().Which.ParamName.Should()
+                .BeEquivalentTo("predicate");
         }
 
         [Fact]
@@ -29,7 +30,8 @@ namespace Omego.Extensions.Tests.Unit.QueryableExtensions
         {
             Action firstElement = () => ((IQueryable<int>) null).FirstElement(null);
 
-            firstElement.Should().ThrowExactly<ArgumentNullException>().Which.ParamName.Should().BeEquivalentTo("queryable");
+            firstElement.Should().ThrowExactly<ArgumentNullException>().Which.ParamName.Should()
+                .BeEquivalentTo("queryable");
         }
     }
 }

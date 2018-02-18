@@ -29,7 +29,8 @@ namespace Omego.Extensions.Tests.Unit.QueryableExtensions
         {
             Action singleOr = () => new string[] {null}.AsQueryable().SingleOr(null, (string) null);
 
-            singleOr.Should().ThrowExactly<ArgumentNullException>().Which.ParamName.Should().BeEquivalentTo("predicate");
+            singleOr.Should().ThrowExactly<ArgumentNullException>().Which.ParamName.Should()
+                .BeEquivalentTo("predicate");
         }
 
         [Fact]
@@ -37,7 +38,8 @@ namespace Omego.Extensions.Tests.Unit.QueryableExtensions
         {
             Action singleOr = () => ((IQueryable<string>) null).SingleOr(x => false, (string) null);
 
-            singleOr.Should().ThrowExactly<ArgumentNullException>().Which.ParamName.Should().BeEquivalentTo("queryable");
+            singleOr.Should().ThrowExactly<ArgumentNullException>().Which.ParamName.Should()
+                .BeEquivalentTo("queryable");
         }
 
         [Fact]
@@ -47,7 +49,8 @@ namespace Omego.Extensions.Tests.Unit.QueryableExtensions
 
             Action singleOr = () => queryable.SingleOr(o => o == null, (object) null);
 
-            singleOr.Should().Throw<InvalidOperationException>().WithMessage("More than one match found for (o == null).");
+            singleOr.Should().Throw<InvalidOperationException>()
+                .WithMessage("More than one match found for (o == null).");
         }
 
         [Fact]
@@ -71,7 +74,8 @@ namespace Omego.Extensions.Tests.Unit.QueryableExtensions
         {
             Action singleOr = () => ((IQueryable<string>) null).SingleOr((Func<string>) null);
 
-            singleOr.Should().ThrowExactly<ArgumentNullException>().Which.ParamName.Should().BeEquivalentTo("queryable");
+            singleOr.Should().ThrowExactly<ArgumentNullException>().Which.ParamName.Should()
+                .BeEquivalentTo("queryable");
         }
 
         [Fact]
@@ -105,7 +109,8 @@ namespace Omego.Extensions.Tests.Unit.QueryableExtensions
         {
             Action singleOr = () => ((IQueryable<string>) null).SingleOr((string) null);
 
-            singleOr.Should().ThrowExactly<ArgumentNullException>().Which.ParamName.Should().BeEquivalentTo("queryable");
+            singleOr.Should().ThrowExactly<ArgumentNullException>().Which.ParamName.Should()
+                .BeEquivalentTo("queryable");
         }
 
         [Fact]
