@@ -17,8 +17,8 @@ namespace Omego.Extensions.Tests.Unit.Poco
             SingleElementResult<object> secondElement,
             bool expected)
         {
-            firstElement.Equals(secondElement).ShouldBeEquivalentTo(expected);
-            secondElement.Equals(firstElement).ShouldBeEquivalentTo(expected);
+            firstElement.Equals(secondElement).Should().Be(expected);
+            secondElement.Equals(firstElement).Should().Be(expected);
         }
 
         [Theory]
@@ -29,7 +29,7 @@ namespace Omego.Extensions.Tests.Unit.Poco
             object value,
             bool expected)
         {
-            element.Equals(value).ShouldBeEquivalentTo(expected);
+            element.Equals(value).Should().Be(expected);
         }
 
         [Theory]
@@ -40,7 +40,7 @@ namespace Omego.Extensions.Tests.Unit.Poco
             object value,
             bool expected)
         {
-            ((object) element).Equals(value).ShouldBeEquivalentTo(expected);
+            ((object) element).Equals(value).Should().Be(expected);
         }
 
         [Theory]
@@ -51,7 +51,7 @@ namespace Omego.Extensions.Tests.Unit.Poco
             SingleElementResult<object> element,
             int expected)
         {
-            element.GetHashCode().ShouldBeEquivalentTo(expected);
+            element.GetHashCode().Should().Be(expected);
         }
 
         [Theory]
@@ -62,8 +62,8 @@ namespace Omego.Extensions.Tests.Unit.Poco
             SingleElementResult<object> secondElement,
             bool expected)
         {
-            (firstElement == secondElement).ShouldBeEquivalentTo(expected);
-            (secondElement == firstElement).ShouldBeEquivalentTo(expected);
+            (firstElement == secondElement).Should().Be(expected);
+            (secondElement == firstElement).Should().Be(expected);
         }
 
         [Theory]
@@ -74,8 +74,8 @@ namespace Omego.Extensions.Tests.Unit.Poco
             SingleElementResult<object> secondElement,
             bool expected)
         {
-            (firstElement != secondElement).ShouldBeEquivalentTo(!expected);
-            (secondElement != firstElement).ShouldBeEquivalentTo(!expected);
+            (firstElement != secondElement).Should().Be(!expected);
+            (secondElement != firstElement).Should().Be(!expected);
         }
 
         public class SingleElementResultTestsTheories
@@ -304,7 +304,7 @@ namespace Omego.Extensions.Tests.Unit.Poco
             // ReSharper disable once ReturnValueOfPureMethodIsNotUsed - looking for exception to occur
             Action explicitCast = () => ((string) element).GetType();
 
-            explicitCast.ShouldThrow<InvalidCastException>().WithMessage(expectedMessage);
+            explicitCast.Should().Throw<InvalidCastException>().WithMessage(expectedMessage);
         }
 
         [Theory]
@@ -316,7 +316,7 @@ namespace Omego.Extensions.Tests.Unit.Poco
             string expectedString)
         {
             new SingleElementResult<object>(value).ToString()
-                .ShouldBeEquivalentTo(expectedString);
+                .Should().BeEquivalentTo(expectedString);
         }
 
         [Fact]
@@ -324,7 +324,7 @@ namespace Omego.Extensions.Tests.Unit.Poco
         {
             var result = new SingleElementResult<int>(2);
 
-            result.ValueOr(null).ShouldBeEquivalentTo(2);
+            result.ValueOr(null).Should().Be(2);
         }
 
         [Fact]
@@ -332,7 +332,7 @@ namespace Omego.Extensions.Tests.Unit.Poco
         {
             SingleElementResult<int>
                 .MultipleElements.ValueOr(() => 3)
-                .ShouldBeEquivalentTo(3);
+                .Should().Be(3);
         }
 
         [Fact]
@@ -340,7 +340,7 @@ namespace Omego.Extensions.Tests.Unit.Poco
         {
             new SingleElementResult<int>()
                 .ValueOr(() => 3)
-                .ShouldBeEquivalentTo(3);
+                .Should().Be(3);
         }
 
         [Fact]
@@ -348,7 +348,7 @@ namespace Omego.Extensions.Tests.Unit.Poco
         {
             new SingleElementResult<int>(3)
                 .ValueOr(null)
-                .ShouldBeEquivalentTo(3);
+                .Should().Be(3);
         }
 
         [Fact]
@@ -390,7 +390,7 @@ namespace Omego.Extensions.Tests.Unit.Poco
         {
             SingleElementResult<object>
                 .NoElements.ToString()
-                .ShouldBeEquivalentTo("Does not exist");
+                .Should().BeEquivalentTo("Does not exist");
         }
 
         [Fact]
@@ -398,7 +398,7 @@ namespace Omego.Extensions.Tests.Unit.Poco
         {
             SingleElementResult<object>
                 .MultipleElements.ToString()
-                .ShouldBeEquivalentTo("Multiple");
+                .Should().BeEquivalentTo("Multiple");
         }
 
         [Fact]
@@ -406,21 +406,21 @@ namespace Omego.Extensions.Tests.Unit.Poco
         {
             new SingleElementResult<int>(7)
                 .ValueOr(() => 3, () => 7)
-                .ShouldBeEquivalentTo(7);
+                .Should().Be(7);
         }
 
         [Fact]
         public void ValueOrShouldReturnDefaultValueWhenNoneExists()
         {
             new SingleElementResult<int>().ValueOr(() => 3)
-                .ShouldBeEquivalentTo(3);
+                .Should().Be(3);
         }
 
         [Fact]
         public void ValueOrShouldReturnValueWhenOneExists()
         {
             new SingleElementResult<int>(3).ValueOr(null)
-                .ShouldBeEquivalentTo(3);
+                .Should().Be(3);
         }
 
         [Fact]
@@ -428,8 +428,8 @@ namespace Omego.Extensions.Tests.Unit.Poco
         {
             Action valueOr = () => SingleElementResult<int>.MultipleElements.ValueOr(null, null);
 
-            valueOr.ShouldThrow<ArgumentNullException>()
-                .Which.ParamName.ShouldBeEquivalentTo("defaultMultipleElements");
+            valueOr.Should().Throw<ArgumentNullException>()
+                .Which.ParamName.Should().BeEquivalentTo("defaultMultipleElements");
         }
 
         [Fact]
@@ -437,7 +437,7 @@ namespace Omego.Extensions.Tests.Unit.Poco
         {
             Action valueOr = () => new SingleElementResult<int>().ValueOr(null);
 
-            valueOr.ShouldThrow<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("default");
+            valueOr.Should().Throw<ArgumentNullException>().Which.ParamName.Should().BeEquivalentTo("default");
         }
     }
 }

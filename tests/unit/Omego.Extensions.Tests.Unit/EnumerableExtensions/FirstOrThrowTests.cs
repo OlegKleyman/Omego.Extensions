@@ -30,7 +30,8 @@ namespace Omego.Extensions.Tests.Unit.EnumerableExtensions
         {
             Action firstOrThrow = () => ((IEnumerable<int>) null).FirstOrThrow(x => false, null);
 
-            firstOrThrow.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("enumerable");
+            firstOrThrow.Should().ThrowExactly<ArgumentNullException>().Which.ParamName.Should()
+                .BeEquivalentTo("enumerable");
         }
 
         [Fact]
@@ -40,7 +41,8 @@ namespace Omego.Extensions.Tests.Unit.EnumerableExtensions
 
             Action firstOrThrow = () => enumerable.FirstOrThrow((Exception) null);
 
-            firstOrThrow.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("exception");
+            firstOrThrow.Should().ThrowExactly<ArgumentNullException>().Which.ParamName.Should()
+                .BeEquivalentTo("exception");
         }
 
         [Fact]
@@ -48,7 +50,8 @@ namespace Omego.Extensions.Tests.Unit.EnumerableExtensions
         {
             Action firstOrThrow = () => new object[0].FirstOrThrow(x => false, null);
 
-            firstOrThrow.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("exception");
+            firstOrThrow.Should().ThrowExactly<ArgumentNullException>().Which.ParamName.Should()
+                .BeEquivalentTo("exception");
         }
 
         [Fact]
@@ -56,7 +59,8 @@ namespace Omego.Extensions.Tests.Unit.EnumerableExtensions
         {
             Action firstOrThrow = () => new[] {1}.FirstOrThrow(null, null);
 
-            firstOrThrow.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("predicate");
+            firstOrThrow.Should().ThrowExactly<ArgumentNullException>().Which.ParamName.Should()
+                .BeEquivalentTo("predicate");
         }
 
         [Fact]
@@ -68,7 +72,7 @@ namespace Omego.Extensions.Tests.Unit.EnumerableExtensions
 
             Action firstOrThrow = () => enumerable.FirstOrThrow(x => x == 0, ex);
 
-            firstOrThrow.ShouldThrowExactly<InvalidOperationException>().Which.Should().Be(ex);
+            firstOrThrow.Should().ThrowExactly<InvalidOperationException>().Which.Should().Be(ex);
         }
 
         [Fact]
@@ -80,7 +84,7 @@ namespace Omego.Extensions.Tests.Unit.EnumerableExtensions
 
             Action firstOrThrow = () => enumerable.FirstOrThrow(ex);
 
-            firstOrThrow.ShouldThrowExactly<InvalidOperationException>().Which.Should().Be(ex);
+            firstOrThrow.Should().ThrowExactly<InvalidOperationException>().Which.Should().Be(ex);
         }
 
         [Fact]
@@ -97,7 +101,8 @@ namespace Omego.Extensions.Tests.Unit.EnumerableExtensions
         {
             Action firstOrThrow = () => ((IEnumerable<int>) null).FirstOrThrow(x => false);
 
-            firstOrThrow.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("enumerable");
+            firstOrThrow.Should().ThrowExactly<ArgumentNullException>().Which.ParamName.Should()
+                .BeEquivalentTo("enumerable");
         }
 
         [Fact]
@@ -106,7 +111,8 @@ namespace Omego.Extensions.Tests.Unit.EnumerableExtensions
         {
             Action firstOrThrow = () => new int[0].FirstOrThrow((Expression<Func<int, bool>>) null);
 
-            firstOrThrow.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("predicate");
+            firstOrThrow.Should().ThrowExactly<ArgumentNullException>().Which.ParamName.Should()
+                .BeEquivalentTo("predicate");
         }
 
         [Fact]
@@ -114,8 +120,8 @@ namespace Omego.Extensions.Tests.Unit.EnumerableExtensions
         {
             Action firstOrThrow = () => new[] {1}.FirstOrThrow(x => x == 0);
 
-            firstOrThrow.ShouldThrowExactly<InvalidOperationException>()
-                .Which.Message.ShouldBeEquivalentTo("No matches found for: (x == 0)");
+            firstOrThrow.Should().ThrowExactly<InvalidOperationException>()
+                .Which.Message.Should().BeEquivalentTo("No matches found for: (x == 0)");
         }
     }
 }

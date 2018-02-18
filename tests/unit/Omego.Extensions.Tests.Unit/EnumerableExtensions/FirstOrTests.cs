@@ -14,7 +14,7 @@ namespace Omego.Extensions.Tests.Unit.EnumerableExtensions
 
             Action firstOr = () => enumerable.FirstOr(x => x == "2", (Func<string>) null);
 
-            firstOr.ShouldThrow<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("default");
+            firstOr.Should().Throw<ArgumentNullException>().Which.ParamName.Should().BeEquivalentTo("default");
         }
 
         [Fact]
@@ -102,7 +102,7 @@ namespace Omego.Extensions.Tests.Unit.EnumerableExtensions
         {
             Action firstOr = () => new string[] {null}.FirstOr(null, (string) null);
 
-            firstOr.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("predicate");
+            firstOr.Should().ThrowExactly<ArgumentNullException>().Which.ParamName.Should().BeEquivalentTo("predicate");
         }
     }
 }

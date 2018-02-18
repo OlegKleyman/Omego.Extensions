@@ -30,8 +30,8 @@ namespace Omego.Extensions.Tests.Unit.EnumerableExtensions
             Action singleOrDefaultOrThrow =
                 () => ((IEnumerable<string>) null).SingleOrDefaultOrThrow(s => true, (string) null, null);
 
-            singleOrDefaultOrThrow.ShouldThrowExactly<ArgumentNullException>()
-                .Which.ParamName.ShouldBeEquivalentTo("enumerable");
+            singleOrDefaultOrThrow.Should().ThrowExactly<ArgumentNullException>()
+                .Which.ParamName.Should().BeEquivalentTo("enumerable");
         }
 
         [Fact]
@@ -43,7 +43,7 @@ namespace Omego.Extensions.Tests.Unit.EnumerableExtensions
 
             Action singleOrDefaultOrThrow = () => enumerable.SingleOrDefaultOrThrow(o => o == null, (object) null, ex);
 
-            singleOrDefaultOrThrow.ShouldThrow<InvalidOperationException>().Which.Should().Be(ex);
+            singleOrDefaultOrThrow.Should().Throw<InvalidOperationException>().Which.Should().Be(ex);
         }
 
         [Fact]
@@ -71,7 +71,7 @@ namespace Omego.Extensions.Tests.Unit.EnumerableExtensions
 
             Action singleOrDefaultOrThrow = () => enumerable.SingleOrDefaultOrThrow(o => o == null, null, ex);
 
-            singleOrDefaultOrThrow.ShouldThrow<InvalidOperationException>().Which.Should().Be(ex);
+            singleOrDefaultOrThrow.Should().Throw<InvalidOperationException>().Which.Should().Be(ex);
         }
     }
 }

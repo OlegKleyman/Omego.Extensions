@@ -28,7 +28,7 @@ namespace Omego.Extensions.Tests.Unit.EnumerableExtensions
 
             Action singleElementOrThrowOnMultiple = () => enumerable.SingleElementOrThrowOnMultiple(i => true, ex);
 
-            singleElementOrThrowOnMultiple.ShouldThrow<InvalidOperationException>().Which.Should().Be(ex);
+            singleElementOrThrowOnMultiple.Should().Throw<InvalidOperationException>().Which.Should().Be(ex);
         }
 
         [Fact]
@@ -38,8 +38,8 @@ namespace Omego.Extensions.Tests.Unit.EnumerableExtensions
 
             Action singleElementOrThrowOnMultiple = () => enumerable.SingleElementOrThrowOnMultiple(i => true, null);
 
-            singleElementOrThrowOnMultiple.ShouldThrow<ArgumentNullException>()
-                .Which.ParamName.ShouldBeEquivalentTo("multipleMatchesFoundException");
+            singleElementOrThrowOnMultiple.Should().Throw<ArgumentNullException>()
+                .Which.ParamName.Should().BeEquivalentTo("multipleMatchesFoundException");
         }
 
         [Fact]
@@ -49,8 +49,8 @@ namespace Omego.Extensions.Tests.Unit.EnumerableExtensions
             Action singleElementOrThrowOnMultiple =
                 () => ((IEnumerable<int>) null).SingleElementOrThrowOnMultiple(i => true, null);
 
-            singleElementOrThrowOnMultiple.ShouldThrowExactly<ArgumentNullException>()
-                .Which.ParamName.ShouldBeEquivalentTo("enumerable");
+            singleElementOrThrowOnMultiple.Should().ThrowExactly<ArgumentNullException>()
+                .Which.ParamName.Should().BeEquivalentTo("enumerable");
         }
 
         [Fact]
@@ -59,8 +59,8 @@ namespace Omego.Extensions.Tests.Unit.EnumerableExtensions
         {
             Action singleElementOrThrowOnMultiple = () => new int[0].SingleElementOrThrowOnMultiple(null, null);
 
-            singleElementOrThrowOnMultiple.ShouldThrowExactly<ArgumentNullException>()
-                .Which.ParamName.ShouldBeEquivalentTo("predicate");
+            singleElementOrThrowOnMultiple.Should().ThrowExactly<ArgumentNullException>()
+                .Which.ParamName.Should().BeEquivalentTo("predicate");
         }
     }
 }

@@ -169,7 +169,7 @@ namespace Omego.Extensions.Tests.Unit.Poco
 
             visitor.OnNull(expression, null);
 
-            visitor.Current.ShouldBeEquivalentTo(expected);
+            visitor.Current.Should().BeEquivalentTo(expected);
         }
 
         [Theory]
@@ -189,7 +189,7 @@ namespace Omego.Extensions.Tests.Unit.Poco
 
             Action onNull = () => visitor.OnNull(expression, callBack);
 
-            onNull.ShouldThrow<ArgumentException>()
+            onNull.Should().Throw<ArgumentException>()
                 .WithMessage(message)
                 .Where(
                     exception => exception.ParamName == parameterName,
@@ -213,7 +213,7 @@ namespace Omego.Extensions.Tests.Unit.Poco
 
             Action visitMember = () => visitor.VisitMember(expression);
 
-            visitMember.ShouldThrow<ArgumentException>()
+            visitMember.Should().Throw<ArgumentException>()
                 .WithMessage(message)
                 .Where(
                     exception => exception.ParamName == parameterName,
@@ -237,7 +237,7 @@ namespace Omego.Extensions.Tests.Unit.Poco
 
             Action resetWith = () => visitor.ResetWith(target);
 
-            resetWith.ShouldThrow<ArgumentException>()
+            resetWith.Should().Throw<ArgumentException>()
                 .WithMessage(message)
                 .Where(
                     exception => exception.ParamName == parameterName,
@@ -259,7 +259,7 @@ namespace Omego.Extensions.Tests.Unit.Poco
         {
             Action resetWith = () => new SmartGetVisitor(target);
 
-            resetWith.ShouldThrow<ArgumentException>()
+            resetWith.Should().Throw<ArgumentException>()
                 .WithMessage(message)
                 .Where(
                     exception => exception.ParamName == parameterName,
@@ -346,7 +346,7 @@ namespace Omego.Extensions.Tests.Unit.Poco
 
             Expression<Func<Test2, string>> expression = test2 => test2.TestString;
 
-            visitor.VisitMember((MemberExpression) expression.Body).ShouldBeEquivalentTo(expression.Body);
+            visitor.VisitMember((MemberExpression) expression.Body).Should().BeEquivalentTo(expression.Body);
         }
 
         [Fact]
@@ -358,7 +358,7 @@ namespace Omego.Extensions.Tests.Unit.Poco
             var memberExpression = (MemberExpression) visitor.VisitMember((MemberExpression) expression.Body);
 
             visitor.Current.Should().BeNull();
-            visitor.VisitMember(memberExpression).ShouldBeEquivalentTo(expression.Body);
+            visitor.VisitMember(memberExpression).Should().BeEquivalentTo(expression.Body);
         }
 
         [Fact]
@@ -369,7 +369,7 @@ namespace Omego.Extensions.Tests.Unit.Poco
             Expression<Func<Test2, int>> expression = test2 => test2.Test2Field;
 
             visitor.VisitMember((MemberExpression) expression.Body);
-            visitor.Current.ShouldBeEquivalentTo(20);
+            visitor.Current.Should().BeEquivalentTo(20);
         }
 
         [Fact]
@@ -380,7 +380,7 @@ namespace Omego.Extensions.Tests.Unit.Poco
             Expression<Func<Test2, string>> expression = test2 => test2.TestString;
 
             visitor.VisitMember((MemberExpression) expression.Body);
-            visitor.Current.ShouldBeEquivalentTo("testing");
+            visitor.Current.Should().BeEquivalentTo("testing");
         }
     }
 }
