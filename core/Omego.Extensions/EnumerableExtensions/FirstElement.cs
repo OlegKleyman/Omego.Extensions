@@ -24,7 +24,7 @@ namespace Omego.Extensions.EnumerableExtensions
             if (enumerable == null) throw new ArgumentNullException(nameof(enumerable));
             if (predicate == null) throw new ArgumentNullException(nameof(predicate));
 
-            var foundElement = default(Element<T>);
+            Element<T> foundElement = default;
 
             foreach (var element in enumerable)
                 if (predicate(element))

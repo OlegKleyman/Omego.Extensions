@@ -8,7 +8,7 @@ namespace Omego.Extensions.Poco
     ///     Represents a single element.
     /// </summary>
     /// <typeparam name="T">The type this value wraps.</typeparam>
-    public struct SingleElementResult<T> : IEquatable<SingleElementResult<T>>, IEquatable<T>
+    public readonly struct SingleElementResult<T> : IEquatable<SingleElementResult<T>>, IEquatable<T>
     {
         private readonly Element<T> value;
 
@@ -25,7 +25,7 @@ namespace Omego.Extensions.Poco
         private SingleElementResult(ElementCategory elements)
         {
             Elements = elements;
-            value = default(Element<T>);
+            value = default;
         }
 
         private ElementCategory Elements { get; }
@@ -117,12 +117,14 @@ namespace Omego.Extensions.Poco
         /// </exception>
         public static explicit operator T(SingleElementResult<T> target)
         {
+            var elements = target.Elements;
+
             return target.value.ValueOr(
                 () => throw new InvalidCastException(
                     string.Format(
                         CultureInfo.InvariantCulture,
                         "{0} element(s) cannot be cast to {1}.",
-                        target.Elements,
+                        elements,
                         typeof(T).FullName)));
         }
 

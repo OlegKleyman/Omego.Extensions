@@ -131,7 +131,7 @@ namespace Omego.Extensions.Tests.Unit.Poco
         [InlineData(false, false)]
         public void WhenPresentShouldExecuteActionOnlyWhenElementIsPresent(bool present, bool expected)
         {
-            var element = present ? new Element<object>(default(object)) : new Element<object>();
+            var element = present ? new Element<object>(default) : new Element<object>();
 
             var actionExecuted = false;
 
@@ -219,7 +219,7 @@ namespace Omego.Extensions.Tests.Unit.Poco
         [Fact]
         public void WhenPresentShouldThrowArgumentNullExceptionWhenActionArgumentIsNull()
         {
-            Action whenPresent = () => new Element<int>(default(int)).WhenPresent(null);
+            Action whenPresent = () => new Element<int>(default).WhenPresent(null);
 
             whenPresent.ShouldThrow<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("action");
         }

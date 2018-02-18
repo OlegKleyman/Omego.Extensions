@@ -38,7 +38,7 @@ namespace Omego.Extensions.Poco
         /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
         public void Dispose()
         {
-            Current = default(T);
+            Current = default;
             disposed = true;
         }
 
@@ -61,7 +61,7 @@ namespace Omego.Extensions.Poco
                 {
                     success = enumerator.MoveNext();
 
-                    Current = success ? enumerator.Current : default(T);
+                    Current = success ? enumerator.Current : default;
 
                     exceptionOccured = false;
                 }
@@ -83,7 +83,7 @@ namespace Omego.Extensions.Poco
             if (disposed) throw new ObjectDisposedException(GetType().FullName);
 
             enumerator.Reset();
-            Current = default(T);
+            Current = default;
         }
 
         /// <summary>Gets the element in the collection at the current position of the enumerator.</summary>

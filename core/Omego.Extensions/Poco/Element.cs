@@ -11,7 +11,7 @@ namespace Omego.Extensions.Poco
     ///     Represents an element.
     /// </summary>
     /// <typeparam name="T">The type this value wraps.</typeparam>
-    public struct Element<T> : IEquatable<Element<T>>, IEquatable<T>
+    public readonly struct Element<T> : IEquatable<Element<T>>, IEquatable<T>
     {
         private readonly T value;
 
