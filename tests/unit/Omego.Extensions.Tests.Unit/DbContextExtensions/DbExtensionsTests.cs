@@ -25,7 +25,7 @@ namespace Omego.Extensions.Tests.Unit.DbContextExtensions
 
                 for (var i = 0; i < numberOfObjects; i++) objects.Add(new MockEntity());
 
-                context.AddRangeAndSave(objects.ToArray()).ShouldBeEquivalentTo(numberOfObjects);
+                context.AddRangeAndSave(objects.ToArray()).Should().Be(numberOfObjects);
             }
         }
 
@@ -50,7 +50,7 @@ namespace Omego.Extensions.Tests.Unit.DbContextExtensions
         {
             Action addRangeAndSave = () => ((Context) null).AddRangeAndSave(null);
 
-            addRangeAndSave.ShouldThrow<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("context");
+            addRangeAndSave.Should().Throw<ArgumentNullException>().Which.ParamName.Should().BeEquivalentTo("context");
         }
     }
 }

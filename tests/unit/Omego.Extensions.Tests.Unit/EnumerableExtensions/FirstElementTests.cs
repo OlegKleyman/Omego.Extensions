@@ -28,7 +28,7 @@ namespace Omego.Extensions.Tests.Unit.EnumerableExtensions
         {
             Action firstElement = () => new string[] {null}.FirstElement(null);
 
-            firstElement.ShouldThrowExactly<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("predicate");
+            firstElement.Should().ThrowExactly<ArgumentNullException>().Which.ParamName.Should().BeEquivalentTo("predicate");
         }
 
         [Fact]
@@ -36,7 +36,7 @@ namespace Omego.Extensions.Tests.Unit.EnumerableExtensions
         {
             var enumerable = new[] {"1"};
 
-            enumerable.FirstElement(x => x == "1").ValueOr(null).ShouldBeEquivalentTo("1");
+            enumerable.FirstElement(x => x == "1").ValueOr(null).Should().BeEquivalentTo("1");
         }
     }
 }

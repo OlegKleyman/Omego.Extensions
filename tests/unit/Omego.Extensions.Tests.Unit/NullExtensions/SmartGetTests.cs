@@ -39,7 +39,7 @@ namespace Omego.Extensions.Tests.Unit.NullExtensions
         {
             Action smartGet = () => target.SmartGet(nullCheckExpression, returnExpression, onNullException);
 
-            smartGet.ShouldThrow<ArgumentException>()
+            smartGet.Should().Throw<ArgumentException>()
                 .WithMessage(message)
                 .Where(
                     exception => exception.ParamName == parameterName,
@@ -73,7 +73,7 @@ namespace Omego.Extensions.Tests.Unit.NullExtensions
         {
             var target = new Test {Test2 = new Test2 {Test3 = new Test3 {Something = "something"}}};
 
-            target.SmartGet(test => test.Test2.Test3, test3 => test3.Something, null).ShouldBeEquivalentTo("something");
+            target.SmartGet(test => test.Test2.Test3, test3 => test3.Something, null).Should().BeEquivalentTo("something");
         }
 
         [Fact]
@@ -86,7 +86,7 @@ namespace Omego.Extensions.Tests.Unit.NullExtensions
                 test3 => test3.Something,
                 s => new InvalidOperationException(s));
 
-            smartGet.ShouldThrow<InvalidOperationException>().WithMessage("Test2.Test3");
+            smartGet.Should().Throw<InvalidOperationException>().WithMessage("Test2.Test3");
         }
 
         [Fact]
@@ -96,7 +96,7 @@ namespace Omego.Extensions.Tests.Unit.NullExtensions
 
             Action smartGet = () => target.SmartGet(test => test.Test2.Test3, test3 => test3.Something, s => null);
 
-            smartGet.ShouldThrow<InvalidOperationException>().WithMessage("Exception to throw returned null.");
+            smartGet.Should().Throw<InvalidOperationException>().WithMessage("Exception to throw returned null.");
         }
     }
 }

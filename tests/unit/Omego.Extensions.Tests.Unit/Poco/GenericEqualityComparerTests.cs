@@ -16,7 +16,7 @@ namespace Omego.Extensions.Tests.Unit.Poco
             GetGenericEqualityComparer<object>(
                     o => hashCode)
                 .GetHashCode(default)
-                .ShouldBeEquivalentTo(hashCode);
+                .Should().Be(hashCode);
         }
 
         [Theory]
@@ -27,7 +27,7 @@ namespace Omego.Extensions.Tests.Unit.Poco
         {
             GetGenericEqualityComparer<object>((o, o1) => areEqual)
                 .Equals(default, default)
-                .ShouldBeEquivalentTo(areEqual);
+                .Should().Be(areEqual);
         }
 
         [Theory]
@@ -44,7 +44,7 @@ namespace Omego.Extensions.Tests.Unit.Poco
         {
             Action constructor = () => new GenericEqualityComparer<object>(areEqual, hashCode);
 
-            constructor.ShouldThrow<ArgumentException>()
+            constructor.Should().Throw<ArgumentException>()
                 .WithMessage(message)
                 .Where(
                     exception => exception.ParamName == parameterName,

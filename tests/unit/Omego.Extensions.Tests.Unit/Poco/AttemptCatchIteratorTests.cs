@@ -26,7 +26,7 @@ namespace Omego.Extensions.Tests.Unit.Poco
 
             for (var i = 1; i < times; i++) iterator.MoveNext();
 
-            iterator.MoveNext().ShouldBeEquivalentTo(expected);
+            iterator.MoveNext().Should().Be(expected);
         }
 
         [Theory]
@@ -43,7 +43,7 @@ namespace Omego.Extensions.Tests.Unit.Poco
 
             for (var i = 0; i < times; i++) iterator.MoveNext();
 
-            handled.ShouldBeEquivalentTo(expected);
+            handled.Should().Be(expected);
         }
 
         [Theory]
@@ -57,7 +57,7 @@ namespace Omego.Extensions.Tests.Unit.Poco
         {
             Action constructor = () => new AttemptCatchIterator<int, Exception>(enumerable, handler);
 
-            constructor.ShouldThrow<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo(paramName);
+            constructor.Should().Throw<ArgumentNullException>().Which.ParamName.Should().BeEquivalentTo(paramName);
         }
 
         public class AttemptCatchIteratorTestTheories
@@ -113,7 +113,7 @@ namespace Omego.Extensions.Tests.Unit.Poco
 
             ((IDisposable) iterator).Dispose();
 
-            iterator.Current.ShouldBeEquivalentTo(default);
+            iterator.Current.Should().Be(default);
         }
 
         [Fact]
@@ -125,7 +125,7 @@ namespace Omego.Extensions.Tests.Unit.Poco
 
             Action moveNext = () => iterator.MoveNext();
 
-            moveNext.ShouldThrow<DivideByZeroException>();
+            moveNext.Should().Throw<DivideByZeroException>();
         }
 
         [Fact]
@@ -134,7 +134,7 @@ namespace Omego.Extensions.Tests.Unit.Poco
             var iterator = (IEnumerator) new AttemptCatchIterator<int, DivideByZeroException>(new[] {1}, t => { });
 
             iterator.MoveNext();
-            iterator.Current.ShouldBeEquivalentTo(1);
+            iterator.Current.Should().BeEquivalentTo(1);
         }
 
         [Fact]
@@ -144,7 +144,7 @@ namespace Omego.Extensions.Tests.Unit.Poco
                 (IEnumerator) new AttemptCatchIterator<string, DivideByZeroException>(new string[0], exception => { });
 
             iterator.MoveNext();
-            iterator.Current.ShouldBeEquivalentTo(default);
+            iterator.Current.Should().Be(default);
         }
 
         [Fact]
@@ -157,9 +157,9 @@ namespace Omego.Extensions.Tests.Unit.Poco
 
             var typeName = typeof(AttemptCatchIterator<int, Exception>).FullName;
 
-            moveNext.ShouldThrow<ObjectDisposedException>()
+            moveNext.Should().Throw<ObjectDisposedException>()
                 .WithMessage($"Cannot access a disposed object.\r\nObject name: '{typeName}'.")
-                .And.ObjectName.ShouldBeEquivalentTo(typeName);
+                .And.ObjectName.Should().BeEquivalentTo(typeName);
         }
 
         [Fact]
@@ -174,7 +174,7 @@ namespace Omego.Extensions.Tests.Unit.Poco
 
             iterator.MoveNext();
 
-            iterator.Current.ShouldBeEquivalentTo(1);
+            iterator.Current.Should().BeEquivalentTo(1);
         }
 
         [Fact]
@@ -187,9 +187,9 @@ namespace Omego.Extensions.Tests.Unit.Poco
 
             var typeName = typeof(AttemptCatchIterator<int, Exception>).FullName;
 
-            reset.ShouldThrow<ObjectDisposedException>()
+            reset.Should().Throw<ObjectDisposedException>()
                 .WithMessage($"Cannot access a disposed object.\r\nObject name: '{typeName}'.")
-                .And.ObjectName.ShouldBeEquivalentTo(typeName);
+                .And.ObjectName.Should().BeEquivalentTo(typeName);
         }
     }
 }

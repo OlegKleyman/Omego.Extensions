@@ -17,7 +17,7 @@ namespace Omego.Extensions.Tests.Unit.QueryableExtensions
 
             Action singleOrDefaultOrThrow = () => queryable.SingleOrDefaultOrThrow(o => o == null, (object) null, ex);
 
-            singleOrDefaultOrThrow.ShouldThrow<InvalidOperationException>().Which.Should().Be(ex);
+            singleOrDefaultOrThrow.Should().Throw<InvalidOperationException>().Which.Should().Be(ex);
         }
 
         [Fact]
@@ -45,7 +45,7 @@ namespace Omego.Extensions.Tests.Unit.QueryableExtensions
 
             Action singleOrDefaultOrThrow = () => queryable.SingleOrDefaultOrThrow(o => o == null, null, ex);
 
-            singleOrDefaultOrThrow.ShouldThrow<InvalidOperationException>().Which.Should().Be(ex);
+            singleOrDefaultOrThrow.Should().Throw<InvalidOperationException>().Which.Should().Be(ex);
         }
 
         [Fact]
@@ -70,8 +70,8 @@ namespace Omego.Extensions.Tests.Unit.QueryableExtensions
             Action singleOrDefaultOrThrow =
                 () => ((IQueryable<string>) null).SingleOrDefaultOrThrow(null, (string) null, null);
 
-            singleOrDefaultOrThrow.ShouldThrowExactly<ArgumentNullException>()
-                .Which.ParamName.ShouldBeEquivalentTo("queryable");
+            singleOrDefaultOrThrow.Should().ThrowExactly<ArgumentNullException>()
+                .Which.ParamName.Should().BeEquivalentTo("queryable");
         }
     }
 }

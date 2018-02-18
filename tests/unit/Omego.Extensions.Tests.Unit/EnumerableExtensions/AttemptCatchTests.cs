@@ -22,13 +22,7 @@ namespace Omego.Extensions.Tests.Unit.EnumerableExtensions
         [Fact]
         public void AttemptCatchShouldHandleAllRequestedExceptionsWhenCalledOnAnotherCatch()
         {
-            var enumerable = new[] {-1, 0, 1}.Select(
-                i =>
-                {
-                    if (i == 1) throw new InvalidOperationException();
-
-                    return 1 / i;
-                });
+            var enumerable = new[] {-1, 0, 1}.Select(i => i == 1 ? throw new InvalidOperationException() : 1 / i);
 
             var dividedByZeroExceptionHandled = false;
             var invalidOperationExceptionHandled = false;
@@ -45,7 +39,7 @@ namespace Omego.Extensions.Tests.Unit.EnumerableExtensions
         public void AttemptCatchShouldReturnElementsWhereTheCaughtExceptionHasNotOccurred()
         {
             var enumerable = new[] {-1, 0, 1}.Select(i => 1 / i);
-            enumerable.AttemptCatch<int, DivideByZeroException>(e => { }).ShouldAllBeEquivalentTo(new[] {-1, 1});
+            enumerable.AttemptCatch<int, DivideByZeroException>(e => { }).Should().BeEquivalentTo(new[] {-1, 1});
         }
     }
 }

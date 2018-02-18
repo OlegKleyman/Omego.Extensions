@@ -16,15 +16,15 @@ namespace Omego.Extensions.Tests.Unit.Poco
             Element<object> secondElement,
             bool expected)
         {
-            firstElement.Equals(secondElement).ShouldBeEquivalentTo(expected);
-            secondElement.Equals(firstElement).ShouldBeEquivalentTo(expected);
+            firstElement.Equals(secondElement).Should().Be(expected);
+            secondElement.Equals(firstElement).Should().Be(expected);
         }
 
         [Theory]
         [MemberData(nameof(ElementTestsTheories.ValueEqualityTheory), MemberType = typeof(ElementTestsTheories))]
         public void EqualsShouldReturnWhetherElementValuesAreEqual(Element<object> element, object value, bool expected)
         {
-            element.Equals(value).ShouldBeEquivalentTo(expected);
+            element.Equals(value).Should().Be(expected);
         }
 
         [Theory]
@@ -35,7 +35,7 @@ namespace Omego.Extensions.Tests.Unit.Poco
             object value,
             bool expected)
         {
-            ((object) element).Equals(value).ShouldBeEquivalentTo(expected);
+            ((object) element).Equals(value).Should().Be(expected);
         }
 
         [Theory]
@@ -44,7 +44,7 @@ namespace Omego.Extensions.Tests.Unit.Poco
         public void ObjectGetHashCodeShouldReturnElementHashCode(Element<object> element, int expected)
         {
             element
-                .GetHashCode().ShouldBeEquivalentTo(expected);
+                .GetHashCode().Should().Be(expected);
         }
 
         [Theory]
@@ -54,8 +54,8 @@ namespace Omego.Extensions.Tests.Unit.Poco
             Element<object> secondElement,
             bool expected)
         {
-            (firstElement == secondElement).ShouldBeEquivalentTo(expected);
-            (secondElement == firstElement).ShouldBeEquivalentTo(expected);
+            (firstElement == secondElement).Should().Be(expected);
+            (secondElement == firstElement).Should().Be(expected);
         }
 
         [Theory]
@@ -65,8 +65,8 @@ namespace Omego.Extensions.Tests.Unit.Poco
             Element<object> secondElement,
             bool expected)
         {
-            (firstElement != secondElement).ShouldBeEquivalentTo(!expected);
-            (secondElement != firstElement).ShouldBeEquivalentTo(!expected);
+            (firstElement != secondElement).Should().Be(!expected);
+            (secondElement != firstElement).Should().Be(!expected);
         }
 
         public class ElementTestsTheories
@@ -123,7 +123,7 @@ namespace Omego.Extensions.Tests.Unit.Poco
             MemberType = typeof(ElementTestsTheories))]
         public void ToStringShouldReturnStringRepresentationOfTheValue(object value, string expectedString)
         {
-            new Element<object>(value).ToString().ShouldBeEquivalentTo(expectedString);
+            new Element<object>(value).ToString().Should().BeEquivalentTo(expectedString);
         }
 
         [Theory]
@@ -137,7 +137,7 @@ namespace Omego.Extensions.Tests.Unit.Poco
 
             element.WhenPresent(value => actionExecuted = true);
 
-            actionExecuted.ShouldBeEquivalentTo(expected);
+            actionExecuted.Should().Be(expected);
         }
 
         [Fact]
@@ -146,7 +146,7 @@ namespace Omego.Extensions.Tests.Unit.Poco
             var element = new Element<string>("test");
 
             element.Present.Should().BeTrue();
-            element.ValueOr(null).ShouldBeEquivalentTo("test");
+            element.ValueOr(null).Should().BeEquivalentTo("test");
         }
 
         [Fact]
@@ -163,7 +163,7 @@ namespace Omego.Extensions.Tests.Unit.Poco
         {
             Action explicitCast = () => ((string) new Element<string>()).GetType();
 
-            explicitCast.ShouldThrow<InvalidCastException>()
+            explicitCast.Should().Throw<InvalidCastException>()
                 .WithMessage("No element present to cast to System.String.");
         }
 
@@ -179,20 +179,20 @@ namespace Omego.Extensions.Tests.Unit.Poco
         public void ToStringShouldReturnDoesNotExistWhenValueDoesNotExist()
         {
             new Element<object>().ToString()
-                .ShouldBeEquivalentTo("Does not exist");
+                .Should().BeEquivalentTo("Does not exist");
         }
 
         [Fact]
         public void ValueOrShouldReturnDefaultValueWhenNoneExists()
         {
             new Element<int>().ValueOr(() => 3)
-                .ShouldBeEquivalentTo(3);
+                .Should().Be(3);
         }
 
         [Fact]
         public void ValueOrShouldReturnValueWhenOneExists()
         {
-            new Element<int>(3).ValueOr(null).ShouldBeEquivalentTo(3);
+            new Element<int>(3).ValueOr(null).Should().Be(3);
         }
 
         [Fact]
@@ -200,7 +200,7 @@ namespace Omego.Extensions.Tests.Unit.Poco
         {
             Action value = () => new Element<int>().ValueOr(null);
 
-            value.ShouldThrow<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("default");
+            value.Should().Throw<ArgumentNullException>().Which.ParamName.Should().BeEquivalentTo("default");
         }
 
         [Fact]
@@ -221,7 +221,7 @@ namespace Omego.Extensions.Tests.Unit.Poco
         {
             Action whenPresent = () => new Element<int>(default).WhenPresent(null);
 
-            whenPresent.ShouldThrow<ArgumentNullException>().Which.ParamName.ShouldBeEquivalentTo("action");
+            whenPresent.Should().Throw<ArgumentNullException>().Which.ParamName.Should().BeEquivalentTo("action");
         }
     }
 }

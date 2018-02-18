@@ -18,7 +18,7 @@ namespace Omego.Extensions.Tests.Unit.NullExtensions
 
             Action smartCheck = () => target.SmartCheck(null, test => test.Test2.Test3);
 
-            smartCheck.ShouldNotThrow();
+            smartCheck.Should().NotThrow();
         }
 
         [Fact]
@@ -28,9 +28,9 @@ namespace Omego.Extensions.Tests.Unit.NullExtensions
 
             Action smartCheck = () => target.SmartCheck(null, t => t.Test2.Test3);
 
-            smartCheck.ShouldThrow<ArgumentNullException>()
+            smartCheck.Should().Throw<ArgumentNullException>()
                 .WithMessage("Value cannot be null.\r\nParameter name: exception")
-                .And.ParamName.ShouldBeEquivalentTo("exception");
+                .And.ParamName.Should().BeEquivalentTo("exception");
         }
 
         [Fact]
@@ -38,9 +38,9 @@ namespace Omego.Extensions.Tests.Unit.NullExtensions
         {
             Action smartCheck = () => string.Empty.SmartCheck(null, null);
 
-            smartCheck.ShouldThrow<ArgumentNullException>()
+            smartCheck.Should().Throw<ArgumentNullException>()
                 .WithMessage("Value cannot be null.\r\nParameter name: qualifierPath")
-                .And.ParamName.ShouldBeEquivalentTo("qualifierPath");
+                .And.ParamName.Should().BeEquivalentTo("qualifierPath");
         }
 
         [Fact]
@@ -53,7 +53,7 @@ namespace Omego.Extensions.Tests.Unit.NullExtensions
                 test => test.Test2.Test3,
                 arg => arg.Test4);
 
-            smartCheck.ShouldThrow<InvalidOperationException>().WithMessage("Test4");
+            smartCheck.Should().Throw<InvalidOperationException>().WithMessage("Test4");
         }
 
         [Fact]
@@ -65,7 +65,7 @@ namespace Omego.Extensions.Tests.Unit.NullExtensions
                 s => new InvalidOperationException(s),
                 test => test.Test2.Test3);
 
-            smartCheck.ShouldThrow<InvalidOperationException>().WithMessage("Test2.Test3");
+            smartCheck.Should().Throw<InvalidOperationException>().WithMessage("Test2.Test3");
         }
 
         [Fact]
@@ -75,7 +75,7 @@ namespace Omego.Extensions.Tests.Unit.NullExtensions
 
             Action smartCheck = () => target.SmartCheck(s => null, test => test.Test2.Test3);
 
-            smartCheck.ShouldThrow<InvalidOperationException>().WithMessage("Exception to throw returned null.");
+            smartCheck.Should().Throw<InvalidOperationException>().WithMessage("Exception to throw returned null.");
         }
     }
 }
